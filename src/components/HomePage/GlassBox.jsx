@@ -1,8 +1,18 @@
+import { Link, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+
 export default function GlassBox() {
+  
+  
   return (
     <div
       className="
-       w-7xl h-[67px]
+        w-7xl h-[67px]
+        flex
+        flex-row
+        items-center
+        justify-evenly
         rounded-xl
         bg-linear-to-r from-[#F3ECFF]/30 to-white/40
         border border-white/20
@@ -15,6 +25,17 @@ export default function GlassBox() {
       "
       style={{ WebkitBackdropFilter: "blur(12px)" }}
     >
-    </div>
+
+      
+        <div className="text-[24px]">Tution Master</div>
+        <div className="text-[16px] flex flex-row items-center justify-between gap-6">
+          <div className="">Classes</div>
+          <div className="">Courses</div>
+          <div className="">About</div>
+          <div className="">Contact</div>
+        </div>
+        <Link to="/admin" className="w-[136px] h-9 bg-[#7F56D9] flex justify-center items-center text-white rounded-lg">Student Logging</Link>
+      </div>
+    
   );
 }
