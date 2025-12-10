@@ -1,38 +1,24 @@
-import TopNav from "./TopNav"
+import TopNav from "./TopNav";
+import {
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  BookOpen,
+  Calendar,
+  Save,
+  RotateCcw,
+} from "lucide-react";
 
-function StudentRegister(){
-    return(
-        <>
+function StudentRegister() {
+  return (
+    <>
+      <TopNav pageTitle="Student Register" />
+      <div className="w-full h-[80vh] flex justify-center items-center flex-col">
             
-                <TopNav pageTitle="Student Register" />
-                <div className="w-full h-[90vh] flex flex-col justify-center items-center gap-10">
-                
-                    <div className="w-auto h-auto">
-                        <div className="">Student ID</div>
-                        <div className="">
-                            <input type="text" className="w-50 border border-gray-300"></input>
-                        </div>
-                        <div className="">First Name</div>
-                        <div className="">
-                            <input type="text" className="w-50 border border-gray-300"></input>
-                        </div>
-                        <div className="">Last Name</div>
-                        <div className="">
-                            <input type="text" className="w-50 border border-gray-300"></input>
-                        </div>
-                        <div className="">Email</div>
-                        <div className="">
-                            <input type="text" className="w-50 border border-gray-300"></input>
-                        </div>
-                        <div className="">Password</div>
-                        <div className="">
-                            <input type="text" className="w-50 border border-gray-300"></input>
-                        </div>
-                    </div>
-                </div>
-            
-        </>
-    )
+      </div>
+    </>
+  );
 }
 
-export default StudentRegister
+export default StudentRegister;

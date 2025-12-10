@@ -4,6 +4,7 @@ import HeroText from "../components/HomePage/HeroText";
 import AboutTeacher from "../sections/HomePage/AboutTeacher";
 import CardSection from "../sections/HomePage/cardSection";
 import JoinClassSection from "../sections/HomePage/JoinClassSection";
+import PopularCourses from "../sections/HomePage/PopularCourses";
 import ResultCardSection from "../sections/HomePage/ResultCardSection";
 
 function HomePage() {
@@ -18,6 +19,7 @@ function HomePage() {
       <ResultCardSection />
 
       <JoinClassSection />
+      <PopularCourses />
     </>
   );
 }
