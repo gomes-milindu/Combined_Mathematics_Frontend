@@ -4,14 +4,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Admin from "./pages/Admin";
 import StudentDetails from "./components/AdminPage/StudentDetails";
+import GridLayout from "./components/layout/GridLayout";
 
 function App() {
   return (
     <>
-      {/* <GridLayout /> */}
       
-
+      
+      {/* <GridLayout /> */}
       <BrowserRouter>
+      
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/admin/*" element={<Admin />} />
