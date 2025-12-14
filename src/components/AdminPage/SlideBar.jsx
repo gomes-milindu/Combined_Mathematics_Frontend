@@ -22,21 +22,21 @@ export default function Slidebar() {
       </div>
 
       {/* Menu */}
-      <div className="flex flex-col gap-5 w-full">
+      <div className="flex flex-col gap-5 w-full items-center">
 
         {/* Active Button */}
-        <div className="h-12 flex items-center gap-3 bg-linear-to-r hover:bg-slate-200  rounded-lg px-4 cursor-pointer">
+        <div className="h-12 grid grid-cols-2 justify-items-center place-items-center bg-linear-to-r hover:bg-slate-200  rounded-lg cursor-pointer">
           <LuLayoutDashboard className="text-xl text-slate-600" />
           <Link to="/admin/" className="text-lg text-slate-600">Dashboard</Link>
         </div>
 
         {/* Normal Buttons */}
-        <div className="h-12 flex items-center gap-3 hover:bg-slate-200 rounded-lg px-4 cursor-pointer transition-colors">
+        <div className="h-12 grid grid-cols-2 place-items-center justify-items-center hover:bg-slate-200 rounded-lg cursor-pointer">
           <FiUsers className="text-lg text-slate-600" />
           <Link to="/admin/students" className="text-lg text-slate-600">Student Details</Link>
         </div>
 
-        <div className="h-12 flex items-center gap-3 hover:bg-slate-200 rounded-lg px-4 cursor-pointer transition-colors">
+        <div className="h-12 grid grid-cols-2 place-items-center justify-items-center hover:bg-slate-200 rounded-lg cursor-pointer transition-colors">
           <FiUserPlus className="text-lg text-slate-600" />
           <Link to="/admin/register" className="text-lg text-slate-600">Student Register</Link>
         </div>

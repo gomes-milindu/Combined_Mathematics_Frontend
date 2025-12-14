@@ -29,7 +29,7 @@ function CourseCard(){
                         </div>
 
                         {/* View Details Button */}
-                        <button className="w-[352px] h-10 bg-purple-200 text-[#6941C6] text-[14px] rounded-lg border border-[#F9F5FF]">
+                        <button className="w-[352px] h-10 bg-purple-200 text-[#6941C6] text-[14px] rounded border border-[#F9F5FF]">
                         View Details
                         </button>
                     </div>

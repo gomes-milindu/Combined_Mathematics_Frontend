@@ -1,12 +1,5 @@
 @import "tailwindcss";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-
 
 :root {
   --primary: #F9F5FF;
@@ -16,6 +9,8 @@
   --upper: #42307D;
   --text-seconary: #53389E;
 }
+
+
 
 
 

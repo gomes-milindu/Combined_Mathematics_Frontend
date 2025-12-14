@@ -1,101 +1,26 @@
 import axios from "axios";
 import TopNav from "./TopNav";
+import { useEffect, useState } from "react";
+
 
 export default function StudentDetails() {
+  const [numStudent, setNumStudent] = useState([]);
 
+  useEffect( ()=>{
     axios.get("http://localhost:8080/student/").then(
-        (response)=>{
-            console.log(response.data)
-        }
-    )
-//   const students = [
-//     {
-//       studentId: "STU001",
-//       firstName: "Kavindu",
-//       lastName: "Perera",
-//       email: "kavindu.perera@example.com",
-//       phone: "0771234567",
-//       password: "hashedpassword1",
-//       course: ["Pure Maths", "Applied Maths"],
-//       batch: "2025-A",
-//       qrCode: "qrcode_STU001.png",
-//       isActive: true,
-//       address: "Colombo 05, Sri Lanka",
-//       dateOfBirth: new Date("2006-04-15"),
-//       guardianContact: "0714567890",
-//     },
-
-//     {
-//       studentId: "STU002",
-//       firstName: "Sachini",
-//       lastName: "Fernando",
-//       email: "sachini.fernando@example.com",
-//       phone: "0789876543",
-//       password: "hashedpassword2",
-//       course: ["Applied Maths"],
-//       batch: "2025-B",
-//       qrCode: "qrcode_STU002.png",
-//       isActive: true,
-//       address: "Gampaha, Sri Lanka",
-//       dateOfBirth: new Date("2005-11-22"),
-//       guardianContact: "0751122334",
-//     },
-
-//     {
-//       studentId: "STU003",
-//       firstName: "Isuru",
-//       lastName: "Gamage",
-//       email: "isuru.gamage@example.com",
-//       phone: "0765544332",
-//       password: "hashedpassword3",
-//       course: ["Pure Maths"],
-//       batch: "2025-A",
-//       qrCode: "qrcode_STU003.png",
-//       isActive: false,
-//       address: "Matara, Sri Lanka",
-//       dateOfBirth: new Date("2006-01-10"),
-//       guardianContact: "0723344556",
-//     },
-
-//     {
-//       studentId: "STU004",
-//       firstName: "Nethmi",
-//       lastName: "Jayasinghe",
-//       email: "nethmi.jaya@example.com",
-//       phone: "0746789123",
-//       password: "hashedpassword4",
-//       course: ["Pure Maths", "Applied Maths"],
-//       batch: "2025-C",
-//       qrCode: "qrcode_STU004.png",
-//       isActive: true,
-//       address: "Kandy, Sri Lanka",
-//       dateOfBirth: new Date("2005-09-05"),
-//       guardianContact: "0709988776",
-//     },
-
-//     {
-//       studentId: "STU005",
-//       firstName: "Tharindu",
-//       lastName: "Silva",
-//       email: "tharindu.silva@example.com",
-//       phone: "0712244668",
-//       password: "hashedpassword5",
-//       course: ["Applied Maths"],
-//       batch: "2025-B",
-//       qrCode: "qrcode_STU005.png",
-//       isActive: true,
-//       address: "Kurunegala, Sri Lanka",
-//       dateOfBirth: new Date("2006-07-30"),
-//       guardianContact: "0757788990",
-//     },
-//   ];
+      (response)=>{
+          console.log(response.data)
+          setNumStudent(response.data)
+      }
+  )
+   
+  }  , [])
+  
 
   return (
     <>
-      
-      
-        <TopNav pageTitle="Student Details" />
-        <div className="w-full h-[90vh] mt-64 flex justify-center items-center">
+      <TopNav pageTitle="Student Details" />
+      {/* <div className="w-[80%] h-[90vh] mt-64 flex justify-center items-center">
           <table className="gap-10 w-full border-collapse rounded- overflow-hidden shadow-md">
             <thead>
               <tr>
@@ -118,10 +43,73 @@ export default function StudentDetails() {
                   </tr>
                 );
               })} */}
-            </tbody>
+      {/*</tbody>
           </table>
+        </div> */}
+
+      {/* table card (you may adjust max-w if you want a wider/narrower table) */}
+      {/* keep the outer parent div you already have */}
+      <div className="w-full h-full flex justify-center items-center">
+        {/* table card (you may adjust max-w if you want a wider/narrower table) */}
+        <div className="w-full max-w-5xl rounded-lg overflow-hidden shadow-lg bg-white">
+          {/* card header */}
+          <div className="px-6 py-4 border-b flex items-center justify-between">
+            <h2 className="text-lg font-semibold">Students</h2>
+            <span className="text-sm text-gray-500">Total:</span>
+          </div>
+
+          {/* table wrapper (gives horizontal scroll on small screens) */}
+          <div className="overflow-auto">
+            <table className="min-w-full table-auto">
+              <thead className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide">
+                    ID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide">
+                    First Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide">
+                    Batch
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide">
+                    Contact
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody className="bg-white divide-y divide-gray-100">
+                {numStudent.map((item) => {
+                  return (
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {item.studentId}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                        {item.firstName}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                        {item.batch ?? item.Batch ?? item.batchName ?? "-"}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${item.isActive?"bg-green-100 text-green-800":"bg-orange-200 text-orange-600"}`}>
+                          {item.isActive?"Active":"Deactive"}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                        {item.guardianContact ?? item.phone ?? item.contact ?? item.guardianPhone ?? "-"}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-     
+      </div>
     </>
   );
 }

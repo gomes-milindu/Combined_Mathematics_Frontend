@@ -6,11 +6,12 @@ import CardSection from "../sections/HomePage/cardSection";
 import JoinClassSection from "../sections/HomePage/JoinClassSection";
 import PopularCourses from "../sections/HomePage/PopularCourses";
 import ResultCardSection from "../sections/HomePage/ResultCardSection";
+import he from "../assets/Hero/hee.jpg"
 
 function HomePage() {
   return (
     <>
-      <Header />
+      <Header backgroundImage="bg-[url(./assets/Hero/hee.jpg)]"/>
       <HeroText />
       <GlassBox />
 

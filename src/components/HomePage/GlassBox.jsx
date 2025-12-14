@@ -27,10 +27,10 @@ export default function GlassBox() {
     >
 
       
-        <div className="text-[24px]">Tution Master</div>
+        <Link to="/" className="text-[24px]">Tution Master</Link>
         <div className="text-[16px] flex flex-row items-center justify-between gap-6">
           <div className="">Classes</div>
-          <div className="">Courses</div>
+          <Link to="/course" className="">Courses</Link>
           <div className="">About</div>
           <div className="">Contact</div>
         </div>
