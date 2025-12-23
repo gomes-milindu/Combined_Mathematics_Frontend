@@ -7,6 +7,7 @@ import JoinClassSection from "../sections/HomePage/JoinClassSection";
 import PopularCourses from "../sections/HomePage/PopularCourses";
 import ResultCardSection from "../sections/HomePage/ResultCardSection";
 import he from "../assets/Hero/hee.jpg"
+import Footer from "../components/Footer";
 
 function HomePage() {
   return (
@@ -21,6 +22,8 @@ function HomePage() {
 
       <JoinClassSection />
       <PopularCourses />
+
+      <Footer />
     </>
   );
 }

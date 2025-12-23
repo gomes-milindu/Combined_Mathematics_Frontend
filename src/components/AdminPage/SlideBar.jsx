@@ -1,50 +1,65 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { NavLink } from "react-router-dom";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FiUsers, FiUserPlus } from "react-icons/fi";
 import { MdOutlineVideoSettings } from "react-icons/md";
-import { PiUploadSimpleBold } from "react-icons/pi";
 import { IoSettingsOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
-import StudentDetails from "./StudentDetails";
 
 export default function Slidebar() {
-  return (
-    <>
-    <div className="w-full h-screen border border-[#f9f8fb] flex flex-col items-center bg-[#f9f8fb]">
+  const linkClass = ({ isActive }) =>
+    `flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition
+     ${
+       isActive
+         ? "bg-purple-100 text-purple-700"
+         : "text-slate-600 hover:bg-purple-50 hover:text-purple-700"
+     }`;
 
-      {/* Logo Section */}
-      <div className="w-full flex justify-center gap-5 items-center h-20 border-b border-slate-200">
-        <div className="w-10 h-10 rounded-full bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-xl font-bold">
+  return (
+    <div className="w-full h-screen bg-white border-r border-purple-100 flex flex-col">
+
+      {/* Logo */}
+      <div className="h-20 flex items-center gap-3 px-6 border-b border-purple-100">
+        <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center text-white text-lg font-bold">
           🎓
         </div>
-        <h1 className="text-2xl font-semibold text-slate-700">Tuition Master</h1>
+        <h1 className="text-lg font-semibold text-purple-700">
+          Tuition Master
+        </h1>
       </div>
 
       {/* Menu */}
-      <div className="flex flex-col gap-5 w-full items-center">
+      <div className="flex flex-col gap-2 mt-6 px-4">
 
-        {/* Active Button */}
-        <div className="h-12 grid grid-cols-2 justify-items-center place-items-center bg-linear-to-r hover:bg-slate-200  rounded-lg cursor-pointer">
-          <LuLayoutDashboard className="text-xl text-slate-600" />
-          <Link to="/admin/" className="text-lg text-slate-600">Dashboard</Link>
-        </div>
+        {/* Dashboard (exact match) */}
+        <NavLink to="/admin" end className={linkClass}>
+          <LuLayoutDashboard className="text-xl" />
+          <span>Dashboard</span>
+        </NavLink>
 
-        {/* Normal Buttons */}
-        <div className="h-12 grid grid-cols-2 place-items-center justify-items-center hover:bg-slate-200 rounded-lg cursor-pointer">
-          <FiUsers className="text-lg text-slate-600" />
-          <Link to="/admin/students" className="text-lg text-slate-600">Student Details</Link>
-        </div>
+        <NavLink to="/admin/students" className={linkClass}>
+          <FiUsers className="text-xl" />
+          <span>Student Details</span>
+        </NavLink>
 
-        <div className="h-12 grid grid-cols-2 place-items-center justify-items-center hover:bg-slate-200 rounded-lg cursor-pointer transition-colors">
-          <FiUserPlus className="text-lg text-slate-600" />
-          <Link to="/admin/register" className="text-lg text-slate-600">Student Register</Link>
-        </div>
+        <NavLink to="/admin/register" className={linkClass}>
+          <FiUserPlus className="text-xl" />
+          <span>Student Register</span>
+        </NavLink>
+
+        <NavLink to="/admin/course" className={linkClass}>
+          <MdOutlineVideoSettings className="text-xl" />
+          <span>Course Details</span>
+        </NavLink>
       </div>
-        
-    </div>
 
-    
-    </>
+      {/* Bottom Settings */}
+      <div className="mt-auto px-4 pb-6">
+        <NavLink to="/admin/settings" className={linkClass}>
+          <IoSettingsOutline className="text-xl" />
+          <span>Settings</span>
+        </NavLink>
+      </div>
+
+    </div>
   );
 }

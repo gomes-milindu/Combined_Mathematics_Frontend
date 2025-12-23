@@ -4,7 +4,7 @@ import { Settings, Bell } from "lucide-react";
 
 const TopNav = ({ pageTitle }) => {
   return (
-    <header className="sticky top-0 z-30 flex h-[10vh] items-center justify-between bg-card px-6 shadow-sm">
+    <header className="sticky top-0 z-30 flex h-[10vh] items-center justify-between bg-white px-6 shadow-sm">
       {/* Page Title */}
       <div className="w-auto flex justify-end">
         <h2 className="text-xl font-semibold text-foreground">{pageTitle}</h2>

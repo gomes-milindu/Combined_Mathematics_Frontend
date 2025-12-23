@@ -1,29 +1,25 @@
+import cardData from "../../Data/CourseData";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import CourseCard from "../components/HomePage/CourseCard";
 import GlassBox from "../components/HomePage/GlassBox";
+import NavBar from "../components/NavBar";
+import CourseCardSection from "../sections/CoursePage/CourseCardSection";
 
 export default function Course(){
+    
+    // Card Data in Data Folder
+    
     return(
         <>
         <Header backgroundImage="bg-[url(./assets/Hero/courses.png)]"/>
         
-        <GlassBox />
-        <div className="w-full h-full flex justify-center items-center">
-            <div className="w-[1216px] h-[2055p] flex justify-center items-center">
-                <div className="w-fit h-fit grid grid-cols-3 gap-[32px]">
-                    <CourseCard />
-                    <CourseCard />
-                    <CourseCard />
-                    <CourseCard />
-                    <CourseCard />
-                    <CourseCard />
-                    <CourseCard />
-                    <CourseCard />
-                    <CourseCard />
-                    
-                </div>
-            </div>
-        </div>
+        
+        <NavBar />
+        
+        <CourseCardSection />
+        
+        <Footer />
         </>
     )
 }

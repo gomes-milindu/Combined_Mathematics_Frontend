@@ -2,7 +2,7 @@ import icon from '../../assets/Hero/icon.png'
 
 function Card(){
     return(
-        <div className="w-[383px] h-[200px] bg-[#F9F5FF] border rounded-xl border-[#B692F6] flex flex-col justify-center items-center gap-4">
+        <div className="w-4/12 h-[200px] bg-[#F9F5FF] border rounded-xl border-[#B692F6] flex flex-col justify-center items-center gap-4">
             <div className="w-[351px]">
                 <div className="w-[54px] h-[54px] bg-cover bg-no-repeat" style={{backgroundImage: `url(${icon})`}}></div>
             </div>

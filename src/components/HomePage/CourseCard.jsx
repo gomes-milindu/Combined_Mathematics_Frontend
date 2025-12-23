@@ -1,4 +1,4 @@
-function CourseCard(){
+function CourseCard(props){
     return(
         <div className="w-[384px] h-[605px] bg-white border border-gray-300 rounded-xl gap-10 flex flex-col justify-center items-center ">
      
@@ -9,17 +9,17 @@ function CourseCard(){
                         <div className="flex flex-col gap-3">
                             {/* Title */}
                             <h2 className="w-[342px] h-8 text-[24px] font-semibold text-gray-700">
-                            Center of Gravity
+                            {props.title}
                             </h2>
                             {/* Tags */}
                             <div className="w-[292px] h-7 flex gap-2">
                             <span className="w-[178px] h-7 bg-[#f4f3ff] flex-row flex items-center justify-center gap-2 text-purple-700 text-[14px] rounded-2xl">
                                 <span className="text-[14px]">•</span>
-                                Applied Mathematics
+                                {props.category}
                             </span>
                             <span className="w-[102px] h-7 bg-[#ebfcf2] flex  justify-center items-center gap-2 text-sm text-[#027A48] rounded-2xl">
                                 <span className="">•</span>
-                                LKR 2000
+                                LKR {props.price}
                             </span>
                             </div>
                             {/* Description */}
