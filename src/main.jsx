@@ -7,6 +7,6 @@ import GridLayout from './components/layout/GridLayout.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
-    <GridLayout />
+    {/* <GridLayout /> */}
   </StrictMode>,
 )

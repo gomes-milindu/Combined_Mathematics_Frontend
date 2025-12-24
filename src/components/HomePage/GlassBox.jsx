@@ -29,10 +29,10 @@ export default function GlassBox() {
       
         <Link to="/" className="text-[24px]">Tution Master</Link>
         <div className="text-[16px] flex flex-row items-center justify-between gap-6">
-          <div className="">Classes</div>
+          <Link to="/classes" className="">Classes</Link>
           <Link to="/course" className="">Courses</Link>
-          <div className="">About</div>
-          <div className="">Contact</div>
+          <div className="/about">About</div>
+          <div className="/contactus">Contact</div>
         </div>
         <Link to="/admin" className="w-[136px] h-9 bg-[#7F56D9] flex justify-center items-center text-white rounded-lg">Student Logging</Link>
       </div>

@@ -15,7 +15,7 @@
   {
     id: 3,
     title: "Center of Gravity",
-    category: "Applied Mathematics",
+    category: "Pure Mathematics",
     price: "2500",
   },
   {
