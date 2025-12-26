@@ -1,6 +1,8 @@
+import ClassCard from "../components/ClassesPage/ClassCard"
 import Footer from "../components/Footer"
 import Header from "../components/Header"
 import NavBar from "../components/NavBar"
+import ClassCardSection from "../sections/ClassPage/ClassCardSection"
 
 function Classes(){
     return(
@@ -8,8 +10,8 @@ function Classes(){
             <Header />
             <NavBar />
 
-            <div className="w-full h-[800px] flex justify-center items-center text-4xl">
-                <h1>This is Classes Page</h1>
+            <div className="w-full flex justify-center items-center mt-20">
+                <ClassCardSection />
             </div>
             <Footer />
         </>
