@@ -1,4 +1,4 @@
-import Header from "../components/Header";
+
 import GlassBox from "../components/HomePage/GlassBox";
 import HeroText from "../components/HomePage/HeroText";
 import AboutTeacher from "../sections/HomePage/AboutTeacher";
@@ -8,6 +8,7 @@ import PopularCourses from "../sections/HomePage/PopularCourses";
 import ResultCardSection from "../sections/HomePage/ResultCardSection";
 import he from "../assets/Hero/hee.jpg"
 import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 function HomePage() {
   return (

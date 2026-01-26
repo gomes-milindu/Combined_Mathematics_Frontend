@@ -1,108 +1,162 @@
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 
 
-export default function PreviousAddedCourse() {
-  return (
-    <div className="w-full bg-white px-6 py-10">
-      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-200">
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Edit, Trash2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
+export default function PreviousAddedCourse() {
+  const [courses, setCourses] = useState([
+   
+  ]);
+
+   useEffect(() => {
+    axios.get("http://localhost:8080/addcourse/").then((response) => {
+      console.log(response.data);
+      setCourses(response.data);
+    });
+  }, []);
+
+  return (
+    <main className="w-full min-h-screen bg-gray-50 p-8">
+      <div className="max-w-7xl mx-auto">
+        
         {/* Header */}
-        <div className="px-8 pt-8 pb-4">
-          <h2 className="text-lg font-semibold text-purple-700">
-            Added Courses
-          </h2>
-          <p className="text-sm text-slate-500">
-            Previously created courses
-          </p>
+        <div className="mb-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl font-semibold text-gray-800">Course Management</h1>
+              <p className="text-sm text-gray-500 mt-1">Manage all course records</p>
+            </div>
+            <nav className="text-sm text-gray-500">
+              <span>Home</span>
+              <span className="mx-2">›</span>
+              <span className="text-gray-700">Course Management</span>
+            </nav>
+          </div>
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto px-6 pb-6">
-          <table className="w-full text-sm border-separate border-spacing-y-1">
+        {/* Table Card */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          
+          {/* Table Header */}
+          <div className="p-6 border-b border-gray-200 flex justify-between items-center">
+            <h2 className="text-lg font-medium text-gray-800">Course List</h2>
+            <Link to="/admin/course/*" className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2">
+              + Add New Course
+            </Link>
+          </div>
 
-            {/* Head */}
-            <thead>
-              <tr className="text-slate-500">
-                <th className="py-3 text-left font-medium">Course</th>
-                <th className="py-3 text-left font-medium">Category</th>
-                <th className="py-3 text-left font-medium">Price</th>
-                <th className="py-3 text-left font-medium">Link</th>
-                <th className="py-3 text-center font-medium">Actions</th>
-              </tr>
-            </thead>
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50 border-b border-gray-200">
+                <tr>
+                  <th className="px-6 py-3 text-left">
+                    <input type="checkbox" className="rounded border-gray-300" />
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                    Course
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                    Category
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                    Price
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                    Link
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {courses.map((course, index) => (
+                  <tr key={index} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <span className="text-gray-400 cursor-move">⠿</span>
+                        <input type="checkbox" className="rounded border-gray-300" />
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+                          <span className="text-purple-600 font-medium text-sm">
+                            {course.courseName?.charAt(0)}
+                          </span>
+                        </div>
+                        <span className="text-sm font-medium text-gray-900">
+                          {course.courseName}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-medium rounded ${
+                          course.category === "Pure Mathematics"
+                            ? "bg-blue-100 text-blue-700"
+                            : "bg-green-100 text-green-700"
+                        }`}
+                      >
+                        {course.courseCategory}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-700">
+                      Rs. {course.coursePrice}
+                    </td>
+                    <td className="px-6 py-4">
+                      <a href={course.courseUrl} className="text-sm text-purple-600 hover:underline">
+                        View
+                      </a>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <button className="text-gray-400 hover:text-purple-600">
+                          <Edit size={18} />
+                        </button>
+                        <button className="text-gray-400 hover:text-red-500">
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-            {/* Body */}
-            <tbody className="text-slate-700">
-
-              {/* Row 1 */}
-              <tr className="rounded-lg hover:bg-slate-50 transition">
-                <td className="py-4 font-medium">
-                  Advanced Calculus
-                </td>
-
-                <td className="py-4">
-                  <span className="px-3 py-1 rounded-full text-xs bg-blue-50 text-blue-700">
-                    Pure Mathematics
-                  </span>
-                </td>
-
-                <td className="py-4 text-slate-600">
-                  Rs. 2000
-                </td>
-
-                <td className="py-4 text-purple-600 hover:underline cursor-pointer">
-                  View
-                </td>
-
-                <td className="py-4 text-center">
-                  <div className="flex justify-center gap-4 text-slate-400">
-                    <button className="hover:text-purple-600 transition">
-                      <FiEdit2 size={16} />
-                    </button>
-                    <button className="hover:text-red-500 transition">
-                      <FiTrash2 size={16} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-
-              {/* Row 2 */}
-              <tr className="rounded-lg hover:bg-slate-50 transition">
-                <td className="py-4 font-medium">
-                  Differential Equations
-                </td>
-
-                <td className="py-4">
-                  <span className="px-3 py-1 rounded-full text-xs bg-green-50 text-green-700">
-                    Applied Mathematics
-                  </span>
-                </td>
-
-                <td className="py-4 text-slate-600">
-                  Rs. 1800
-                </td>
-
-                <td className="py-4 text-purple-600 hover:underline cursor-pointer">
-                  View
-                </td>
-
-                <td className="py-4 text-center">
-                  <div className="flex justify-center gap-4 text-slate-400">
-                    <button className="hover:text-purple-600 transition">
-                      <FiEdit2 size={16} />
-                    </button>
-                    <button className="hover:text-red-500 transition">
-                      <FiTrash2 size={16} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-
-            </tbody>
-          </table>
+          {/* Pagination Footer */}
+          <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Rows per page</span>
+              <select className="border border-gray-300 rounded px-2 py-1 text-sm">
+                <option>10</option>
+                <option>25</option>
+                <option>50</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <button className="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded">
+                «
+              </button>
+              <button className="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded">
+                ‹
+              </button>
+              <button className="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded">
+                ›
+              </button>
+              <button className="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded">
+                »
+              </button>
+            </div>
+          </div>
         </div>
 
       </div>
-    </div>
+    </main>
   );
 }

@@ -12,6 +12,7 @@ function NavBar(){
                             <Link to="/course" className="text-[1rem]">Courses</Link>
                             <Link to="/about" className="text-[1rem]">About</Link>
                             <Link to="/contact" className="text-[1rem]">Contact</Link>
+
                         </div>
                         <div className="">Student Login</div>
                     </div>

@@ -1,10 +1,8 @@
-import AddCourse from "../../components/AdminPage/AddCourse";
-import CourseDetails from "../../components/AdminPage/AddCourse";
-import PreviousAddedCourse from "../../components/AdminPage/PreviousAddedCourse";
+import AdminRegister from "../../components/AdminPage/AdminRegister";
 import Slidebar from "../../components/AdminPage/SlideBar";
 import TopNav from "../../components/AdminPage/TopNav";
 
-export default function AdminCourseDetails() {
+export default function AdminCreateAdmin() {
   return (
     <>
       <div className="w-full flex">
@@ -15,9 +13,8 @@ export default function AdminCourseDetails() {
 
         {/* Right Content */}
         <div className="w-[80%] ml-[20%] min-h-screen bg-[#faf9ff]">
-          <TopNav pageTitle="Course Details" />
-          
-          <PreviousAddedCourse />
+          <TopNav pageTitle="Create Admin" />
+          <AdminRegister />
         </div>
       </div>
     </>

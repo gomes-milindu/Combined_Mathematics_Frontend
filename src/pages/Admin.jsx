@@ -5,6 +5,8 @@ import AdminCourseDetails from "./admin/AdminCourseDetails";
 import AdminStudentDetails from "./admin/AdminStudentDetails";
 import AdminStudentRegister from "../components/AdminPage/AdminStudentRegister";
 import AdminDashboard from "./admin/AdminDashboard";
+import AdminCreateAdmin from "./admin/AdminCreateAdmin";
+import AdminCourseRegister from "../components/AdminPage/AdminCourseRegister";
 
 
 
@@ -25,6 +27,8 @@ function Admin() {
             <Route path="/register" element={<AdminStudentRegister />} />
             <Route path="/register/*" element={<AdminStudentRegister />} />
             <Route path="/course" element={<AdminCourseDetails />} />
+            <Route path="/course/*" element={<AdminCourseRegister />} />
+            <Route path="/createAdmin" element={<AdminCreateAdmin />} />
           </Routes>
 
 
