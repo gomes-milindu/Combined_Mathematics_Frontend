@@ -226,6 +226,7 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Breadcrumb from "./BreadCrumb";
 
 export default function StudentRegister() {
   const [studentId, setStudentID] = useState("");
@@ -272,13 +273,14 @@ export default function StudentRegister() {
               <h1 className="text-2xl font-semibold text-gray-800">Student Registration</h1>
               <p className="text-sm text-gray-500 mt-1">Enter student personal and academic details</p>
             </div>
-            <nav className="text-sm text-gray-500">
+            <Breadcrumb />
+            {/* <nav className="text-sm text-gray-500">
               <span>Home</span>
               <span className="mx-2">›</span>
               <span className="text-gray-700">Student Registration</span>
               <span className="mx-2">›</span>
               <span className="text-gray-700">Student Registration</span>
-            </nav>
+            </nav> */}
           </div>
         </div>
 

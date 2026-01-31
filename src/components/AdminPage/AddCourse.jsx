@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import TopNav from "./TopNav";
 import toast from "react-hot-toast";
 import axios from "axios";
+import Breadcrumb from "./BreadCrumb";
 
 export default function AddCourse() {
   const [courseName, setCourseName] = useState("");
@@ -48,13 +49,15 @@ export default function AddCourse() {
                 Fill the course details below
               </p>
             </div>
-            <nav className="text-sm text-slate-500">
+
+            <Breadcrumb />
+            {/* <nav className="text-sm text-slate-500">
               <span>Home</span>
               <span className="mx-2">›</span>
               <span className="text-purple-600">Course Management</span>
               <span className="mx-2">›</span>
               <span className="text-purple-600">Add New Course</span>
-            </nav>
+            </nav> */}
           </div>
         </div>
 

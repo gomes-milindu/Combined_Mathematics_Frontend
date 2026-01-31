@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Edit, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import Breadcrumb from "./BreadCrumb";
 
 export default function PreviousAddedCourse() {
   const [courses, setCourses] = useState([
@@ -29,11 +30,9 @@ export default function PreviousAddedCourse() {
               <h1 className="text-2xl font-semibold text-gray-800">Course Management</h1>
               <p className="text-sm text-gray-500 mt-1">Manage all course records</p>
             </div>
-            <nav className="text-sm text-gray-500">
-              <span>Home</span>
-              <span className="mx-2">›</span>
-              <span className="text-gray-700">Course Management</span>
-            </nav>
+
+            <Breadcrumb />
+            
           </div>
         </div>
 
