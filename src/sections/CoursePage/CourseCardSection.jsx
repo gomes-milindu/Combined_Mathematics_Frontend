@@ -1,6 +1,7 @@
 import { useState } from "react";
 import cardData from "../../../Data/CourseData";
 import CourseCard from "../../components/HomePage/CourseCard";
+import { Search } from "lucide-react";
 
 function CourseCardSection() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -19,37 +20,42 @@ function CourseCardSection() {
 
   return (
     <div className="w-full flex justify-center py-16">
-      <div className="w-[1216px]">
+      <div className="w-[1216px] flex flex-col gap-8 items-center">
 
-        {/* 🔍 Search */}
-        <div className="flex justify-center mb-6">
+        {/* 🔍 SEARCH (FIGMA STYLE) */}
+        <div className="relative w-[420px] ">
           <input
             type="text"
             placeholder="Search for courses"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-[400px] px-4 py-2 border rounded-lg outline-none"
+            className="w-full px-4 py-2 pr-10 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-purple-100"
+          />
+          <Search
+            size={18}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
           />
         </div>
 
-        {/* 🏷 Categories */}
-        <div className="flex justify-center gap-4 mb-10">
+        {/* 🏷 CATEGORY FILTER (FIGMA STYLE) */}
+        <div className="flex gap-6">
           {["All", "Applied Mathematics", "Pure Mathematics"].map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-full text-sm transition ${
-                activeCategory === cat
-                  ? "bg-purple-600 text-white"
-                  : "bg-gray-100 text-gray-700"
-              }`}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition
+                ${
+                  activeCategory === cat
+                    ? "bg-purple-50 text-purple-600"
+                    : "text-gray-600"
+                }`}
             >
               {cat === "All" ? "All Courses" : cat}
             </button>
           ))}
         </div>
 
-        {/*  Cards */}
+        {/* 📦 CARDS */}
         <div className="grid grid-cols-3 gap-8">
           {filteredData.map((item) => (
             <CourseCard
