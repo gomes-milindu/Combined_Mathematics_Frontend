@@ -68,39 +68,38 @@ function ClassCardSection() {
   );
 
   return (
-    <section className="w-full flex justify-center py-20">
-      <div className="w-[1216px] flex flex-col items-center gap-14">
+    <section className="w-full flex justify-center py-20 px-4">
+      <div className="w-full max-w-[1216px] flex flex-col items-center gap-12">
 
-        {/* 🔹 FILTER TABS (FIGMA STYLE) */}
-        <div className="flex gap-10">
-  <button
-    onClick={() => setActiveCategory("online")}
-    className={`px-6 py-2 rounded-lg text-sm font-medium transition
-      ${
-        activeCategory === "online"
-          ? "bg-white text-purple-600"
-          : "text-gray-600"
-      }`}
-  >
-    Online Classes
-  </button>
+        {/* 🔹 FILTER TABS */}
+        <div className="flex gap-6 sm:gap-10 flex-wrap justify-center">
+          <button
+            onClick={() => setActiveCategory("online")}
+            className={`px-6 py-2 rounded-lg text-sm font-medium transition
+              ${
+                activeCategory === "online"
+                  ? "bg-white text-purple-600"
+                  : "text-gray-600"
+              }`}
+          >
+            Online Classes
+          </button>
 
-  <button
-    onClick={() => setActiveCategory("physical")}
-    className={`px-6 py-2 rounded-lg text-sm font-medium transition
-      ${
-        activeCategory === "physical"
-          ? "bg-white text-purple-600"
-          : "text-gray-600"
-      }`}
-  >
-    Physical Classes
-  </button>
-</div>
-
+          <button
+            onClick={() => setActiveCategory("physical")}
+            className={`px-6 py-2 rounded-lg text-sm font-medium transition
+              ${
+                activeCategory === "physical"
+                  ? "bg-white text-purple-600"
+                  : "text-gray-600"
+              }`}
+          >
+            Physical Classes
+          </button>
+        </div>
 
         {/* 🔹 CLASS CARDS GRID */}
-        <div className="grid grid-cols-2 gap-10 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full">
           {filteredClasses.map((cls) => (
             <ClassCard
               key={cls.id}

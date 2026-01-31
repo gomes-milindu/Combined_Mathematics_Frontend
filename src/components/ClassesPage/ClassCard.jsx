@@ -1,11 +1,11 @@
-import hee from "../../assets/Hero/hee.jpg"
+import hee from "../../assets/Hero/hee.jpg";
 
 function ClassCard({ title, description, time, category }) {
   return (
     <div className="w-full bg-white border border-gray-300 rounded-2xl p-4 flex flex-col gap-4">
 
       {/* IMAGE */}
-      <div className="w-full h-[180px] rounded-xl overflow-hidden">
+      <div className="w-full h-[160px] sm:h-[180px] md:h-[200px] rounded-xl overflow-hidden">
         <img
           src={hee}
           alt={title}
@@ -17,13 +17,13 @@ function ClassCard({ title, description, time, category }) {
       <div className="flex flex-col gap-3">
 
         {/* TITLE + BADGE */}
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-semibold text-gray-900">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900">
             {title}
           </h3>
 
           {category === "online" && (
-            <span className="text-xs bg-purple-100 text-purple-600 px-3 py-1 rounded-full">
+            <span className="w-fit text-xs bg-purple-100 text-purple-600 px-3 py-1 rounded-full">
               via Zoom
             </span>
           )}
@@ -40,7 +40,7 @@ function ClassCard({ title, description, time, category }) {
         </p>
 
         {/* ACTIONS */}
-        <div className="flex items-center gap-6 mt-2">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 mt-2">
           <button className="bg-purple-600 text-white px-6 py-2 rounded-md text-sm">
             Enroll Now
           </button>
