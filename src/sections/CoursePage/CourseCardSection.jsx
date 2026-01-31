@@ -19,11 +19,11 @@ function CourseCardSection() {
   });
 
   return (
-    <div className="w-full flex justify-center py-16">
-      <div className="w-[1216px] flex flex-col gap-8 items-center">
+    <div className="w-full flex justify-center py-16 px-4">
+      <div className="w-full max-w-[1216px] flex flex-col gap-8 items-center">
 
-        {/* 🔍 SEARCH (FIGMA STYLE) */}
-        <div className="relative w-[420px] ">
+        {/* 🔍 SEARCH */}
+        <div className="relative w-full sm:w-[420px]">
           <input
             type="text"
             placeholder="Search for courses"
@@ -37,8 +37,8 @@ function CourseCardSection() {
           />
         </div>
 
-        {/* 🏷 CATEGORY FILTER (FIGMA STYLE) */}
-        <div className="flex gap-6">
+        {/* 🏷 CATEGORY FILTER */}
+        <div className="flex gap-4 flex-wrap">
           {["All", "Applied Mathematics", "Pure Mathematics"].map((cat) => (
             <button
               key={cat}
@@ -55,8 +55,8 @@ function CourseCardSection() {
           ))}
         </div>
 
-        {/* 📦 CARDS */}
-        <div className="grid grid-cols-3 gap-8">
+        {/* 📦 CARDS GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
           {filteredData.map((item) => (
             <CourseCard
               key={item.id}

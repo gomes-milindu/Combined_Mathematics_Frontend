@@ -1,9 +1,9 @@
 function CourseCard({ title, category, price }) {
   return (
-    <div className="w-[384px] bg-white border border-gray-200 rounded-2xl p-4 flex flex-col gap-4">
+    <div className="w-full bg-white border border-gray-200 rounded-2xl p-4 flex flex-col gap-4">
 
       {/* IMAGE */}
-      <div className="w-full h-[220px] rounded-xl overflow-hidden">
+      <div className="w-full h-[180px] sm:h-[200px] lg:h-[220px] rounded-xl overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb"
           alt={title}
@@ -15,12 +15,12 @@ function CourseCard({ title, category, price }) {
       <div className="flex flex-col gap-3">
 
         {/* TITLE */}
-        <h2 className="text-xl font-semibold text-gray-900">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
           {title}
         </h2>
 
         {/* TAGS */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <span className="px-3 py-1 bg-purple-50 text-purple-600 text-sm rounded-full flex items-center gap-2">
             <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
             {category}
