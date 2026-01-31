@@ -60,7 +60,6 @@ const classdata = [
   },
 ];
 
-
 function ClassCardSection() {
   const [activeCategory, setActiveCategory] = useState("online");
 
@@ -69,48 +68,52 @@ function ClassCardSection() {
   );
 
   return (
-    <div className="w-full flex flex-col items-center gap-12">
+    <section className="w-full flex justify-center py-20">
+      <div className="w-[1216px] flex flex-col items-center gap-14">
 
-      {/* 🔹 CATEGORY TABS */}
-      <div className="flex gap-6 bg-gray-100 p-2 rounded-full">
-        <button
-          onClick={() => setActiveCategory("online")}
-          className={`px-6 py-2 rounded-full text-sm font-medium transition-all
-            ${
-              activeCategory === "online"
-                ? "bg-purple-500 text-white shadow"
-                : "text-gray-600"
-            }`}
-        >
-          Online Classes
-        </button>
+        {/* 🔹 FILTER TABS (FIGMA STYLE) */}
+        <div className="flex gap-10">
+  <button
+    onClick={() => setActiveCategory("online")}
+    className={`px-6 py-2 rounded-lg text-sm font-medium transition
+      ${
+        activeCategory === "online"
+          ? "bg-white text-purple-600"
+          : "text-gray-600"
+      }`}
+  >
+    Online Classes
+  </button>
 
-        <button
-          onClick={() => setActiveCategory("physical")}
-          className={`px-6 py-2 rounded-full text-sm font-medium transition-all
-            ${
-              activeCategory === "physical"
-                ? "bg-purple-500 text-white shadow"
-                : "text-gray-600"
-            }`}
-        >
-          Physical Classes
-        </button>
+  <button
+    onClick={() => setActiveCategory("physical")}
+    className={`px-6 py-2 rounded-lg text-sm font-medium transition
+      ${
+        activeCategory === "physical"
+          ? "bg-white text-purple-600"
+          : "text-gray-600"
+      }`}
+  >
+    Physical Classes
+  </button>
+</div>
+
+
+        {/* 🔹 CLASS CARDS GRID */}
+        <div className="grid grid-cols-2 gap-10 w-full">
+          {filteredClasses.map((cls) => (
+            <ClassCard
+              key={cls.id}
+              title={cls.title}
+              description={cls.description}
+              time={cls.time}
+              category={cls.category}
+            />
+          ))}
+        </div>
+
       </div>
-
-      {/* 🔹 CLASS CARDS */}
-      <div className="w-10/12 grid grid-cols-2 gap-8">
-        {filteredClasses.map((cls) => (
-          <ClassCard
-            key={cls.id}
-            title={cls.title}
-            description={cls.description}
-            time={cls.time}
-            category={cls.category}
-          />
-        ))}
-      </div>
-    </div>
+    </section>
   );
 }
 
