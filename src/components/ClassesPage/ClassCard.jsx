@@ -1,25 +1,57 @@
-function ClassCard({title, description, time, category}){
-    return(
-        <>
-            <div className="w-10/12 h-full bg-white border border-gray-400 p-4 flex flex-col justify-center items-start gap-8 rounded-2xl">
+import hee from "../../assets/Hero/hee.jpg";
 
-                <div className="w-full h-[206px] bg-green-300 rounded-xl" ></div>
-                <div className="w-full flex flex-col gap-6">
-                    <div className="text-[1.5rem]">{title}</div>
-                    <div className="text-[1.25rem] text-[#A4A7AE]">{description}</div>
-                    <div className="text-[1.25rem] text-[#A4A7AE]">{time}</div>
-                    <div className="w-8/12 flex flex-row h-[45px]">
-                        <button className="w-8/6 bg-purple-300 text-[1rem]">Enroll Now</button>
-                        <button className="w-8/6 text-[1rem]">View Details</button>
-                        
-                    </div>
+function ClassCard({ title, description, time, category }) {
+  return (
+    <div className="w-full bg-white border border-gray-300 rounded-2xl p-4 flex flex-col gap-4">
 
-                     {/* Badge */}
-                    <span className="text-sm text-purple-500">{category}</span>
-                </div>
-            </div>
-        </>
-    )
+      {/* IMAGE */}
+      <div className="w-full h-[160px] sm:h-[180px] md:h-[200px] rounded-xl overflow-hidden">
+        <img
+          src={hee}
+          alt={title}
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* CONTENT */}
+      <div className="flex flex-col gap-3">
+
+        {/* TITLE + BADGE */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900">
+            {title}
+          </h3>
+
+          {category === "online" && (
+            <span className="w-fit text-xs bg-purple-100 text-purple-600 px-3 py-1 rounded-full">
+              via Zoom
+            </span>
+          )}
+        </div>
+
+        {/* DESCRIPTION */}
+        <p className="text-sm text-gray-400 leading-relaxed">
+          {description}
+        </p>
+
+        {/* TIME */}
+        <p className="text-sm text-gray-400">
+          {time}
+        </p>
+
+        {/* ACTIONS */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 mt-2">
+          <button className="bg-purple-600 text-white px-6 py-2 rounded-md text-sm">
+            Enroll Now
+          </button>
+
+          <button className="text-purple-600 text-sm font-medium">
+            View Details
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default ClassCard
+export default ClassCard;
