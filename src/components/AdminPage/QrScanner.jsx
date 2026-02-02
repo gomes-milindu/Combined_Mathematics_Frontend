@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Html5Qrcode } from "html5-qrcode";
-import successSound from "../../assets/sounds/beep.mp3"; 
+import successSound from "../../assets/sounds/beep.mp3";
+import { useNavigate } from "react-router-dom";
 
 export default function QrScanner() {
   const [result, setResult] = useState("");
   const [status, setStatus] = useState("scanning");
+  const navigate = useNavigate();
 
   const qrRef = useRef(null);
   const runningRef = useRef(false);
@@ -16,23 +18,27 @@ export default function QrScanner() {
     const qr = new Html5Qrcode("qr-reader");
     qrRef.current = qr;
 
-    qr
-      .start(
-        { facingMode: "environment" },
-        { fps: 10, qrbox: { width: 260, height: 260 } },
-        (decodedText) => {
-          if (!runningRef.current) return;
+    qr.start(
+      { facingMode: "environment" },
+      { fps: 10, qrbox: { width: 260, height: 260 } },
+      (decodedText) => {
+        if (!runningRef.current) return;
 
-          // 🔇 TEMPORARILY DISABLED SOUND
-          audioRef.current.play();
+        // 🔇 TEMPORARILY DISABLED SOUND
+        audioRef.current.play();
 
-          setResult(decodedText);
-          setStatus("success");
+        setResult(decodedText);
+        setStatus("success");
 
-          qr.stop().catch(() => {});
-          runningRef.current = false;
-        }
-      )
+        qr.stop().catch(() => {});
+        runningRef.current = false;
+
+        
+        setTimeout(() => {
+         navigate(`/admin/students/studentView/${decodedText}`);
+        }, 800);
+      },
+    )
       .then(() => {
         runningRef.current = true;
       })
@@ -49,7 +55,6 @@ export default function QrScanner() {
   return (
     <div className="p-6">
       <div className="w-full max-w-5xl bg-white rounded-2xl shadow-md border border-purple-100 p-8">
-
         <div className="mb-6">
           <h2 className="text-2xl font-semibold text-gray-800">
             Scan Student QR Code
@@ -60,7 +65,6 @@ export default function QrScanner() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-
           {/* CAMERA */}
           <div className="flex flex-col items-center">
             <div className="relative w-[300px] h-[300px] rounded-xl overflow-hidden border-2 border-purple-500">
@@ -99,13 +103,9 @@ export default function QrScanner() {
                   Scan Successful
                 </h3>
 
-                <p className="text-sm text-gray-600 mt-2">
-                  Student ID
-                </p>
+                <p className="text-sm text-gray-600 mt-2">Student ID</p>
 
-                <p className="text-xl font-bold text-gray-900 mt-1">
-                  {result}
-                </p>
+                <p className="text-xl font-bold text-gray-900 mt-1">{result}</p>
 
                 <button
                   onClick={() => window.location.reload()}
@@ -116,7 +116,6 @@ export default function QrScanner() {
               </div>
             )}
           </div>
-
         </div>
       </div>
     </div>
