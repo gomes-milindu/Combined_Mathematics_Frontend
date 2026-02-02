@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -11,7 +11,15 @@ export default function AdminRegister() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("");
+
+  const [getAdmins, setGetAdmins] = useState([]);
   
+  useEffect(() => {
+    axios.get("http://localhost:8080/admin/all").then((res) => {
+      setGetAdmins(res.data);
+      console.log(res.data);
+    });
+  }, []);
 
   async function Create() {
     if (password !== confirmPassword) {
@@ -33,7 +41,7 @@ export default function AdminRegister() {
   }
 
   return (
-    <main className="w-full h-auto bg-white flex justify-center py-10">
+    <main className="w-full h-auto bg-white flex justify-center items-center py-10 flex-col gap-10">
 
       {/* Card */}
       <div className="w-[90%] bg-white rounded-2xl border border-purple-200 shadow-xl p-8">
@@ -129,6 +137,31 @@ export default function AdminRegister() {
           </div>
 
         </div>
+      </div>
+
+      {/* Admin Table */}
+      <div className="w-[90%] bg-white rounded-2xl border border-purple-200 shadow-xl p-8">
+        <table>
+          <thead>
+            <tr>
+              <th className="text-left p-4 border-b border-purple-200">Admin Name</th>
+              <th className="text-left p-4 border-b border-purple-200">UserName</th>
+              <th className="text-left p-4 border-b border-purple-200">Role</th>
+            </tr>
+          </thead>
+          <tbody>
+          {getAdmins.map((admin) => (
+            
+              <tr key={admin._id}>
+                <td className="p-4 border-b border-purple-200">{admin.name}</td>
+                <td className="p-4 border-b border-purple-200">{admin.userName}</td>
+                <td className="p-4 border-b border-purple-200">{admin.role}</td>
+              </tr>
+            
+          ))}
+          </tbody>
+          
+        </table>
       </div>
 
       {/* Tailwind reusable styles */}

@@ -1,12 +1,14 @@
 import { Outlet, Route, Routes } from "react-router-dom";
 import AdminCourseDetails from "./admin/AdminCourseDetails";
 import AdminStudentDetails from "./admin/AdminStudentDetails";
-import AdminStudentRegister from "../components/AdminPage/AdminStudentRegister";
+import AdminStudentRegister from "./admin/AdminStudentRegister";
 import AdminDashboard from "./admin/AdminDashboard";
 import AdminCreateAdmin from "./admin/AdminCreateAdmin";
 import AdminCourseRegister from "../components/AdminPage/AdminCourseRegister";
 import AdminStudentView from "./admin/AdminStudentView";
 import AdminStudentEdit from "./admin/AdminStudentEdit";
+import AdminScanStudents from "./admin/AdminScanStudents";
+import QrScanner from "../components/AdminPage/QrScanner";
 
 function Admin() {
   return (
@@ -23,6 +25,9 @@ function Admin() {
 
             <Route path="/course" element={<AdminCourseDetails />} />
             <Route path="/course/*" element={<AdminCourseRegister />} />
+
+            <Route path="/scan" element={<AdminScanStudents />} />
+            <Route path="/scan/*" element={<QrScanner />} />
 
             <Route path="/createAdmin" element={<AdminCreateAdmin />} />
 

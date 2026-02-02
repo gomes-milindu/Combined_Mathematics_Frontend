@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FiUsers, FiUserPlus } from "react-icons/fi";
-import { MdOutlineVideoSettings } from "react-icons/md";
+import { MdOutlineQrCodeScanner, MdOutlineVideoSettings } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import {
   FiLogOut,
@@ -75,6 +75,11 @@ export default function Slidebar() {
         <NavLink to="/admin/course" className={linkClass}>
           <MdOutlineVideoSettings className="text-xl" />
           <span>Course Details</span>
+        </NavLink>
+
+        <NavLink to="/admin/scan" className={linkClass}>
+          <MdOutlineQrCodeScanner className="text-xl" />
+          <span>Scan Students</span>
         </NavLink>
       </div>
 
