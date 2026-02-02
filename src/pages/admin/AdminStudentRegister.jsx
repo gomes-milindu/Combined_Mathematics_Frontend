@@ -1,6 +1,6 @@
-import Slidebar from "./SlideBar";
-import StudentRegister from "./StudentRegister";
-import TopNav from "./TopNav";
+import Slidebar from "../../components/AdminPage/SlideBar";
+import StudentRegister from "../../components/AdminPage/StudentRegister";
+import TopNav from "../../components/AdminPage/TopNav";
 
 export default function AdminStudentRegister() {
   return (
