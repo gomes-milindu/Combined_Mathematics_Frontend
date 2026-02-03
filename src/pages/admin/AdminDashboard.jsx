@@ -1,3 +1,4 @@
+import { Dashboard } from "../../components/AdminPage/Dashborad";
 import Slidebar from "../../components/AdminPage/SlideBar";
 import TopNav from "../../components/AdminPage/TopNav";
 
@@ -11,9 +12,9 @@ export default function AdminDashboard() {
         </div>
 
         {/* Right Content */}
-        <div className="w-[80%] ml-[20%] min-h-screen bg-[#faf9ff]">
+        <div className="w-[80%] ml-[20%] min-h-screen bg-white">
           <TopNav pageTitle="Dashboard" />
-         
+          <Dashboard />
         </div>
       </div>
     </>

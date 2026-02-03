@@ -9,6 +9,7 @@ import AdminStudentView from "./admin/AdminStudentView";
 import AdminStudentEdit from "./admin/AdminStudentEdit";
 import AdminScanStudents from "./admin/AdminScanStudents";
 import QrScanner from "../components/AdminPage/QrScanner";
+import { Dashboard } from "../components/AdminPage/Dashborad";
 
 function Admin() {
   return (
@@ -17,6 +18,7 @@ function Admin() {
         <div className="w-full">
           <Routes>
             <Route path="/" element={<AdminDashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
 
             <Route path="/students" element={<AdminStudentDetails />} />
 
