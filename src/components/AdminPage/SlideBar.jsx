@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FiUsers, FiUserPlus } from "react-icons/fi";
@@ -16,6 +16,13 @@ export default function Slidebar() {
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("admin-theme");
+    const shouldUseDark = storedTheme === "dark";
+    setIsDarkMode(shouldUseDark);
+    document.documentElement.classList.toggle("dark", shouldUseDark);
+  }, []);
 
   const linkClass = ({ isActive }) =>
     `flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition
@@ -38,8 +45,10 @@ export default function Slidebar() {
   };
 
   const handleToggleMode = () => {
-    setIsDarkMode(!isDarkMode);
-    // Add dark mode toggle logic here
+    const nextMode = !isDarkMode;
+    setIsDarkMode(nextMode);
+    localStorage.setItem("admin-theme", nextMode ? "dark" : "light");
+    document.documentElement.classList.toggle("dark", nextMode);
   };
 
   return (

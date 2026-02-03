@@ -14,7 +14,7 @@ import { Dashboard } from "../components/AdminPage/Dashborad";
 function Admin() {
   return (
     <>
-      <div className="flex flex-row">
+    <div className="admin-scope flex flex-row min-h-screen bg-white text-slate-900">
         <div className="w-full">
           <Routes>
             <Route path="/" element={<AdminDashboard />} />

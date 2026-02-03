@@ -141,27 +141,68 @@ export default function AdminRegister() {
 
       {/* Admin Table */}
       <div className="w-[90%] bg-white rounded-2xl border border-purple-200 shadow-xl p-8">
-        <table>
-          <thead>
-            <tr>
-              <th className="text-left p-4 border-b border-purple-200">Admin Name</th>
-              <th className="text-left p-4 border-b border-purple-200">UserName</th>
-              <th className="text-left p-4 border-b border-purple-200">Role</th>
-            </tr>
-          </thead>
-          <tbody>
-          {getAdmins.map((admin) => (
-            
-              <tr key={admin._id}>
-                <td className="p-4 border-b border-purple-200">{admin.name}</td>
-                <td className="p-4 border-b border-purple-200">{admin.userName}</td>
-                <td className="p-4 border-b border-purple-200">{admin.role}</td>
+        <div className="mb-4 flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-slate-800">Admin List</h3>
+            <p className="text-sm text-slate-500">
+              Registered admins and assigned roles
+            </p>
+          </div>
+          <div className="text-xs text-slate-400">Total: {getAdmins.length}</div>
+        </div>
+
+        <div className="overflow-hidden rounded-2xl border border-purple-100">
+          <table className="min-w-full text-sm">
+            <thead className="bg-purple-50/60 text-slate-600">
+              <tr>
+                <th className="text-left px-6 py-4 font-semibold">
+                  Admin Name
+                </th>
+                <th className="text-left px-6 py-4 font-semibold">UserName</th>
+                <th className="text-left px-6 py-4 font-semibold">Role</th>
               </tr>
-            
-          ))}
-          </tbody>
-          
-        </table>
+            </thead>
+            <tbody className="divide-y divide-purple-100">
+              {getAdmins.map((admin, index) => (
+                <tr
+                  key={admin._id}
+                  className={`${
+                    index % 2 === 0 ? "bg-white" : "bg-purple-50/30"
+                  } hover:bg-purple-50 transition`}
+                >
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center ring-2 ring-slate-100">
+                        <svg
+                          viewBox="0 0 64 64"
+                          className="h-7 w-7 text-slate-500"
+                          aria-hidden="true"
+                        >
+                          <circle cx="32" cy="24" r="12" fill="currentColor" />
+                          <path
+                            d="M12 58c4-12 18-16 20-16s16 4 20 16"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-medium text-slate-800">
+                        {admin.name}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-slate-700">
+                    {admin.userName}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-700">
+                      {admin.role}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Tailwind reusable styles */}
