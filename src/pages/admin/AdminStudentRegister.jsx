@@ -12,7 +12,7 @@ export default function AdminStudentRegister() {
         </div>
 
         {/* Right Content */}
-        <div className="w-[80%] ml-[20%] min-h-screen bg-white">
+        <div className="w-[80%] ml-[20%] min-h-screen bg-white dark:bg-slate-950">
           <TopNav pageTitle="Student Register" />
           <StudentRegister />
           

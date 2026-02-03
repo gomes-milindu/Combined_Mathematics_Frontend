@@ -11,7 +11,7 @@ export default function QrScanner() {
   const qrRef = useRef(null);
   const runningRef = useRef(false);
 
-  // 🔊 keep audio ref (comment usage only)
+  // keep audio ref (comment usage only)
   const audioRef = useRef(new Audio(successSound));
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function QrScanner() {
       (decodedText) => {
         if (!runningRef.current) return;
 
-        // 🔇 TEMPORARILY DISABLED SOUND
+        // TEMPORARILY DISABLED SOUND
         audioRef.current.play();
 
         setResult(decodedText);
@@ -33,9 +33,8 @@ export default function QrScanner() {
         qr.stop().catch(() => {});
         runningRef.current = false;
 
-        
         setTimeout(() => {
-         navigate(`/admin/students/studentView/${decodedText}`);
+          navigate(`/admin/students/studentView/${decodedText}`);
         }, 800);
       },
     )
@@ -54,24 +53,37 @@ export default function QrScanner() {
 
   return (
     <div className="p-6">
-      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-md border border-purple-100 p-8">
-        <div className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">
-            Scan Student QR Code
-          </h2>
-          <p className="text-sm text-gray-500">
-            Align the QR code inside the box
-          </p>
+      <div className="w-full max-w-6xl rounded-2xl border border-purple-100 bg-white shadow-[0_8px_30px_rgba(88,28,135,0.08)] overflow-hidden">
+        <div className="px-8 py-6 border-b border-purple-50 bg-white">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-purple-400">
+                QR Scanner
+              </p>
+              <h2 className="text-2xl font-semibold text-slate-800">
+                Scan Student QR Code
+              </h2>
+              <p className="text-sm text-slate-500">
+                Keep the code centered inside the frame.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 rounded-full border border-purple-100 bg-purple-50 px-4 py-2 text-sm text-purple-700">
+              <span className="h-2 w-2 rounded-full bg-purple-600 animate-pulse" />
+              {status === "scanning" ? "Live scanning" : "Scan completed"}
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start p-8">
           {/* CAMERA */}
           <div className="flex flex-col items-center">
-            <div className="relative w-[300px] h-[300px] rounded-xl overflow-hidden border-2 border-purple-500">
+            <div className="relative w-[320px] h-[320px] rounded-2xl overflow-hidden border-2 border-purple-500 bg-white shadow-[0_0_0_10px_rgba(124,58,237,0.08)]">
               <div
                 id="qr-reader"
                 className="absolute inset-0 w-full h-full object-cover"
               />
+
+              <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-purple-100/20 pointer-events-none" />
 
               {/* Scan corners */}
               <span className="scan-corner tl" />
@@ -79,33 +91,47 @@ export default function QrScanner() {
               <span className="scan-corner bl" />
               <span className="scan-corner br" />
 
-              {status === "scanning" && <div className="scan-line" />}
+              {status === "scanning" && (
+                <>
+                  <div className="scan-line" />
+                  <div className="absolute inset-0 ring-1 ring-purple-400/40 animate-pulse" />
+                </>
+              )}
             </div>
 
-            <p className="mt-4 text-sm text-gray-500">
-              {status === "scanning" ? "Scanning…" : "Scan completed"}
+            <p className="mt-4 text-sm text-slate-500">
+              {status === "scanning"
+                ? "Hold steady while we read the code."
+                : "Scan completed successfully."}
             </p>
           </div>
 
           {/* RESULT */}
           <div>
             {status === "scanning" && (
-              <div className="border border-dashed border-gray-300 rounded-xl p-6 text-center text-gray-600">
-                Waiting for QR code
+              <div className="rounded-2xl border border-dashed border-purple-200 bg-purple-50/40 p-6">
+                <p className="text-sm font-semibold text-slate-700">
+                  Waiting for QR code
+                </p>
+                <p className="text-sm text-slate-500 mt-1">
+                  Once detected, you will be redirected automatically.
+                </p>
               </div>
             )}
 
             {status === "success" && (
-              <div className="success-card">
-                <div className="checkmark">✓</div>
+              <div className="rounded-2xl border border-purple-100 bg-white p-6 shadow-sm">
+                <div className="h-12 w-12 rounded-full bg-purple-600 text-white flex items-center justify-center text-2xl font-bold">
+                  OK
+                </div>
 
-                <h3 className="text-lg font-semibold text-green-700 mt-2">
+                <h3 className="text-lg font-semibold text-slate-800 mt-3">
                   Scan Successful
                 </h3>
 
-                <p className="text-sm text-gray-600 mt-2">Student ID</p>
+                <p className="text-sm text-slate-500 mt-2">Student ID</p>
 
-                <p className="text-xl font-bold text-gray-900 mt-1">{result}</p>
+                <p className="text-xl font-bold text-slate-900 mt-1">{result}</p>
 
                 <button
                   onClick={() => window.location.reload()}
