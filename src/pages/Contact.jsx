@@ -5,7 +5,7 @@ import NavBar from "../components/NavBar";
 function Contact() {
   return (
     <>
-      <Header />
+      <Header backgroundImage= "bg-[url(./assets/Images/Contact.png)]" />
       <NavBar />
 
       {/* Contact Section */}
@@ -28,7 +28,7 @@ function Contact() {
               <input
                 type="text"
                 placeholder="Enter your first name"
-                className="w-full border rounded-md px-4 py-2 outline-none focus:border-purple-500"
+                className="w-full border rounded-md px-4 py-2 outline-none focus:border-purple-500 border-[#D5D7DA]"
               />
             </div>
 
@@ -40,7 +40,7 @@ function Contact() {
               <input
                 type="text"
                 placeholder="Enter your last name"
-                className="w-full border rounded-md px-4 py-2 outline-none focus:border-purple-500"
+                className="w-full border rounded-md px-4 py-2 outline-none focus:border-purple-500 border-[#D5D7DA]"
               />
             </div>
 
@@ -52,7 +52,7 @@ function Contact() {
               <input
                 type="email"
                 placeholder="Enter your email address"
-                className="w-full border rounded-md px-4 py-2 outline-none focus:border-purple-500"
+                className="w-full border rounded-md px-4 py-2 outline-none focus:border-purple-500 border-[#D5D7DA]"
               />
             </div>
 
@@ -61,14 +61,14 @@ function Contact() {
               <label className="block text-sm text-gray-600 mb-1">
                 Contact Number*
               </label>
-              <div className="flex border rounded-md overflow-hidden focus-within:border-purple-500">
+              <div className="flex border rounded-md overflow-hidden focus-within:border-purple-500 border-[#D5D7DA]">
                 <span className="px-3 py-2 bg-gray-100 text-sm text-gray-600">
                   +94
                 </span>
                 <input
                   type="text"
                   placeholder="Enter your contact number"
-                  className="w-full px-4 py-2 outline-none"
+                  className="w-full px-4 py-2 outline-none border-[#D5D7DA]"
                 />
               </div>
             </div>
@@ -81,7 +81,7 @@ function Contact() {
               <textarea
                 rows="6"
                 placeholder="Enter your message"
-                className="w-full border rounded-md px-4 py-3 outline-none resize-none focus:border-purple-500"
+                className="w-full border rounded-md px-4 py-3 outline-none resize-none focus:border-purple-500 border-[#D5D7DA]"
               />
             </div>
 

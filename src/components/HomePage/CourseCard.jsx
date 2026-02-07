@@ -1,9 +1,9 @@
 function CourseCard({ title, category, price }) {
   return (
-    <div className="w-full bg-white border border-gray-200 rounded-2xl p-4 flex flex-col gap-4">
+    <div className="w-full h-125 border border-gray-200 rounded-2xl p-4 flex flex-col gap-4">
 
       {/* IMAGE */}
-      <div className="w-full h-[180px] sm:h-[200px] lg:h-[220px] rounded-xl overflow-hidden">
+      <div className="w-full h-[180px] sm:h-[200px] lg:h-[220px] rounded-xl overflow-hidden bg-yellow-500">
         <img
           src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb"
           alt={title}

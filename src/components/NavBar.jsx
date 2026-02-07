@@ -5,7 +5,7 @@ function NavBar(){
         <>  
             <div className="w-full absolute z-15 top-5">
                 <div className="flex justify-center items-center">
-                    <div className="w-10/12 h-[68px] bg-white flex flex-row items-center justify-around rounded-[12px]">
+                    <div className="w-4xl h-[68px] bg-white flex flex-row items-center justify-around rounded-[12px]">
                         <Link to="/" className="text-[1.5rem] font-semibold text-[#6941C6]">Tution Master</Link>
                         <div className="w-4/12 flex flex-row items-center justify-around">
                             <Link to="/classes" className="text-[1rem]">Classes</Link>
@@ -14,7 +14,7 @@ function NavBar(){
                             <Link to="/contact" className="text-[1rem]">Contact</Link>
 
                         </div>
-                        <div className="">Student Login</div>
+                        <Link to="/admin" className="w-[136px] h-9 bg-[#7F56D9] flex justify-center items-center text-white rounded-lg">Student Logging</Link>
                     </div>
                 </div>
             </div>

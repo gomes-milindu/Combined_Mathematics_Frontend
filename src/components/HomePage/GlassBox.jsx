@@ -6,13 +6,14 @@ export default function GlassBox() {
   
   
   return (
+   
     <div
       className="
-        w-7xl h-[67px]
+        w-4xl h-[67px]
         flex
         flex-row
         items-center
-        justify-evenly
+        justify-around
         rounded-xl
         bg-linear-to-r from-[#F3ECFF]/30 to-white/40
         border border-white/20
@@ -21,7 +22,7 @@ export default function GlassBox() {
         absolute
         z-20
         top-5
-        left-1/12
+        left-1/2 transform -translate-x-1/2
       "
       style={{ WebkitBackdropFilter: "blur(12px)" }}
     >
@@ -36,6 +37,7 @@ export default function GlassBox() {
         </div>
         <Link to="/admin" className="w-[136px] h-9 bg-[#7F56D9] flex justify-center items-center text-white rounded-lg">Student Logging</Link>
       </div>
+      
     
   );
 }

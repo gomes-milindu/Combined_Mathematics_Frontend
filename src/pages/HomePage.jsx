@@ -15,7 +15,9 @@ function HomePage() {
     <>
       <Header backgroundImage="bg-[url(./assets/Hero/hee.jpg)]"/>
       <HeroText />
-      <GlassBox />
+      
+        <GlassBox />
+      
 
       <CardSection />
       <AboutTeacher />

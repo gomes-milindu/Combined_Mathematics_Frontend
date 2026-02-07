@@ -5,30 +5,31 @@ import NavBar from "../components/NavBar";
 import teacherImg from "../assets/Hero/hee.jpg";
 import missionImg from "../assets/Hero/courses.png";
 import visionImg from "../assets/Hero/hee.jpg";
+import { Mail, Phone } from "lucide-react";
+import Topic from "../components/HomePage/Topic";
+import mission from "../assets/Images/mission.png";
+import vission from "../assets/Images/vision.png";
+import sir from "../assets/Images/sir.png";
 
 function About() {
   return (
     <>
-      <Header />
+      <Header backgroundImage="bg-[url(./assets/Images/About.png)]" />
       <NavBar />
 
-      {/* ================= ABOUT THE TEACHER ================= */}
       <section className="relative w-full py-24 bg-white">
-        {/* dotted background */}
         <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:18px_18px] opacity-40"></div>
 
-        <div className="relative max-w-7xl mx-auto px-6">
-          <h2 className="text-center text-[26px] font-medium text-[#6b46c1] mb-16">
-            About The Teacher
-          </h2>
-
-          <div className="grid md:grid-cols-[340px_1fr] gap-16 items-start">
-            {/* LEFT CARD */}
+        <div className="flex justify-center items-center m-10">
+          <Topic topic="About The Teacher" />
+        </div>
+        <div className="flex flex-col justify-center items-center max-w-7xl mx-auto px-6 ">
+          <div className="grid md:grid-cols-[340px_1fr]  items-start">
             <div>
               <img
-                src={teacherImg}
+                src={sir}
                 alt="Teacher"
-                className="w-[320px] h-[320px] object-cover rounded-xl mb-6"
+                className="w-[300px] h-[320px] object-cover rounded-xl mb-6"
               />
 
               <h3 className="text-[18px] font-semibold text-gray-800">
@@ -45,92 +46,108 @@ function About() {
               </div>
             </div>
 
-            {/* RIGHT CONTENT */}
-            <div className="text-[15px] text-gray-600 leading-[28px] space-y-6">
+            <div className="text-[15px] text-gray-600 leading-[28px] space-y-6 text-justify">
               <p>
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
-                The point of using Lorem Ipsum is that it has a more-or-less
-                normal distribution of letters, as opposed to using 'Content
-                here, content here', making it look like readable English.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                pariatur molestias similique, natus iste, ipsam vero
+                accusantium, itaque culpa fugiat maxime debitis? Quo ex totam id
+                iste saepe rem eveniet! Perspiciatis, velit! Quod voluptatum
+                quidem aperiam ipsam eius repellat, aliquid molestiae quisquam
+                iste eum. Tenetur ullam, harum dolores magnam facere
+                consequuntur autem quibusdam nesciunt! Illum optio autem
+                adipisci doloribus suscipit. ed libero! Inventore, nostrum.
+                Vitae pariatur debitis eveniet, aliquid quod nesciunt labore
+                dolores!
+              </p>
+
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                pariatur molestias similique, natus iste, ipsam vero
+                accusantium, itaque culpa fugiat maxime debitis? Quo ex totam id
+                iste saepe rem eveniet! Perspiciatis, velit! Quod voluptatum
+                quidem aperiam ipsam eius repellat, aliquid molestiae quisquam
+                iste eum. Tenetur ullam, harum dolores magnam facere
+                consequuntur autem quibusdam nesciunt! Illum optio autem
+                adipisci doloribus suscipit. ed libero! Inventore, nostrum.
+                Vitae pariatur debitis eveniet, aliquid quod nesciunt labore
+                dolores!
+              </p>
+
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                pariatur molestias similique, natus iste, ipsam vero
+                accusantium, itaque culpa fugiat maxime debitis? Quo ex totam id
+                iste saepe rem eveniet! Perspiciatis, velit! Quod voluptatum
+                quidem aperiam ipsam eius repellat, aliquid molestiae quisquam
+                iste eum. Tenetur ullam, harum dolores magnam facere
+                consequuntur autem quibusdam nesciunt! Illum optio autem
+                adipisci doloribus suscipit. ed libero! Inventore, nostrum.
+                Vitae pariatur debitis eveniet, aliquid quod nesciunt labore
+                dolores!
               </p>
 
               <p>
                 Many desktop publishing packages and web page editors now use
-                Lorem Ipsum as their default model text, and a search for
-                'lorem ipsum' will uncover many web sites still in their infancy.
-              </p>
-
-              <p>
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
-                The point of using Lorem Ipsum is that it has a more-or-less
-                normal distribution of letters.
-              </p>
-
-              <p>
-                Many desktop publishing packages and web page editors now use
-                Lorem Ipsum as their default model text, and a search for
-                'lorem ipsum' will uncover many web sites still in their infancy.
+                Lorem Ipsum as their default model text, and a search for 'lorem
+                ipsum' will uncover many web sites still in their infancy.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= MISSION ================= */}
-      <section className="relative w-full py-28 bg-white">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 px-6 items-center">
-          <img
-            src={missionImg}
-            alt="Mission"
-            className="w-full max-w-[520px]"
-          />
+      {/* Mission */}
+      <div className="flex flex-col justify-center items-center max-w-7xl mx-auto px-6  ">
+        <div className="flex flex-row justify-start items-start">
+          <div className="">
+            <img
+              src={mission}
+              alt="Teacher"
+              className="w-[700px] h-[350px] object-cover rounded-xl mb-6 bg-cover bg-center bg-no-repeat"
+            />
+          </div>
 
-          <div>
-            <h2 className="text-[26px] font-medium text-[#6b46c1] mb-6">
-              Our Mission
-            </h2>
-
-            <p className="text-[15px] text-gray-600 leading-[28px]">
-              It is a long established fact that a reader will be distracted by
-              the readable content of a page when looking at its layout. The
-              point of using Lorem Ipsum is that it has a more-or-less normal
-              distribution of letters, as opposed to using 'Content here,
-              content here', making it look like readable English. Many desktop
-              publishing packages and web page editors now use Lorem Ipsum as
-              their default model text.
+          <div className="w-[550px] text-[15px] text-gray-600 leading-[28px] space-y-6 text-justify pl-15">
+            
+              <Topic topic="Our Mission" />
+              <p className="text-justify">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
+                pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
+                pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
             </p>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ================= VISION ================= */}
-      <section className="relative w-full py-28 bg-white">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 px-6 items-center">
-          <div>
-            <h2 className="text-[26px] font-medium text-[#6b46c1] mb-6">
-              Our Vision
-            </h2>
 
-            <p className="text-[15px] text-gray-600 leading-[28px]">
-              It is a long established fact that a reader will be distracted by
-              the readable content of a page when looking at its layout. The
-              point of using Lorem Ipsum is that it has a more-or-less normal
-              distribution of letters, as opposed to using 'Content here,
-              content here', making it look like readable English. Many desktop
-              publishing packages and web page editors now use Lorem Ipsum as
-              their default model text.
+
+      {/* Vission */}
+      <div className="flex flex-col justify-center items-center max-w-7xl mx-auto px-6   mt-25 mb-25">
+        <div className="flex flex-row justify-start items-start">
+          <div className="w-[550px] text-[15px] text-gray-600 leading-[28px] space-y-6 text-justify pr-15">
+            
+              <Topic topic="Our Vision" />
+              <p className="text-justify">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
+                pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
+                pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
             </p>
           </div>
 
-          <img
-            src={visionImg}
-            alt="Vision"
-            className="w-full max-w-[520px]"
-          />
+          <div className="">
+            <img
+              src={vission}
+              alt="Teacher"
+              className="w-[700px] h-[350px] object-cover rounded-xl mb-6 bg-contain bg-center bg-no-repeat"
+            />
+          </div>
+
+          
         </div>
-      </section>
+      </div>
+
 
       <Footer />
     </>
