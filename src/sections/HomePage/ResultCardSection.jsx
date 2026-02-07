@@ -7,7 +7,9 @@ function ResultCardSection(){
         ["Nimthara Dinekshi", "Index: 123456", "School: Royal College"],
         ["Kaveesha Perera", "Index: 654321", "School: Ananda College"],
         ["Sahan Wijesinghe", "Index: 112233", "School: St. Thomas College"]
-    ]        
+    ]       
+    
+    
     return(
         <section className='w-full h-[900px] flex flex-col justify-center items-center gap-10'>
             <Topic topic="Our Best Results" subtopic="Where hard work meet success" />
