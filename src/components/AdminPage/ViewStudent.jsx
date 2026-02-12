@@ -103,10 +103,10 @@ export default function ViewStudent() {
       });
   }, [id]);
 
-  
-  
 
-  
+
+
+
 
   console.log(student)
 
@@ -207,7 +207,7 @@ export default function ViewStudent() {
         />
 
         {/* Payment History Block */}
-        <PaymentStudent />
+        <PaymentStudent studentId={student.studentId} />
       </div>
     </main>
   );
