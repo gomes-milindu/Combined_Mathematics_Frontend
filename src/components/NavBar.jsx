@@ -14,7 +14,7 @@ function NavBar(){
                             <Link to="/contact" className="text-[1rem]">Contact</Link>
 
                         </div>
-                        <Link to="/admin" className="w-[136px] h-9 bg-[#7F56D9] flex justify-center items-center text-white rounded-lg">Student Logging</Link>
+                        <Link to="/login" className="w-[136px] h-9 bg-[#7F56D9] flex justify-center items-center text-white rounded-lg">Student Logging</Link>
                     </div>
                 </div>
             </div>

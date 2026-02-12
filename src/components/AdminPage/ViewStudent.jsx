@@ -42,7 +42,7 @@
 //           </div>
 //         </div>
 //       <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg border">
-        
+
 //         <h1 className="text-2xl font-semibold mb-4">Student Details</h1>
 
 //         <p>
@@ -79,12 +79,16 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Breadcrumb from "./BreadCrumb";
+import PaymentStudent from "./PaymentStudent";
+import PaymentDrawer from "./PaymentDrawer";
 
 export default function ViewStudent() {
   const { id } = useParams();
   const [student, setStudent] = useState(null);
+  const [isPaymentDrawerOpen, setIsPaymentDrawerOpen] = useState(false);
+  const [payment, setPayment] = useState([])
 
   useEffect(() => {
     if (!id) return;
@@ -99,12 +103,19 @@ export default function ViewStudent() {
       });
   }, [id]);
 
+  
+  
+
+  
+
+  console.log(student)
+
   if (!student) {
     return <p className="p-8">Loading...</p>;
   }
 
   return (
-    <main className="w-full min-h-screen bg-[#faf9ff] p-8 dark:bg-slate-950">
+    <main className="w-full min-h-screen bg-white p-8 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
@@ -124,7 +135,7 @@ export default function ViewStudent() {
         {/* Content Card */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
+
             {/* LEFT: Student Details */}
             <div className="md:col-span-2">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">
@@ -148,25 +159,55 @@ export default function ViewStudent() {
               </div>
             </div>
 
-            {/* RIGHT: QR Code Placeholder */}
+            {/* RIGHT: QR Code Section */}
             <div className="flex flex-col items-center justify-start border border-dashed border-gray-300 rounded-lg p-4">
-              <h3 className="text-sm font-medium text-gray-700 mb-3">
+              <h3 className="text-sm font-medium text-red-700 mb-3">
                 Student QR Code
               </h3>
 
-              {/* QR PLACEHOLDER */}
-              <div className="w-40 h-40 bg-gray-100 flex items-center justify-center rounded-md">
-                <span className="text-xs text-gray-500">
-                  QR Code Here
-                </span>
+              {/* QR Image Display */}
+              <div className="w-40 h-40 bg-gray-100 flex items-center justify-center rounded-md overflow-hidden">
+                {student.qrCode ? (
+                  <img
+                    src={student.qrCode}
+                    alt="Student QR Code"
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <span className="text-xs text-red-500">
+                    No QR Code
+                  </span>
+                )}
               </div>
 
               <p className="text-xs text-gray-500 mt-3 text-center">
-                Use this QR code for quick student verification
+                Scan specifically for attendance
               </p>
             </div>
           </div>
         </div>
+
+        <div className="flex justify-end mt-6 gap-3">
+          <Link to="/admin/scan" className="px-6 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 hover:border-gray-400 hover:text-gray-900 transition text-sm font-medium flex items-center">
+            Return to Scan
+          </Link>
+          <button
+            onClick={() => setIsPaymentDrawerOpen(true)}
+            className="px-6 py-2 rounded-md bg-white border border-green-600 text-green-600 hover:bg-green-50 transition text-sm font-medium"
+          >
+            Pay Now
+          </button>
+        </div>
+
+        {/* Payment Drawer */}
+        <PaymentDrawer
+          isOpen={isPaymentDrawerOpen}
+          onClose={() => setIsPaymentDrawerOpen(false)}
+          studentId={student.studentId}
+        />
+
+        {/* Payment History Block */}
+        <PaymentStudent />
       </div>
     </main>
   );
@@ -180,11 +221,10 @@ function Detail({ label, value, badge, active }) {
 
       {badge ? (
         <span
-          className={`inline-flex px-2 py-1 text-xs font-medium rounded ${
-            active
-              ? "bg-green-100 text-green-700"
-              : "bg-orange-100 text-orange-700"
-          }`}
+          className={`inline-flex px-2 py-1 text-xs font-medium rounded ${active
+            ? "bg-green-100 text-green-700"
+            : "bg-orange-100 text-orange-700"
+            }`}
         >
           {value}
         </span>

@@ -9,7 +9,8 @@ export default function AdminStudentView() {
         <div className="w-[20%] fixed left-0 top-0 h-screen bg-white dark:bg-slate-950">
           <Slidebar />
         </div>
-        <div className="w-[80%] ml-[20%] min-h-screen bg-[#faf9ff] dark:bg-slate-950">
+
+        <div className="w-[80%] ml-[20%] min-h-screen bg-white dark:bg-slate-950">
           <TopNav pageTitle="Student View" />
           <ViewStudent />
         </div>
