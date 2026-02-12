@@ -92,7 +92,7 @@ export default function StudentDetails() {
   };
 
   return (
-    <main className="w-full min-h-screen bg-[#faf9ff] p-8 dark:bg-slate-950">
+    <main className="w-full min-h-screen bg-white p-8 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
           <div>

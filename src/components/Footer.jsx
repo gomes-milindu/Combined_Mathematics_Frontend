@@ -24,13 +24,15 @@ function Footer() {
           ></div>
           <div className="w-full h-[415px] bottom-0 bg-gray-900 absolute z-2 ">
             <div className="grid grid-cols-3 gap-5 h-full place-items-center justify-items-center">
-              <div className="w-2/3 h-[90%]">
+              
+              
+              <div className="w-2/3 h-[90%] ">
                 <div className="w-full h-full flex flex-col justify-center items-center">
                   <div
                     className="w-full h-[200px] bg-contain bg-no-repeat bg-center scale-75 "
                     style={{ backgroundImage: `url(${name})` }}
                   ></div>
-                  <div className="w-[70%] h-[100px] text-white text-[13px] font-light text-center">
+                  <div className="w-[70%] h-[100px]  text-white text-[13px] font-light text-center">
                     At Tuition Master, we make learning 
                     simple, fun, and
                     effective. Our goal is to help every student understand
@@ -38,7 +40,10 @@ function Footer() {
                   </div>
                 </div>
               </div>
-              <div className="w-2/3 h-[90%]">
+              
+              
+              
+              <div className="w-2/3 h-[90%] ">
                 <div className="w-full h-full flex flex-col justify-center items-left text-white gap-5">
                     <div className="text-[24px] text-purple-300">Contact Us</div>
                     <div className="flex flex-col gap-2">
@@ -62,6 +67,8 @@ function Footer() {
                     </div>
                 </div>
               </div>
+              
+              
               <div className="w-2/3 h-[90%]">
                 <div className="w-full h-full flex flex-col justify-center items-left text-white gap-5">
                     <div className="text-2xl text-purple-300">Quick Links</div>
@@ -74,6 +81,10 @@ function Footer() {
                     </div>
                 </div>
               </div>
+              
+            </div>
+            <div className="w-full flex justify-center items-center bg-gray-900">
+              <div className="w-[85%] text-[#8d9199] flex items-center justify-center border-t-1 border-amber-10 p-5">Implement by Threads Software Solutions</div>
             </div>
           </div>
         </div>
