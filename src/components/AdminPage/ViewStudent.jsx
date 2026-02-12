@@ -83,6 +83,7 @@ import { useParams, Link } from "react-router-dom";
 import Breadcrumb from "./BreadCrumb";
 import PaymentStudent from "./PaymentStudent";
 import PaymentDrawer from "./PaymentDrawer";
+import AllPayments from "./AllPayments";
 
 export default function ViewStudent() {
   const { id } = useParams();
@@ -208,6 +209,8 @@ export default function ViewStudent() {
 
         {/* Payment History Block */}
         <PaymentStudent studentId={student.studentId} />
+
+        <AllPayments studentId={student.studentId} />
       </div>
     </main>
   );
