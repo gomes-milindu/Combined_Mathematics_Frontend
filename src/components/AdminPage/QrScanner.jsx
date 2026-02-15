@@ -35,7 +35,7 @@ export default function QrScanner() {
 
         setTimeout(() => {
           navigate(`/admin/students/studentView/${decodedText}`);
-        }, 800);
+        }, 500);
       },
     )
       .then(() => {
