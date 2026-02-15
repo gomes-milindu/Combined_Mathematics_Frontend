@@ -1,59 +1,3 @@
-//
-
-// import React, { useEffect, useState } from "react";
-
-// import axios from "axios";
-
-// export default function StudentDetails() {
-//   const [students, setStudents] = useState([]);
-
-//   useEffect(() => {
-//     axios.get("http://localhost:8080/student/").then((response) => {
-//       console.log(response.data);
-//       setStudents(response.data);
-//     });
-//   }, []);
-
-//   return (
-//     <main className="w-full min-h-screen bg-slate-50 flex justify-center py-10">
-//       <div className="">
-//         <table>
-//           <thead>
-//             <tr>
-//               <th>Student Id</th>
-//               <th>First Name</th>
-//               <th>Last Name</th>
-//               <th>Contact No:</th>
-//               <th>Batch</th>
-//               <th>Course</th>
-//               <th>Status</th>
-
-//             </tr>
-//           </thead>
-
-//           <tbody>
-
-//             {students.map((items)=>(
-
-//               <tr>
-//               <td>{items.studentId}</td>
-//               <td>{items.firstName}</td>
-//               <td>{items.lastName}</td>
-//               <td>{items.phone}</td>
-//               <td>{items.batch}</td>
-//               <td>{items.course}</td>
-//               <td>{items.isActive ? "Active" : "Inactive"}</td>
-
-//             </tr>
-//             ))}
-
-//           </tbody>
-//         </table>
-//       </div>
-//     </main>
-//   );
-// }
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MoreVertical, Eye, Edit, Trash2 } from "lucide-react";
@@ -92,9 +36,9 @@ export default function StudentDetails() {
   };
 
   return (
-    <main className="w-full min-h-screen bg-white p-8 dark:bg-slate-950">
+    <main className="w-full min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div className="flex bg-white flex-wrap items-center justify-between gap-4 mb-6">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
               Administration

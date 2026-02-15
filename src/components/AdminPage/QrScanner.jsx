@@ -53,11 +53,11 @@ export default function QrScanner() {
 
   return (
     <div className="p-4 md:p-6">
-      <div className="w-full max-w-6xl mx-auto rounded-2xl border border-purple-100 bg-white shadow-[0_8px_30px_rgba(88,28,135,0.08)] overflow-hidden">
-        <div className="px-6 py-6 border-b border-purple-50 bg-white">
+      <div className="w-full max-w-6xl mx-auto rounded-2xl border border-slate-200 bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden">
+        <div className="px-6 py-6 border-b border-slate-100 bg-white">
           <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-purple-400 font-bold">
+              <p className="text-xs uppercase tracking-[0.2em] text-purple-600 font-bold">
                 QR Scanner
               </p>
               <h2 className="text-2xl font-bold text-slate-800 mt-1">
@@ -67,8 +67,10 @@ export default function QrScanner() {
                 Keep the code centered inside the frame.
               </p>
             </div>
-            <div className="flex items-center gap-2 rounded-full border border-purple-100 bg-purple-50 px-4 py-2 text-sm text-purple-700 font-medium">
-              <span className="h-2 w-2 rounded-full bg-purple-600 animate-pulse" />
+            <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700 font-medium">
+              <span
+                className={`h-2 w-2 rounded-full ${status === "scanning" ? "bg-purple-600 animate-pulse" : "bg-emerald-500"}`}
+              />
               {status === "scanning" ? "Live scanning" : "Scan completed"}
             </div>
           </div>
@@ -77,13 +79,13 @@ export default function QrScanner() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start p-6 md:p-10">
           {/* CAMERA */}
           <div className="flex flex-col items-center w-full">
-            <div className="relative w-full max-w-[320px] aspect-square rounded-2xl overflow-hidden border-2 border-purple-500 bg-slate-50 shadow-[0_0_0_8px_rgba(124,58,237,0.08)]">
+            <div className="relative w-full max-w-[320px] aspect-square rounded-2xl overflow-hidden border-2 border-slate-200 bg-slate-50 shadow-inner">
               <div
                 id="qr-reader"
                 className="absolute inset-0 w-full h-full object-cover"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-purple-100/10 pointer-events-none" />
+              <div className="absolute inset-0 bg-transparent pointer-events-none" />
 
               {/* Scan corners - visual only */}
               <div className="absolute top-4 left-4 w-8 h-8 border-t-4 border-l-4 border-purple-500 rounded-tl-lg" />
@@ -108,7 +110,7 @@ export default function QrScanner() {
           {/* RESULT */}
           <div className="w-full">
             {status === "scanning" && (
-              <div className="h-full min-h-[200px] flex flex-col items-center justify-center text-center rounded-2xl border-2 border-dashed border-purple-200 bg-purple-50/30 p-8">
+              <div className="h-full min-h-[200px] flex flex-col items-center justify-center text-center rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-8">
                 <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center mb-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -3,17 +3,16 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function AdminRegister() {
-  
   const [name, setAdminName] = useState("");
-  
+
   const [userName, setUserName] = useState("");
- 
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("");
 
   const [getAdmins, setGetAdmins] = useState([]);
-  
+
   useEffect(() => {
     axios.get("http://localhost:8080/admin/all").then((res) => {
       setGetAdmins(res.data);
@@ -42,25 +41,18 @@ export default function AdminRegister() {
 
   return (
     <main className="w-full h-auto bg-white flex justify-center items-center py-10 flex-col gap-10">
-
       {/* Card */}
       <div className="w-[90%] bg-white rounded-2xl border border-purple-200 shadow-xl p-8">
-
         {/* Header */}
         <div className="mb-8">
           <h2 className="text-2xl font-semibold text-purple-700">
             Admin Registration
           </h2>
-          <p className="text-sm text-slate-500">
-            Enter admin personal details
-          </p>
+          <p className="text-sm text-slate-500">Enter admin personal details</p>
         </div>
 
         {/* Form Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-
-         
-
           {/* Admin Name */}
           <div>
             <label className="form-label">Admin Name</label>
@@ -71,8 +63,6 @@ export default function AdminRegister() {
               onChange={(e) => setAdminName(e.target.value)}
             />
           </div>
-
-          
 
           {/* UserName */}
           <div>
@@ -117,11 +107,8 @@ export default function AdminRegister() {
               <option value="">Select Role</option>
               <option>Admin 1</option>
               <option>Admin 2</option>
-              
             </select>
           </div>
-
-         
 
           {/* Buttons */}
           <div className="col-span-1 md:col-span-2 xl:col-span-3 flex justify-end gap-4 mt-4">
@@ -135,12 +122,11 @@ export default function AdminRegister() {
               Create Admin
             </button>
           </div>
-
         </div>
       </div>
 
       {/* Admin Table */}
-      <div className="w-[90%] bg-white rounded-2xl border border-purple-200 shadow-xl p-8">
+      <div className="w-[90%] bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
         <div className="mb-4 flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-slate-800">Admin List</h3>
@@ -148,12 +134,14 @@ export default function AdminRegister() {
               Registered admins and assigned roles
             </p>
           </div>
-          <div className="text-xs text-slate-400">Total: {getAdmins.length}</div>
+          <div className="text-xs text-slate-400">
+            Total: {getAdmins.length}
+          </div>
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-purple-100">
           <table className="min-w-full text-sm">
-            <thead className="bg-purple-50/60 text-slate-600">
+            <thead className="bg-slate-50/60 text-slate-600">
               <tr>
                 <th className="text-left px-6 py-4 font-semibold">
                   Admin Name
@@ -167,8 +155,8 @@ export default function AdminRegister() {
                 <tr
                   key={admin._id}
                   className={`${
-                    index % 2 === 0 ? "bg-white" : "bg-purple-50/30"
-                  } hover:bg-purple-50 transition`}
+                    index % 2 === 0 ? "bg-white" : "bg-slate-50/50"
+                  } hover:bg-slate-50 transition`}
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
@@ -190,9 +178,7 @@ export default function AdminRegister() {
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-slate-700">
-                    {admin.userName}
-                  </td>
+                  <td className="px-6 py-4 text-slate-700">{admin.userName}</td>
                   <td className="px-6 py-4">
                     <span className="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-700">
                       {admin.role}
@@ -231,7 +217,6 @@ export default function AdminRegister() {
           }
         `}
       </style>
-
     </main>
   );
 }

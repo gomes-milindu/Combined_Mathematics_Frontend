@@ -2,7 +2,8 @@ import { Outlet, Route, Routes } from "react-router-dom";
 import AdminStudentRegister from "./admin/AdminStudentRegister";
 import AdminCreateAdmin from "./admin/AdminCreateAdmin";
 import AdminStudentView from "./admin/AdminStudentView";
-import AdminStudentEdit from "./admin/AdminStudentEdit";
+// import AdminStudentEdit from "./admin/AdminStudentEdit";
+import EditStudent from "../components/AdminPage/EditStudent";
 import AdminScanStudents from "./admin/AdminScanStudents";
 import QrScanner from "../components/AdminPage/QrScanner";
 import { Dashboard } from "../components/AdminPage/Dashborad";
@@ -39,10 +40,7 @@ function Admin() {
               element={<AdminStudentView />}
             />
 
-            <Route
-              path="/students/studentEdit/:id"
-              element={<AdminStudentEdit />}
-            />
+            <Route path="/students/studentEdit/:id" element={<EditStudent />} />
           </Route>
         </Routes>
       </div>
