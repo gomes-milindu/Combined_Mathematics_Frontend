@@ -235,7 +235,7 @@ export default function StudentRegister() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [course, setCourse] = useState("");
+  const [institute, setInstitute] = useState("");
   const [batch, setBatch] = useState("");
   const [dateOfBirth, setBirthday] = useState("");
   const [isActive, setIsActive] = useState("");
@@ -249,7 +249,7 @@ export default function StudentRegister() {
         email,
         phone,
         password,
-        course,
+        institute,
         batch,
         dateOfBirth,
         isActive: isActive === "true",
@@ -368,20 +368,19 @@ export default function StudentRegister() {
               />
             </div>
 
-            {/* Course */}
+            {/* Institute */}
             <div>
               <label className="block text-sm font-medium text-gray-600 mb-1">
-                Course
+                Institute
               </label>
               <select
                 className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
-                onChange={(e) => setCourse(e.target.value)}
+                onChange={(e) => setInstitute(e.target.value)}
               >
-                <option value="">Select course</option>
-                <option>Computer Science</option>
-                <option>Software Engineering</option>
-                <option>Information Technology</option>
-                <option>Data Science</option>
+                <option value="">Select Institute</option>
+                <option>Samathwee</option>
+                <option>Sisulka</option>
+                
               </select>
             </div>
 
@@ -395,10 +394,8 @@ export default function StudentRegister() {
                 onChange={(e) => setBatch(e.target.value)}
               >
                 <option value="">Select batch</option>
-                <option>2024-A</option>
-                <option>2024-B</option>
-                <option>2025-A</option>
-                <option>2025-B</option>
+                <option>2027 Theory</option>
+                
               </select>
             </div>
 

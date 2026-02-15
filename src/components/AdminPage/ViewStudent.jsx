@@ -83,6 +83,7 @@ import { useParams, Link } from "react-router-dom";
 import Breadcrumb from "./BreadCrumb";
 import PaymentStudent from "./PaymentStudent";
 import PaymentDrawer from "./PaymentDrawer";
+import AllPayments from "./AllPayments";
 
 export default function ViewStudent() {
   const { id } = useParams();
@@ -108,7 +109,7 @@ export default function ViewStudent() {
 
 
 
-  console.log(student)
+  // console.log(student)
 
   if (!student) {
     return <p className="p-8">Loading...</p>;
@@ -149,7 +150,7 @@ export default function ViewStudent() {
                 <Detail label="Phone" value={student.phone} />
                 <Detail label="Date of Birth" value={student.dateOfBirth} />
                 <Detail label="Batch" value={student.batch} />
-                <Detail label="Course" value={student.course} />
+                <Detail label="Institute" value={student.institute} />
                 <Detail
                   label="Status"
                   value={student.isActive ? "Active" : "Inactive"}
@@ -208,6 +209,8 @@ export default function ViewStudent() {
 
         {/* Payment History Block */}
         <PaymentStudent studentId={student.studentId} />
+
+        <AllPayments studentId={student.studentId} />
       </div>
     </main>
   );

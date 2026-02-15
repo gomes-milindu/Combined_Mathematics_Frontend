@@ -132,7 +132,7 @@ export default function StudentDetails() {
                   <th className="px-6 py-4 font-medium">Student ID</th>
                   <th className="px-6 py-4 font-medium">Contact</th>
                   <th className="px-6 py-4 font-medium">Batch</th>
-                  <th className="px-6 py-4 font-medium">Course</th>
+                  <th className="px-6 py-4 font-medium">Institute</th>
                   <th className="px-6 py-4 font-medium">Status</th>
                   <th className="px-6 py-4 font-medium text-right">Actions</th>
                 </tr>
@@ -154,7 +154,7 @@ export default function StudentDetails() {
                             {items.firstName} {items.lastName}
                           </p>
                           <p className="text-xs text-slate-400">
-                            {items.course}
+                            {items.institute}
                           </p>
                         </div>
                       </div>
@@ -170,7 +170,7 @@ export default function StudentDetails() {
                       {items.batch}
                     </td>
                     <td className="px-6 py-4 text-slate-700">
-                      {items.course}
+                      {items.institute}
                     </td>
 
                     <td className="px-6 py-4">
