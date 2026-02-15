@@ -1,32 +1,33 @@
 import { Outlet, Route, Routes } from "react-router-dom";
-import AdminCourseDetails from "./admin/AdminCourseDetails";
-import AdminStudentDetails from "./admin/AdminStudentDetails";
 import AdminStudentRegister from "./admin/AdminStudentRegister";
-import AdminDashboard from "./admin/AdminDashboard";
 import AdminCreateAdmin from "./admin/AdminCreateAdmin";
-import AdminCourseRegister from "../components/AdminPage/AdminCourseRegister";
 import AdminStudentView from "./admin/AdminStudentView";
 import AdminStudentEdit from "./admin/AdminStudentEdit";
 import AdminScanStudents from "./admin/AdminScanStudents";
 import QrScanner from "../components/AdminPage/QrScanner";
 import { Dashboard } from "../components/AdminPage/Dashborad";
+import AdminLayout from "../components/AdminPage/AdminLayout";
+import StudentDetails from "../components/AdminPage/StudentDetails";
+import AddCourse from "../components/AdminPage/AddCourse";
+import PreviousAddedCourse from "../components/AdminPage/PreviousAddedCourse";
 
 function Admin() {
   return (
     <>
-    <div className="admin-scope flex flex-row min-h-screen bg-white text-slate-900">
-        <div className="w-full">
-          <Routes>
-            <Route path="/" element={<AdminDashboard />} />
+      <div className="admin-scope min-h-screen bg-white text-slate-900">
+        <Routes>
+          <Route element={<AdminLayout />}>
+            <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
 
-            <Route path="/students" element={<AdminStudentDetails />} />
+            <Route path="/students" element={<StudentDetails />} />
 
             <Route path="/register" element={<AdminStudentRegister />} />
             <Route path="/register/*" element={<AdminStudentRegister />} />
 
-            <Route path="/course" element={<AdminCourseDetails />} />
-            <Route path="/course/*" element={<AdminCourseRegister />} />
+            <Route path="/course" element={<PreviousAddedCourse />} />
+            {/* Note: AdminCourseRegister wrapped AddCourse. Direct use: */}
+            <Route path="/course/*" element={<AddCourse />} />
 
             <Route path="/scan" element={<AdminScanStudents />} />
             <Route path="/scan/*" element={<QrScanner />} />
@@ -38,13 +39,12 @@ function Admin() {
               element={<AdminStudentView />}
             />
 
-            {/* ✅ FIXED — matches edit link */}
             <Route
               path="/students/studentEdit/:id"
               element={<AdminStudentEdit />}
             />
-          </Routes>
-        </div>
+          </Route>
+        </Routes>
       </div>
     </>
   );

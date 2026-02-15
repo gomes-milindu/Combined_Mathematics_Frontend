@@ -221,8 +221,6 @@
 //   );
 // }
 
-
-
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -263,41 +261,35 @@ export default function StudentRegister() {
   }
 
   return (
-    <main className="w-full max-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        
+    <main className="w-full min-h-screen bg-gray-50 p-4 md:p-8 flex justify-center">
+      <div className="w-full max-w-4xl">
         {/* Header */}
-        <div className="mb-6">
-          <div className="flex justify-between items-center">
+        <div className="mb-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-              <h1 className="text-2xl font-semibold text-gray-800">Student Registration</h1>
-              <p className="text-sm text-gray-500 mt-1">Enter student personal and academic details</p>
+              <h1 className="text-2xl font-bold text-gray-800">
+                Student Registration
+              </h1>
+              <p className="text-sm text-gray-500 mt-1">
+                Enter student personal and academic details
+              </p>
             </div>
             <Breadcrumb />
-            {/* <nav className="text-sm text-gray-500">
-              <span>Home</span>
-              <span className="mx-2">›</span>
-              <span className="text-gray-700">Student Registration</span>
-              <span className="mx-2">›</span>
-              <span className="text-gray-700">Student Registration</span>
-            </nav> */}
           </div>
         </div>
 
         {/* Form Card */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-          
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-10">
           {/* Form Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
             {/* Student ID */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Student ID
               </label>
               <input
                 type="text"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
                 placeholder="ST-001"
                 onChange={(e) => setStudentID(e.target.value)}
               />
@@ -305,12 +297,12 @@ export default function StudentRegister() {
 
             {/* First Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 First Name
               </label>
               <input
                 type="text"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
                 placeholder="First name"
                 onChange={(e) => setFirstName(e.target.value)}
               />
@@ -318,12 +310,12 @@ export default function StudentRegister() {
 
             {/* Last Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Last Name
               </label>
               <input
                 type="text"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
                 placeholder="Last name"
                 onChange={(e) => setLastName(e.target.value)}
               />
@@ -331,12 +323,12 @@ export default function StudentRegister() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Email
               </label>
               <input
                 type="email"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
                 placeholder="student@email.com"
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -344,12 +336,12 @@ export default function StudentRegister() {
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Phone
               </label>
               <input
                 type="text"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
                 placeholder="+94 XX XXX XXXX"
                 onChange={(e) => setPhone(e.target.value)}
               />
@@ -357,12 +349,12 @@ export default function StudentRegister() {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Password
               </label>
               <input
                 type="password"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
                 placeholder="••••••••"
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -370,54 +362,52 @@ export default function StudentRegister() {
 
             {/* Institute */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Institute
               </label>
               <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
                 onChange={(e) => setInstitute(e.target.value)}
               >
                 <option value="">Select Institute</option>
                 <option>Samathwee</option>
                 <option>Sisulka</option>
-                
               </select>
             </div>
 
             {/* Batch */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Batch
               </label>
               <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
                 onChange={(e) => setBatch(e.target.value)}
               >
                 <option value="">Select batch</option>
                 <option>2027 Theory</option>
-                
               </select>
             </div>
 
             {/* Birthday */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Birthday
               </label>
               <input
                 type="date"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
                 onChange={(e) => setBirthday(e.target.value)}
               />
             </div>
 
             {/* Active Status */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Active Status
               </label>
               <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
                 onChange={(e) => setIsActive(e.target.value)}
               >
                 <option value="">Select status</option>
@@ -425,22 +415,20 @@ export default function StudentRegister() {
                 <option value="false">Inactive</option>
               </select>
             </div>
-
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-200">
-            <button className="px-6 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 transition text-sm font-medium">
+          <div className="flex flex-col-reverse md:flex-row justify-end gap-3 mt-10 pt-6 border-t border-gray-100">
+            <button className="w-full md:w-auto px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition text-sm font-medium focus:ring-2 focus:ring-purple-100">
               Cancel
             </button>
             <button
               onClick={Create}
-              className="px-6 py-2 rounded-md bg-purple-600 text-white hover:bg-purple-700 transition text-sm font-medium"
+              className="w-full md:w-auto px-6 py-2.5 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition text-sm font-medium shadow-sm hover:shadow focus:ring-2 focus:ring-purple-400 focus:ring-offset-1"
             >
               Create Student
             </button>
           </div>
-
         </div>
       </div>
     </main>

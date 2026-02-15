@@ -23,67 +23,103 @@ export default function AllPayments({ studentId }) {
 
   return (
     <>
- <div>
-  {payment.length > 0 && payment.some(p => p.batch === "2027 Theory") && (
-    <div className="flex flex-col gap-15 justify-center items-center mt-15">
-      <h2 className="text-2xl font-bold text-gray-800">2027 Theory</h2>
-      <table className="min-w-full border-collapse border border-gray-300">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="border border-gray-300 px-4 py-2">Month</th>
-            <th className="border border-gray-300 px-4 py-2">Paid Date</th>
-            <th className="border border-gray-300 px-4 py-2">Type</th>
-            <th className="border border-gray-300 px-4 py-2">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {payment
-            .filter((p) => p.batch === "2027 Theory")
-            .map((p, index) => (
-              <tr key={index} className="hover:bg-gray-50">
-                <td className="border border-gray-300 px-4 py-2 text-center">{p.month}</td>
-                <td className="border border-gray-300 px-4 py-2 text-center">{p.paidDate.split("T")[0]}</td>
-                <td className="border border-gray-300 px-4 py-2 text-center">{p.cardType}</td>
-                <td className="border border-gray-300 px-4 py-2 text-center capitalize">{p.status}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
-  )}
-</div>
+      <div>
+        {payment.length > 0 &&
+          payment.some((p) => p.batch === "2027 Theory") && (
+            <div className="flex flex-col gap-15 justify-center items-center mt-15 w-full">
+              <h2 className="text-2xl font-bold text-gray-800 text-center">
+                2027 Theory
+              </h2>
+              <div className="w-full overflow-x-auto">
+                <table className="min-w-[800px] w-full border-collapse border border-gray-300 whitespace-nowrap">
+                  <thead className="bg-gray-200">
+                    <tr>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Month
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Paid Date
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">Type</th>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Status
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {payment
+                      .filter((p) => p.batch === "2027 Theory")
+                      .map((p, index) => (
+                        <tr key={index} className="hover:bg-gray-50">
+                          <td className="border border-gray-300 px-4 py-2 text-center">
+                            {p.month}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-center">
+                            {p.paidDate.split("T")[0]}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-center">
+                            {p.cardType}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-center capitalize">
+                            {p.status}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+      </div>
 
-<div>
-  {payment.length > 0 && payment.some(p => p.batch === "2027 Paper") && (
-    <div className="flex flex-col gap-15 justify-center items-center mt-15">
-      <h2 className="text-2xl font-bold text-gray-800">2027 Paper</h2>
-      <table className="min-w-full border-collapse border border-gray-300">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="border border-gray-300 px-4 py-2">Month</th>
-            <th className="border border-gray-300 px-4 py-2">Paid Date</th>
-            <th className="border border-gray-300 px-4 py-2">Type</th>
-            <th className="border border-gray-300 px-4 py-2">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {payment
-            .filter((p) => p.batch === "2027 Paper")
-            .map((p, index) => (
-              <tr key={index} className="hover:bg-gray-50">
-                <td className="border border-gray-300 px-4 py-2 text-center">{p.month}</td>
-                <td className="border border-gray-300 px-4 py-2 text-center">{p.paidDate.split("T")[0]}</td>
-                <td className="border border-gray-300 px-4 py-2 text-center">{p.cardType}</td>
-                <td className="border border-gray-300 px-4 py-2 text-center capitalize">{p.status}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
-  )}
-</div>
-
-  
-</>
+      <div>
+        {payment.length > 0 &&
+          payment.some((p) => p.batch === "2027 Paper") && (
+            <div className="flex flex-col gap-15 justify-center items-center mt-15 w-full">
+              <h2 className="text-2xl font-bold text-gray-800 text-center">
+                2027 Paper
+              </h2>
+              <div className="w-full overflow-x-auto">
+                <table className="min-w-[800px] w-full border-collapse border border-gray-300 whitespace-nowrap">
+                  <thead className="bg-gray-200">
+                    <tr>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Month
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Paid Date
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">Type</th>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Status
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {payment
+                      .filter((p) => p.batch === "2027 Paper")
+                      .map((p, index) => (
+                        <tr key={index} className="hover:bg-gray-50">
+                          <td className="border border-gray-300 px-4 py-2 text-center">
+                            {p.month}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-center">
+                            {p.paidDate.split("T")[0]}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-center">
+                            {p.cardType}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-center capitalize">
+                            {p.status}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+      </div>
+    </>
   );
 }
