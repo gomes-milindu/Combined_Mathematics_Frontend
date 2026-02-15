@@ -7,12 +7,12 @@ export default function AdminDashboard() {
     <>
       <div className="w-full flex">
         {/* Sidebar */}
-        <div className="w-[20%] fixed left-0 top-0 h-screen bg-white dark:bg-slate-950">
+        <div className="fixed left-0 top-0 h-screen z-50 peer">
           <Slidebar />
         </div>
 
         {/* Right Content */}
-        <div className="w-[80%] ml-[20%] min-h-screen bg-white dark:bg-slate-950">
+        <div className="w-full lg:ml-20 peer-hover:lg:ml-64 min-h-screen bg-white dark:bg-slate-950 transition-all duration-300 ease-in-out">
           <TopNav pageTitle="Dashboard" />
           <Dashboard />
         </div>
