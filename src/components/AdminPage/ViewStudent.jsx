@@ -109,7 +109,7 @@ export default function ViewStudent() {
 
 
 
-  console.log(student)
+  // console.log(student)
 
   if (!student) {
     return <p className="p-8">Loading...</p>;
@@ -150,7 +150,7 @@ export default function ViewStudent() {
                 <Detail label="Phone" value={student.phone} />
                 <Detail label="Date of Birth" value={student.dateOfBirth} />
                 <Detail label="Batch" value={student.batch} />
-                <Detail label="Course" value={student.course} />
+                <Detail label="Institute" value={student.institute} />
                 <Detail
                   label="Status"
                   value={student.isActive ? "Active" : "Inactive"}

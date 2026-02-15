@@ -15,7 +15,7 @@ export default function EditStudent() {
     email: "",
     phone: "",
     password: "",
-    course: "",
+    institute: "",
     batch: "",
     dateOfBirth: "",
     isActive: false,
@@ -36,7 +36,8 @@ export default function EditStudent() {
           email: s.email || "",
           phone: s.phone || "",
           password: "",
-          course: s.course || "",
+         
+          institute: s.institute || "",
           batch: s.batch || "",
           dateOfBirth: s.dateOfBirth ? s.dateOfBirth.substring(0, 10) : "",
           isActive: !!s.isActive,
@@ -113,10 +114,10 @@ export default function EditStudent() {
             placeholder="Password"
           />
           <input
-            name="course"
-            value={form.course}
+            name="institute"
+            value={form.institute}
             onChange={updateField}
-            placeholder="Course"
+            placeholder="Institute"
           />
           <input
             name="batch"

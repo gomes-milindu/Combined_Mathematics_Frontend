@@ -192,7 +192,7 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
   // ✅ Proper initial state (fixes missing fields + controlled warnings)
   const [formData, setFormData] = useState({
     studentId: "",
-    course: "2024 Theory",
+    batch: "2027 Theory",
     month: "",
     amount: "",
     cardType: "Full Payment",
@@ -217,7 +217,7 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
 
     const payload = {
       studentId: formData.studentId,
-      course: formData.course,
+      batch: formData.batch,
       month: formData.month,
       amount: Number(formData.amount),
       status: "PAID",
@@ -229,7 +229,7 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
     // frontend guard
     if (
       !payload.studentId ||
-      !payload.course ||
+      !payload.batch ||
       !payload.month ||
       !payload.amount ||
       !payload.cardType
@@ -250,13 +250,14 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
       // ✅ reset form (keep student + defaults)
       setFormData({
         studentId,
-        course: "2024 Theory",
+        batch: "2027 Theory",
         month: "",
         amount: "",
         cardType: "Full Payment",
       });
 
       onClose();
+      window.location.reload()
     } catch (err) {
       console.log("ERROR:", err.response?.data || err.message);
       toast.error(err.response?.data?.message || "Payment failed");
@@ -298,35 +299,23 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
             />
           </div>
 
-          {/* Course */}
+          {/* batch */}
           <div>
-            <label className="block text-sm mb-1">Course</label>
+            <label className="block text-sm mb-1">Batch</label>
             <select
-              name="course"
-              value={formData.course || ""}
+              name="batch"
+              value={formData.batch || ""}
               onChange={handleChange}
               required
               className="w-full px-3 py-2 border rounded"
             >
-              <option value="2024 Theory">2024 Theory</option>
-              <option value="2024 Revision">2024 Revision</option>
-              <option value="2025 Theory">2025 Theory</option>
-              <option value="2026 Theory">2026 Theory</option>
+              <option value="2027 Theory">2027 Theory</option>
+              <option value="2027 Paper">2027 Paper</option>
+              
             </select>
           </div>
 
-          {/* Month */}
-          {/* <div>
-            <label className="block text-sm mb-1">Month</label>
-            <input
-              type="month"
-              name="month"
-              value={formData.month || ""}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border rounded"
-            />
-          </div> */}
+          
 
           <div>
             <label className="block text-sm mb-1">Month</label>

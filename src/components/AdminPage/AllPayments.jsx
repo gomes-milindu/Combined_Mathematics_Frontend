@@ -19,83 +19,71 @@ export default function AllPayments({ studentId }) {
   }, [studentId]);
 
   const thisMonth = new Date().getMonth() + 1;
+  // console.log("This Month " + thisMonth + typeof(thisMonth))
 
   return (
     <>
-  <div className="flex flex-col gap-15 justify-center items-center mt-15">2024 Revision
-    <table>
-      <thead>
-        <tr>
-          <th>Month</th>
-          <th>Date</th>
-          <th>Type</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        {payment
-          .filter((p) => p.course === "2024 Revision")
-          .map((p, index) => (
-            <tr key={index}>
-              <td>{p.month}</td>
-              <td>{p.paidDate.split("T")[0]}</td>
-              <td>{p.cardType}</td>
-              <td>{p.status}</td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
-  </div>
+ <div>
+  {payment.length > 0 && payment.some(p => p.batch === "2027 Theory") && (
+    <div className="flex flex-col gap-15 justify-center items-center mt-15">
+      <h2 className="text-2xl font-bold text-gray-800">2027 Theory</h2>
+      <table className="min-w-full border-collapse border border-gray-300">
+        <thead className="bg-gray-200">
+          <tr>
+            <th className="border border-gray-300 px-4 py-2">Month</th>
+            <th className="border border-gray-300 px-4 py-2">Paid Date</th>
+            <th className="border border-gray-300 px-4 py-2">Type</th>
+            <th className="border border-gray-300 px-4 py-2">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {payment
+            .filter((p) => p.batch === "2027 Theory")
+            .map((p, index) => (
+              <tr key={index} className="hover:bg-gray-50">
+                <td className="border border-gray-300 px-4 py-2 text-center">{p.month}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{p.paidDate.split("T")[0]}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{p.cardType}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center capitalize">{p.status}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</div>
 
-  <div className="flex flex-col gap-15 justify-center items-center mt-15">2024 Theory
-    <table>
-      <thead>
-        <tr>
-          <th>Month</th>
-          <th>Date</th>
-          <th>Type</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        {payment
-          .filter((p) => p.course === "2024 Theory")
-          .map((p, index) => (
-            <tr key={index}>
-              <td>{p.month}</td>
-              <td>{p.paidDate.split("T")[0]}</td>
-              <td>{p.cardType}</td>
-              <td>{p.status}</td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
-  </div>
+<div>
+  {payment.length > 0 && payment.some(p => p.batch === "2027 Paper") && (
+    <div className="flex flex-col gap-15 justify-center items-center mt-15">
+      <h2 className="text-2xl font-bold text-gray-800">2027 Paper</h2>
+      <table className="min-w-full border-collapse border border-gray-300">
+        <thead className="bg-gray-200">
+          <tr>
+            <th className="border border-gray-300 px-4 py-2">Month</th>
+            <th className="border border-gray-300 px-4 py-2">Paid Date</th>
+            <th className="border border-gray-300 px-4 py-2">Type</th>
+            <th className="border border-gray-300 px-4 py-2">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {payment
+            .filter((p) => p.batch === "2027 Paper")
+            .map((p, index) => (
+              <tr key={index} className="hover:bg-gray-50">
+                <td className="border border-gray-300 px-4 py-2 text-center">{p.month}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{p.paidDate.split("T")[0]}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{p.cardType}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center capitalize">{p.status}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</div>
 
-  <div className="flex flex-col gap-15 justify-center items-center mt-15">2026 Theory
-    <table>
-      <thead>
-        <tr>
-          <th>Month</th>
-          <th>Date</th>
-          <th>Type</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        {payment
-          .filter((p) => p.course === "2026 Theory")
-          .map((p, index) => (
-            <tr key={index}>
-              <td>{p.month}</td>
-              <td>{p.paidDate.split("T")[0]}</td>
-              <td>{p.cardType}</td>
-              <td>{p.status}</td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
-  </div>
+  
 </>
   );
 }
