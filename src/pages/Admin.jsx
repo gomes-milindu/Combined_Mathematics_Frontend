@@ -11,6 +11,7 @@ import AdminLayout from "../components/AdminPage/AdminLayout";
 import StudentDetails from "../components/AdminPage/StudentDetails";
 import AddCourse from "../components/AdminPage/AddCourse";
 import PreviousAddedCourse from "../components/AdminPage/PreviousAddedCourse";
+import UnderDevelopment from "../components/AdminPage/UnderDevelopment";
 
 function Admin() {
   return (
@@ -26,7 +27,7 @@ function Admin() {
             <Route path="/register" element={<AdminStudentRegister />} />
             <Route path="/register/*" element={<AdminStudentRegister />} />
 
-            <Route path="/course" element={<PreviousAddedCourse />} />
+            <Route path="/course" element={<UnderDevelopment />} />
             {/* Note: AdminCourseRegister wrapped AddCourse. Direct use: */}
             <Route path="/course/*" element={<AddCourse />} />
 
