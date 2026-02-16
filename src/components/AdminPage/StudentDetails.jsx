@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import axios from "axios";
 import { MoreVertical, Eye, Edit, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -17,6 +18,8 @@ export default function StudentDetails() {
     studentName: "",
   });
 
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+
   useEffect(() => {
     loadStudents();
   }, []);
@@ -27,8 +30,18 @@ export default function StudentDetails() {
     });
   }
 
-  const toggleMenu = (index) => {
-    setOpenMenuId(openMenuId === index ? null : index);
+  const toggleMenu = (index, e) => {
+    e.stopPropagation();
+    if (openMenuId === index) {
+      setOpenMenuId(null);
+    } else {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setMenuPosition({
+        top: rect.bottom + window.scrollY + 5,
+        left: rect.right + window.scrollX - 176, // Align right edge
+      });
+      setOpenMenuId(index);
+    }
   };
 
   const handleDeleteClick = (student) => {
@@ -261,42 +274,12 @@ export default function StudentDetails() {
 
                     <td className="px-6 md:px-2 lg:px-6 py-4 text-right relative">
                       <button
-                        onClick={() => toggleMenu(index)}
+                        onClick={(e) => toggleMenu(index, e)}
                         className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-slate-200 text-slate-600 hover:bg-slate-100 transition"
                         aria-label="Open actions"
                       >
                         <MoreVertical size={18} />
                       </button>
-
-                      {openMenuId === index && (
-                        <div className="absolute right-6 mt-2 bg-white shadow-lg rounded-xl border border-slate-100 w-44 z-50 overflow-hidden">
-                          <Link
-                            to={`/admin/students/studentView/${items._id}`}
-                            onClick={() => setOpenMenuId(null)}
-                            className="block px-4 py-3 hover:bg-slate-50 text-slate-700 flex items-center gap-2"
-                          >
-                            <Eye size={16} />
-                            View
-                          </Link>
-
-                          <Link
-                            to={`/admin/students/studentEdit/${items._id}`}
-                            onClick={() => setOpenMenuId(null)}
-                            className="block px-4 py-3 hover:bg-slate-50 text-slate-700 flex items-center gap-2"
-                          >
-                            <Edit size={16} />
-                            Edit
-                          </Link>
-
-                          <button
-                            onClick={() => handleDeleteClick(items)}
-                            className="block w-full text-left px-4 py-3 hover:bg-rose-50 text-rose-600 flex items-center gap-2"
-                          >
-                            <Trash2 size={16} />
-                            Delete
-                          </button>
-                        </div>
-                      )}
                     </td>
                   </tr>
                 ))}
@@ -305,6 +288,52 @@ export default function StudentDetails() {
           </div>
         </div>
       </div>
+
+      {/* Action Menu Portal */}
+      {openMenuId !== null &&
+        students[openMenuId] &&
+        createPortal(
+          <>
+            <div
+              className="fixed inset-0 z-40"
+              onClick={() => setOpenMenuId(null)}
+            />
+            <div
+              className="fixed z-50 bg-white shadow-lg rounded-xl border border-slate-100 w-44 overflow-hidden"
+              style={{
+                top: menuPosition.top,
+                left: menuPosition.left,
+              }}
+            >
+              <Link
+                to={`/admin/students/studentView/${students[openMenuId]._id}`}
+                onClick={() => setOpenMenuId(null)}
+                className="block px-4 py-3 hover:bg-slate-50 text-slate-700 flex items-center gap-2"
+              >
+                <Eye size={16} />
+                View
+              </Link>
+
+              <Link
+                to={`/admin/students/studentEdit/${students[openMenuId]._id}`}
+                onClick={() => setOpenMenuId(null)}
+                className="block px-4 py-3 hover:bg-slate-50 text-slate-700 flex items-center gap-2"
+              >
+                <Edit size={16} />
+                Edit
+              </Link>
+
+              <button
+                onClick={() => handleDeleteClick(students[openMenuId])}
+                className="block w-full text-left px-4 py-3 hover:bg-rose-50 text-rose-600 flex items-center gap-2"
+              >
+                <Trash2 size={16} />
+                Delete
+              </button>
+            </div>
+          </>,
+          document.body,
+        )}
 
       {/* Delete Confirmation Modal */}
       <DeleteConfirmation

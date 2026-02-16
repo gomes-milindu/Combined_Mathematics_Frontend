@@ -96,7 +96,7 @@ export default function PaymentStudent({ studentId }) {
                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${
                   isPaid
                     ? "bg-emerald-50 border-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:border-emerald-800 dark:text-emerald-400"
-                    : "bg-rose-50 border-rose-100 text-rose-700 dark:bg-rose-900/20 dark:border-rose-800 dark:text-rose-400"
+                    : "bg-emerald-50 border-rose-100 text-emerald-700 dark:bg-rose-900/20 dark:border-rose-800 dark:text-rose-400"
                 }`}
               >
                 {isPaid ? (
@@ -107,7 +107,7 @@ export default function PaymentStudent({ studentId }) {
                 ) : (
                   <>
                     <XCircle size={12} strokeWidth={3} />
-                    UNPAID
+                    PAID
                   </>
                 )}
               </div>
