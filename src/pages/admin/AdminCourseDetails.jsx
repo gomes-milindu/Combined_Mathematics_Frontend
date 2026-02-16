@@ -14,7 +14,7 @@ export default function AdminCourseDetails() {
         </div>
 
         {/* Right Content */}
-        <div className="w-[80%] ml-[20%] min-h-screen bg-[#faf9ff] dark:bg-slate-950">
+        <div className="w-[80%] ml-[20%] min-h-screen bg-white dark:bg-slate-950">
           <TopNav pageTitle="Course Details" />
           
           <PreviousAddedCourse />

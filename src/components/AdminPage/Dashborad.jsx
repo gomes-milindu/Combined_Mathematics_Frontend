@@ -32,7 +32,7 @@ export function Dashboard() {
   );
 
   return (
-    <div className="p-8 space-y-8 bg-slate-50 dark:bg-slate-950 min-h-[90vh]">
+    <div className="p-8 space-y-8 bg-slate-50 dark:bg-slate-950 min-h-screen">
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
@@ -111,7 +111,7 @@ export function Dashboard() {
 
         {/* Desktop Table View */}
         <div className="hidden md:block overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[600px] whitespace-nowrap">
+          <table className="w-full  text-left border-collapse min-w-[600px] whitespace-nowrap">
             <thead>
               <tr className="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
                 <th className="p-5 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">

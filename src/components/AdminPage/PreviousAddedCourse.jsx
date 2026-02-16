@@ -17,7 +17,7 @@ export default function PreviousAddedCourse() {
   }, []);
 
   return (
-    <main className="w-full min-h-screen bg-white p-8">
+    <main className="w-full min-h-screen bg-slate-50 p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
