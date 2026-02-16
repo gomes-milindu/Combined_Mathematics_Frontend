@@ -342,7 +342,7 @@ export default function StudentRegister() {
               <input
                 type="text"
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
-                placeholder="+94 XX XXX XXXX"
+                placeholder="07X XXX XXXX"
                 onChange={(e) => setPhone(e.target.value)}
               />
             </div>

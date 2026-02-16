@@ -309,8 +309,8 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
               required
               className="w-full px-3 py-2 border rounded"
             >
-              <option value="2027 Theory">2027 Theory</option>
-              <option value="2027 Paper">2027 Paper</option>
+              <option value="2027 Theory">2028 Theory</option>
+              <option value="2027 Paper">2028 Paper</option>
               
             </select>
           </div>
@@ -345,14 +345,19 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
           {/* Amount */}
           <div>
             <label className="block text-sm mb-1">Amount</label>
-            <input
+            <select
               type="number"
               name="amount"
               value={formData.amount || ""}
               onChange={handleChange}
               required
               className="w-full px-3 py-2 border rounded"
-            />
+            >
+              
+              <option value="0">0</option>
+              <option value="1900">1900</option>
+              <option value="3800">3800</option>
+            </select>
           </div>
 
           {/* Card Type */}

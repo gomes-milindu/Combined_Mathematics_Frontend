@@ -4,10 +4,18 @@ import { MoreVertical, Eye, Edit, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import Breadcrumb from "./BreadCrumb";
+import DeleteConfirmation from "./DeleteConfirmation";
 
 export default function StudentDetails() {
   const [students, setStudents] = useState([]);
   const [openMenuId, setOpenMenuId] = useState(null);
+
+  // Delete Modal State
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    studentId: null,
+    studentName: "",
+  });
 
   useEffect(() => {
     loadStudents();
@@ -23,15 +31,35 @@ export default function StudentDetails() {
     setOpenMenuId(openMenuId === index ? null : index);
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this student?")) return;
+  const handleDeleteClick = (student) => {
+    setDeleteModal({
+      isOpen: true,
+      studentId: student._id,
+      studentName: `${student.firstName} ${student.lastName}`,
+    });
+    setOpenMenuId(null);
+  };
 
+  const closeDeleteModal = () => {
+    setDeleteModal({
+      isOpen: false,
+      studentId: null,
+      studentName: "",
+    });
+  };
+
+  const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8080/student/${id}`);
-      setStudents((prev) => prev.filter((s) => s._id !== id));
-      toast.success("Student deleted");
+      await axios.delete(
+        `http://localhost:8080/student/${deleteModal.studentId}`,
+      );
+      setStudents((prev) =>
+        prev.filter((s) => s._id !== deleteModal.studentId),
+      );
+      toast.success("Student deleted successfully");
+      closeDeleteModal();
     } catch {
-      toast.error("Delete failed");
+      toast.error("Failed to delete student");
     }
   };
 
@@ -145,7 +173,7 @@ export default function StudentDetails() {
                     <Edit size={16} /> Edit
                   </Link>
                   <button
-                    onClick={() => handleDelete(item._id)}
+                    onClick={() => handleDeleteClick(item)}
                     className="inline-flex items-center justify-center px-3 py-2 rounded-lg bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/40 transition"
                   >
                     <Trash2 size={16} />
@@ -261,7 +289,7 @@ export default function StudentDetails() {
                           </Link>
 
                           <button
-                            onClick={() => handleDelete(items._id)}
+                            onClick={() => handleDeleteClick(items)}
                             className="block w-full text-left px-4 py-3 hover:bg-rose-50 text-rose-600 flex items-center gap-2"
                           >
                             <Trash2 size={16} />
@@ -277,6 +305,14 @@ export default function StudentDetails() {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmation
+        isOpen={deleteModal.isOpen}
+        onClose={closeDeleteModal}
+        onConfirm={confirmDelete}
+        studentName={deleteModal.studentName}
+      />
     </main>
   );
 }
