@@ -6,7 +6,7 @@ import TopNav from "../../components/AdminPage/TopNav";
 export default function AdminStudentDetails() {
   return (
     <>
-      <div className="w-full flex">
+      <div className="w-full flex bg-white ">
         {/* Sidebar */}
         <div className="w-[20%] fixed left-0 top-0 h-screen bg-white dark:bg-slate-950">
           <Slidebar />

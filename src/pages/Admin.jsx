@@ -2,7 +2,8 @@ import { Outlet, Route, Routes } from "react-router-dom";
 import AdminStudentRegister from "./admin/AdminStudentRegister";
 import AdminCreateAdmin from "./admin/AdminCreateAdmin";
 import AdminStudentView from "./admin/AdminStudentView";
-import AdminStudentEdit from "./admin/AdminStudentEdit";
+// import AdminStudentEdit from "./admin/AdminStudentEdit";
+import EditStudent from "../components/AdminPage/EditStudent";
 import AdminScanStudents from "./admin/AdminScanStudents";
 import QrScanner from "../components/AdminPage/QrScanner";
 import { Dashboard } from "../components/AdminPage/Dashborad";
@@ -10,6 +11,7 @@ import AdminLayout from "../components/AdminPage/AdminLayout";
 import StudentDetails from "../components/AdminPage/StudentDetails";
 import AddCourse from "../components/AdminPage/AddCourse";
 import PreviousAddedCourse from "../components/AdminPage/PreviousAddedCourse";
+import UnderDevelopment from "../components/AdminPage/UnderDevelopment";
 
 function Admin() {
   return (
@@ -25,7 +27,7 @@ function Admin() {
             <Route path="/register" element={<AdminStudentRegister />} />
             <Route path="/register/*" element={<AdminStudentRegister />} />
 
-            <Route path="/course" element={<PreviousAddedCourse />} />
+            <Route path="/course" element={<UnderDevelopment />} />
             {/* Note: AdminCourseRegister wrapped AddCourse. Direct use: */}
             <Route path="/course/*" element={<AddCourse />} />
 
@@ -39,10 +41,7 @@ function Admin() {
               element={<AdminStudentView />}
             />
 
-            <Route
-              path="/students/studentEdit/:id"
-              element={<AdminStudentEdit />}
-            />
+            <Route path="/students/studentEdit/:id" element={<EditStudent />} />
           </Route>
         </Routes>
       </div>

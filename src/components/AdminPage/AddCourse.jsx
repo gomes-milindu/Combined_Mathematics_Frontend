@@ -15,17 +15,13 @@ export default function AddCourse() {
   const navigate = useNavigate();
 
   async function Create() {
-    
     try {
       await axios.post("http://localhost:8080/addcourse/", {
-        
         courseName,
         courseCategory,
         coursePrice,
         courseUrl,
         courseDescription,
-        
-        
       });
 
       toast.success("Admin Created Successfully");
@@ -36,7 +32,7 @@ export default function AddCourse() {
   }
 
   return (
-    <main className="w-full max-h-screen bg-gray-100 p-8">
+    <main className="w-full max-h-screen bg-slate-50 p-8">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-6">
@@ -62,7 +58,7 @@ export default function AddCourse() {
         </div>
 
         {/* Form Card */}
-        <div className="bg-white rounded-lg shadow-sm border border-purple-200 p-8">
+        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
           {/* Form */}
           <form className="space-y-6">
             {/* Two Column Grid */}
@@ -85,8 +81,9 @@ export default function AddCourse() {
                 <label className="block text-sm font-medium text-slate-600 mb-1">
                   Course Category
                 </label>
-                <select className="w-full px-3 py-2 border border-purple-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
-                onChange={(e) => setCourseCategory(e.target.value)}
+                <select
+                  className="w-full px-3 py-2 border border-purple-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400"
+                  onChange={(e) => setCourseCategory(e.target.value)}
                 >
                   <option value="">Select a category</option>
                   <option value="Applied Mathematics">
@@ -140,7 +137,7 @@ export default function AddCourse() {
             <div className="flex justify-end gap-3 pt-6 border-t border-purple-100">
               <button
                 type="button"
-                className="px-6 py-2 rounded-md border border-purple-300 text-purple-600 hover:bg-purple-50 transition text-sm font-medium"
+                className="px-6 py-2 rounded-md border border-slate-300 text-slate-600 hover:bg-slate-50 transition text-sm font-medium"
               >
                 Cancel
               </button>

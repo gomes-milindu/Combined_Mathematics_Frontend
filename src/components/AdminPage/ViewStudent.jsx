@@ -1,95 +1,49 @@
-// import axios from "axios";
-// import { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-// import Breadcrumb from "./BreadCrumb";
-
-// export default function ViewStudent() {
-//   const { id } = useParams(); // 👈 VERY IMPORTANT
-//   const [student, setStudent] = useState(null);
-
-//   useEffect(() => {
-//     if (!id) return;
-
-//     axios
-//       .get(`http://localhost:8080/student/getOne/${id}`)
-//       .then((res) => {
-//         setStudent(res.data);
-//         console.log(res.data);
-//       })
-//       .catch((err) => {
-//         console.error(err);
-//       });
-//   }, [id]);
-
-//   if (!student) {
-//     return <p className="p-8">Loading...</p>;
-//   }
-
-//   return (
-//     <main className="w-full min-h-screen bg-gray-50 p-8">
-//       {/* Header */}
-//         <div className="mb-6">
-//           <div className="flex justify-between items-center">
-//             <div>
-//               <h1 className="text-2xl font-semibold text-gray-800">
-//                 Student Info
-//               </h1>
-//               <p className="text-sm text-gray-500 mt-1">
-//                 Enter student personal and academic details
-//               </p>
-//             </div>
-//             <Breadcrumb />
-//           </div>
-//         </div>
-//       <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg border">
-
-//         <h1 className="text-2xl font-semibold mb-4">Student Details</h1>
-
-//         <p>
-//           <strong>Name:</strong> {student.firstName} {student.lastName}
-//         </p>
-//         <p>
-//           <strong>Student Id:</strong> {student.studentId}
-//         </p>
-//         <p>
-//           <strong>Email:</strong> {student.email}
-//         </p>
-//         <p>
-//           <strong>Phone:</strong> {student.phone}
-//         </p>
-//         <p>
-//           <strong>Date of Birth:</strong> {student.dateOfBirth}
-//         </p>
-//         <p>
-//           <strong>Batch:</strong> {student.batch}
-//         </p>
-//         <p>
-//           <strong>Course:</strong> {student.course}
-//         </p>
-//         <p>
-//           <strong>Contact:</strong> {student.phone}
-//         </p>
-//         <p>
-//           <strong>Status:</strong> {student.isActive ? "Active" : "Inactive"}
-//         </p>
-//       </div>
-//     </main>
-//   );
-// }
-
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Breadcrumb from "./BreadCrumb";
 import PaymentStudent from "./PaymentStudent";
 import PaymentDrawer from "./PaymentDrawer";
+import RecentPaymentsDrawer from "./RecentPaymentsDrawer";
 import AllPayments from "./AllPayments";
+import {
+  Mail,
+  Phone,
+  Calendar,
+  Building2,
+  User,
+  CreditCard,
+  QrCode,
+  ArrowLeft,
+  CheckCircle2,
+  XCircle,
+} from "lucide-react";
 
 export default function ViewStudent() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [student, setStudent] = useState(null);
   const [isPaymentDrawerOpen, setIsPaymentDrawerOpen] = useState(false);
-  const [payment, setPayment] = useState([])
+  const [isRecentPaymentsDrawerOpen, setIsRecentPaymentsDrawerOpen] =
+    useState(false);
+
+  useEffect(() => {
+    // Auto-open recent payments drawer on mobile/tablet
+    if (window.innerWidth < 1024) {
+      setIsRecentPaymentsDrawerOpen(true);
+    }
+  }, []);
+
+  // Auto-redirect to scan page after 8 seconds if drawer is open
+  useEffect(() => {
+    let timer;
+    if (isRecentPaymentsDrawerOpen) {
+      timer = setTimeout(() => {
+        navigate("/admin/scan");
+      }, 8000); // 8 seconds
+    }
+    return () => clearTimeout(timer); // Cleanup if closes or unmounts
+  }, [isRecentPaymentsDrawerOpen, navigate]);
 
   useEffect(() => {
     if (!id) return;
@@ -104,100 +58,140 @@ export default function ViewStudent() {
       });
   }, [id]);
 
-
-
-
-
-
-  // console.log(student)
-
   if (!student) {
-    return <p className="p-8">Loading...</p>;
+    return (
+      <div className="w-full min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
+        <div className="flex flex-col items-center gap-2">
+          <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-slate-500 font-medium">Loading profile...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <main className="w-full min-h-screen bg-white p-8 dark:bg-slate-950">
-      <div className="max-w-7xl mx-auto">
+    <main className="w-full min-h-screen bg-slate-50 p-4 md:p-8 dark:bg-slate-950">
+      <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
-        <div className="mb-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-semibold text-gray-800">
-                Student Info
-              </h1>
-              <p className="text-sm text-gray-500 mt-1">
-                Student personal and academic details
-              </p>
-            </div>
-            <Breadcrumb />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+              Student Profile
+            </h1>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Manage student details and payments
+            </p>
           </div>
+          <Breadcrumb />
         </div>
 
-        {/* Content Card */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Profile Card */}
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+          <div className="p-6 md:p-8 flex flex-col lg:flex-row gap-8 lg:gap-12">
+            {/* Left: Info & Actions */}
+            <div className="flex-1 space-y-8">
+              {/* Name & Status */}
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-3">
+                    <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                      {student.firstName} {student.lastName}
+                    </h2>
+                    {student.isActive ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold border border-emerald-200">
+                        <CheckCircle2 size={12} strokeWidth={3} />
+                        Active
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold border border-red-200">
+                        <XCircle size={12} strokeWidth={3} />
+                        Inactive
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-purple-600 dark:text-purple-400 font-mono font-medium mt-1 text-lg">
+                    {student.studentId}
+                  </p>
+                </div>
+              </div>
 
-            {/* LEFT: Student Details */}
-            <div className="md:col-span-2">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Student Details
-              </h2>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                <Detail label="Full Name" value={`${student.firstName} ${student.lastName}`} />
-                <Detail label="Student ID" value={student.studentId} />
-                <Detail label="Email" value={student.email} />
-                <Detail label="Phone" value={student.phone} />
-                <Detail label="Date of Birth" value={student.dateOfBirth} />
-                <Detail label="Batch" value={student.batch} />
-                <Detail label="Institute" value={student.institute} />
-                <Detail
-                  label="Status"
-                  value={student.isActive ? "Active" : "Inactive"}
-                  badge
-                  active={student.isActive}
+              {/* Info Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                <InfoItem
+                  icon={Mail}
+                  label="Email Address"
+                  value={student.email}
+                />
+                <InfoItem
+                  icon={Phone}
+                  label="Phone Number"
+                  value={student.phone}
+                />
+                <InfoItem
+                  icon={Building2}
+                  label="Institute"
+                  value={student.institute || "Not Assigned"}
+                />
+                <InfoItem icon={User} label="Batch" value={student.batch} />
+                <InfoItem
+                  icon={Calendar}
+                  label="Date of Birth"
+                  value={student.dateOfBirth}
                 />
               </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-3 pt-2">
+                <button
+                  onClick={() => setIsPaymentDrawerOpen(true)}
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-purple-600 text-white hover:bg-purple-700 transition font-medium shadow-sm hover:shadow-md focus:ring-2 focus:ring-purple-400 focus:ring-offset-1"
+                >
+                  <CreditCard size={18} />
+                  Make Payment
+                </button>
+                <Link
+                  to="/admin/scan"
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition font-medium"
+                >
+                  <QrCode size={18} />
+                  Scan Another
+                </Link>
+              </div>
             </div>
 
-            {/* RIGHT: QR Code Section */}
-            <div className="flex flex-col items-center justify-start border border-dashed border-gray-300 rounded-lg p-4">
-              <h3 className="text-sm font-medium text-red-700 mb-3">
-                Student QR Code
-              </h3>
-
-              {/* QR Image Display */}
-              <div className="w-40 h-40 bg-gray-100 flex items-center justify-center rounded-md overflow-hidden">
-                {student.qrCode ? (
-                  <img
-                    src={student.qrCode}
-                    alt="Student QR Code"
-                    className="w-full h-full object-contain"
-                  />
-                ) : (
-                  <span className="text-xs text-red-500">
-                    No QR Code
-                  </span>
-                )}
+            {/* Right: QR Code */}
+            <div className="flex flex-col items-center justify-center lg:items-end">
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center gap-4 w-full max-w-[280px]">
+                <div className="bg-white p-3 rounded-xl shadow-sm">
+                  {student.qrCode ? (
+                    <img
+                      src={student.qrCode}
+                      alt="Student QR Code"
+                      className="w-40 h-40 object-contain mix-blend-multiply dark:mix-blend-normal"
+                    />
+                  ) : (
+                    <div className="w-40 h-40 bg-slate-100 flex items-center justify-center rounded-lg text-slate-400 text-xs">
+                      No QR Code
+                    </div>
+                  )}
+                </div>
+                <div className="text-center">
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                    Student QR
+                  </p>
+                  <p className="text-[10px] text-slate-400">
+                    Scan for attendance & payments
+                  </p>
+                </div>
               </div>
-
-              <p className="text-xs text-gray-500 mt-3 text-center">
-                Scan specifically for attendance
-              </p>
             </div>
           </div>
         </div>
 
-        <div className="flex justify-end mt-6 gap-3">
-          <Link to="/admin/scan" className="px-6 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 hover:border-gray-400 hover:text-gray-900 transition text-sm font-medium flex items-center">
-            Return to Scan
-          </Link>
-          <button
-            onClick={() => setIsPaymentDrawerOpen(true)}
-            className="px-6 py-2 rounded-md bg-white border border-green-600 text-green-600 hover:bg-green-50 transition text-sm font-medium"
-          >
-            Pay Now
-          </button>
+        {/* Payment Components */}
+        <div className="space-y-6">
+          <PaymentStudent studentId={student.studentId} />
+          <AllPayments studentId={student.studentId} />
         </div>
 
         {/* Payment Drawer */}
@@ -207,34 +201,31 @@ export default function ViewStudent() {
           studentId={student.studentId}
         />
 
-        {/* Payment History Block */}
-        <PaymentStudent studentId={student.studentId} />
-
-        <AllPayments studentId={student.studentId} />
+        {/* Auto-Open Recent Payments Drawer (Mobile/Tablet) */}
+        <RecentPaymentsDrawer
+          isOpen={isRecentPaymentsDrawerOpen}
+          onClose={() => setIsRecentPaymentsDrawerOpen(false)}
+          studentId={student.studentId}
+        />
       </div>
     </main>
   );
 }
 
-/* Reusable detail row */
-function Detail({ label, value, badge, active }) {
+function InfoItem({ icon: Icon, label, value }) {
   return (
-    <div>
-      <p className="text-gray-500 text-xs mb-1">{label}</p>
-
-      {badge ? (
-        <span
-          className={`inline-flex px-2 py-1 text-xs font-medium rounded ${active
-            ? "bg-green-100 text-green-700"
-            : "bg-orange-100 text-orange-700"
-            }`}
-        >
-          {value}
-        </span>
-      ) : (
-        <p className="text-gray-800 font-medium">{value}</p>
-      )}
+    <div className="flex items-start gap-4 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+      <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+        <Icon size={18} />
+      </div>
+      <div>
+        <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-0.5">
+          {label}
+        </p>
+        <p className="text-sm font-semibold text-slate-900 dark:text-white">
+          {value || "-"}
+        </p>
+      </div>
     </div>
   );
 }
-
