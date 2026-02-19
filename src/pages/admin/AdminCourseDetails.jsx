@@ -16,8 +16,9 @@ export default function AdminCourseDetails() {
         {/* Right Content */}
         <div className="w-[80%] ml-[20%] min-h-screen bg-white dark:bg-slate-950">
           <TopNav pageTitle="Course Details" />
-          
+
           {/* <PreviousAddedCourse /> */}
+          <UnderDevelopment />
         </div>
       </div>
     </>

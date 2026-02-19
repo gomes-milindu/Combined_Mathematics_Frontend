@@ -8,7 +8,7 @@ export function Dashboard() {
   useEffect(() => {
     axios.get("http://localhost:8080/dashboard/").then((res) => {
       setCountStudent(res.data);
-      console.log(res.data);
+      console.log("response data:", res.data);
     });
   }, []);
 

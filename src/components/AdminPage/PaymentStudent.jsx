@@ -106,7 +106,7 @@ export default function PaymentStudent({ studentId }) {
                   </>
                 ) : (
                   <>
-                    <XCircle size={12} strokeWidth={3} />
+                    <CheckCircle2 size={12} strokeWidth={3} />
                     PAID
                   </>
                 )}

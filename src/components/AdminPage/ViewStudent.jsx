@@ -161,7 +161,7 @@ export default function ViewStudent() {
 
             {/* Right: QR Code */}
             <div className="flex flex-col items-center justify-center lg:items-end">
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center gap-4 w-full max-w-[280px]">
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center gap-4 w-full max-w-70">
                 <div className="bg-white p-3 rounded-xl shadow-sm">
                   {student.qrCode ? (
                     <img
