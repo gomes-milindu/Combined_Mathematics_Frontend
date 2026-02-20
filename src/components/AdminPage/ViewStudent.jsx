@@ -1,7 +1,7 @@
-import axios from "axios";
+import { api } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 import PaymentStudent from "./PaymentStudent";
 import PaymentDrawer from "./PaymentDrawer";
 import RecentPaymentsDrawer from "./RecentPaymentsDrawer";
@@ -48,8 +48,8 @@ export default function ViewStudent() {
   useEffect(() => {
     if (!id) return;
 
-    axios
-      .get(`http://localhost:8080/student/getOne/${id}`)
+    api
+      .get(`/student/getOne/${id}`)
       .then((res) => {
         setStudent(res.data);
       })

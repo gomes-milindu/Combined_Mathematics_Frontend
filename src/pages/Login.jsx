@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "../utils/api";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, Navigate, useNavigate } from "react-router-dom";
@@ -12,8 +12,8 @@ function Login(props) {
   async function login(e) {
     e?.preventDefault();
     try {
-      // await axios.post(
-      // "http://localhost:8080/admin/login",
+      // await api.post(
+      // "/admin/login",
       // {
         
       //     userName: usergetName,
