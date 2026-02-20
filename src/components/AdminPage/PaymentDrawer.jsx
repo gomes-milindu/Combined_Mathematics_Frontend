@@ -184,7 +184,7 @@
 //   );
 // }
 
-import axios from "axios";
+import { api } from "../../utils/api";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
@@ -239,10 +239,7 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/payment/create",
-        payload,
-      );
+      const response = await api.post(`/payment/create`, payload);
 
       console.log("Response →", response.data);
       toast.success("Payment Success");

@@ -1,16 +1,16 @@
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../../utils/api";
 import { Edit, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 
 export default function PreviousAddedCourse() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/addcourse/").then((response) => {
+    api.get("/addcourse/").then((response) => {
       console.log(response.data);
       setCourses(response.data);
     });

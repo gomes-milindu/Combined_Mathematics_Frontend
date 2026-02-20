@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import axios from "axios";
 import { MoreVertical, Eye, Edit, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 import DeleteConfirmation from "./DeleteConfirmation";
+import { api } from "../../utils/api";
 
 export default function StudentDetails() {
   const [students, setStudents] = useState([]);
@@ -25,7 +25,7 @@ export default function StudentDetails() {
   }, []);
 
   function loadStudents() {
-    axios.get("http://localhost:8080/student/").then((res) => {
+    api.get("/student/").then((res) => {
       setStudents(res.data);
     });
   }
@@ -63,15 +63,13 @@ export default function StudentDetails() {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(
-        `http://localhost:8080/student/${deleteModal.studentId}`,
-      );
+      await api.delete(`/student/${deleteModal.studentId}`);
       setStudents((prev) =>
         prev.filter((s) => s._id !== deleteModal.studentId),
       );
       toast.success("Student deleted successfully");
       closeDeleteModal();
-    } catch {
+    } catch (err) {
       toast.error("Failed to delete student");
     }
   };

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
+import { api } from "../../utils/api";
 import toast from "react-hot-toast";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 import { useNavigate } from "react-router-dom";
 
 export default function StudentRegister() {
@@ -19,7 +19,7 @@ export default function StudentRegister() {
 
   async function Create() {
     try {
-      await axios.post("http://localhost:8080/student/", {
+      await api.post("/student/", {
         studentId,
         firstName,
         lastName,
