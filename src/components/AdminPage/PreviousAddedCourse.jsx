@@ -5,12 +5,15 @@ import axios from "axios";
 import { Edit, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Breadcrumb from "./BreadCrumb";
+import { getCourses } from "../../api/CourseApi";
 
 export default function PreviousAddedCourse() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/addcourse/").then((response) => {
+    // axios.get("http://localhost:8080/addcourse/")
+    getCourses()
+    .then((response) => {
       console.log(response.data);
       setCourses(response.data);
     });

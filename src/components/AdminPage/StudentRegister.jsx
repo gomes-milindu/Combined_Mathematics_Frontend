@@ -3,6 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Breadcrumb from "./BreadCrumb";
 import { useNavigate } from "react-router-dom";
+import { createStudent } from "../../api/StudentApi";
 
 export default function StudentRegister() {
   const navigate = useNavigate();
@@ -15,11 +16,14 @@ export default function StudentRegister() {
   const [institute, setInstitute] = useState("");
   const [batch, setBatch] = useState("");
   const [dateOfBirth, setBirthday] = useState("");
-  const [isActive, setIsActive] = useState("");
+  const [isActive, setIsActive] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function Create() {
+    setIsLoading(true);
     try {
-      await axios.post("http://localhost:8080/student/", {
+      // const loadingToast = toast.loading("Creating student...");
+      await createStudent({
         studentId,
         firstName,
         lastName,
@@ -29,14 +33,18 @@ export default function StudentRegister() {
         institute,
         batch,
         dateOfBirth,
-        isActive: isActive === "true",
-        role: "admin",
+        isActive: isActive == "true",
+        role: "student",
       });
-
-      toast.success("Student Created Successfully");
+      const loadingToast = toast.loading("Creating student...");
+      toast.success("Student Created Successfully", { id: loadingToast });
       navigate("/admin/students");
     } catch (e) {
-      toast.error("Student Not Created");
+      const message = e.response?.data?.message || "Something went wrong";
+
+      toast.error(message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -127,18 +135,7 @@ export default function StudentRegister() {
               />
             </div>
 
-            {/* Password */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Password
-              </label>
-              <input
-                type="password"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
-                placeholder="••••••••"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+           
 
             {/* Institute */}
             <div>
@@ -151,7 +148,8 @@ export default function StudentRegister() {
               >
                 <option value="">Select Institute</option>
                 <option>Samathwee</option>
-                <option>Sisulka</option>
+                <option>New Sense</option>
+                <option>Sarwa</option>
               </select>
             </div>
 
@@ -161,11 +159,12 @@ export default function StudentRegister() {
                 Batch
               </label>
               <select
+                value={batch}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
                 onChange={(e) => setBatch(e.target.value)}
               >
-                <option value="">Select batch</option>
-                <option>2027 Theory</option>
+                <option value="">Select Batch</option>
+                <option value="2028 Theory">2028 Theory</option>
               </select>
             </div>
 
@@ -181,20 +180,7 @@ export default function StudentRegister() {
               />
             </div>
 
-            {/* Active Status */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Active Status
-              </label>
-              <select
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
-                onChange={(e) => setIsActive(e.target.value)}
-              >
-                <option value="">Select status</option>
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-              </select>
-            </div>
+           
           </div>
 
           {/* Buttons */}
@@ -207,9 +193,10 @@ export default function StudentRegister() {
             </button>
             <button
               onClick={Create}
-              className="w-full md:w-auto px-6 py-2.5 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition text-sm font-medium shadow-sm hover:shadow focus:ring-2 focus:ring-purple-400 focus:ring-offset-1"
+              disabled={isLoading}
+              className="w-full md:w-auto px-6 py-2.5 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition text-sm font-medium shadow-sm hover:shadow focus:ring-2 focus:ring-purple-400 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Create Student
+              {isLoading ? "Creating.." : "Create Student"}
             </button>
           </div>
         </div>

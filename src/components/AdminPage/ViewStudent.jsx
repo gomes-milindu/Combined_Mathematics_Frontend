@@ -18,6 +18,7 @@ import {
   CheckCircle2,
   XCircle,
 } from "lucide-react";
+import { viewStudent } from "../../api/StudentApi";
 
 export default function ViewStudent() {
   const { id } = useParams();
@@ -47,9 +48,7 @@ export default function ViewStudent() {
 
   useEffect(() => {
     if (!id) return;
-
-    axios
-      .get(`http://localhost:8080/student/getOne/${id}`)
+    viewStudent(id)
       .then((res) => {
         setStudent(res.data);
       })
