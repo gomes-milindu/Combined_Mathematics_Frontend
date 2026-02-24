@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import Breadcrumb from "./BreadCrumb";
 import DeleteConfirmation from "./DeleteConfirmation";
-import { deleteStudent, getStudents } from "../../api/StudentApi";
+import { deleteStudent } from "../../api/StudentApi";
 import StudentMobileList from "../AdminPage/StudentMobileList";
 import StudentTable from "../AdminPage/StudentTable";
 import StudentActionMenu from "../AdminPage/StudentActionMenu";
 
 export default function StudentDetails() {
-  const [students, setStudents] = useState([]);
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [activeStudent, setActiveStudent] = useState(null);
+  const [tableStudents, setTableStudents] = useState([]);
 
   // Delete Modal State
   const [deleteModal, setDeleteModal] = useState({
@@ -22,29 +23,19 @@ export default function StudentDetails() {
 
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
 
-  useEffect(() => {
-    loadStudents();
-  }, []);
-
-  function loadStudents() {
-    getStudents().then((res) => {
-      const d = res.data;
-      const list = Array.isArray(d) ? d : d?.students || d?.docs || d?.data || d?.items || [];
-      setStudents(list);
-    });
-  }
-
-  const toggleMenu = (index, e) => {
+  const toggleMenu = (index, e, student) => {
     e.stopPropagation();
     if (openMenuId === index) {
       setOpenMenuId(null);
+      setActiveStudent(null);
     } else {
       const rect = e.currentTarget.getBoundingClientRect();
       setMenuPosition({
         top: rect.bottom + window.scrollY + 5,
-        left: rect.right + window.scrollX - 176, // Align right edge
+        left: rect.right + window.scrollX - 176,
       });
       setOpenMenuId(index);
+      setActiveStudent(student);
     }
   };
 
@@ -55,6 +46,7 @@ export default function StudentDetails() {
       studentName: `${student.firstName} ${student.lastName}`,
     });
     setOpenMenuId(null);
+    setActiveStudent(null);
   };
 
   const closeDeleteModal = () => {
@@ -68,19 +60,14 @@ export default function StudentDetails() {
   const confirmDelete = async () => {
     try {
       await deleteStudent(deleteModal.studentId);
-
-      setStudents((prev) =>
-        prev.filter((s) => s._id !== deleteModal.studentId),
-      );
-
       toast.success("Student deleted successfully");
       closeDeleteModal();
+      // Reload the page to refresh the list
+      window.location.reload();
     } catch (error) {
       toast.error("Failed to delete student");
     }
   };
-
-  const activeStudent = openMenuId !== null ? students[openMenuId] : null;
 
   return (
     <main className="w-full min-h-screen bg-slate-50 dark:bg-slate-950">
@@ -117,22 +104,24 @@ export default function StudentDetails() {
           </div>
 
           {/* Mobile Card View */}
-          <StudentMobileList
-            students={students}
-            onDeleteClick={handleDeleteClick}
-          />
+          <StudentMobileList onDeleteClick={handleDeleteClick} />
 
           {/* Desktop Table View */}
-          <StudentTable students={students} toggleMenu={toggleMenu} />
+          <StudentTable
+            toggleMenu={toggleMenu}
+            onStudentsLoaded={setTableStudents}
+          />
         </div>
       </div>
 
       {/* Action Menu Portal */}
-
       <StudentActionMenu
         student={activeStudent}
         position={menuPosition}
-        onClose={() => setOpenMenuId(null)}
+        onClose={() => {
+          setOpenMenuId(null);
+          setActiveStudent(null);
+        }}
         onDeleteClick={handleDeleteClick}
       />
 

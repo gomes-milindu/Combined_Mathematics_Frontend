@@ -23,7 +23,7 @@ export default function StudentRegister() {
     setIsLoading(true);
     try {
       // const loadingToast = toast.loading("Creating student...");
-      await createStudent({
+      const res = await createStudent({
         studentId,
         firstName,
         lastName,
@@ -38,7 +38,8 @@ export default function StudentRegister() {
       });
       const loadingToast = toast.loading("Creating student...");
       toast.success("Student Created Successfully", { id: loadingToast });
-      navigate("/admin/students");
+      const newStudentId = res.data?.student?._id;
+      navigate(`/admin/students/studentView/${newStudentId}`);
     } catch (e) {
       const message = e.response?.data?.message || "Something went wrong";
 
@@ -135,8 +136,6 @@ export default function StudentRegister() {
               />
             </div>
 
-           
-
             {/* Institute */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -179,8 +178,6 @@ export default function StudentRegister() {
                 onChange={(e) => setBirthday(e.target.value)}
               />
             </div>
-
-           
           </div>
 
           {/* Buttons */}
