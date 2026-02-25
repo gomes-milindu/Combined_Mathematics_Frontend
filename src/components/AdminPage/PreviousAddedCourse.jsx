@@ -14,7 +14,7 @@ export default function PreviousAddedCourse() {
     // axios.get("http://localhost:8080/addcourse/")
     getCourses()
     .then((response) => {
-      console.log(response.data);
+      
       setCourses(response.data);
     });
   }, []);

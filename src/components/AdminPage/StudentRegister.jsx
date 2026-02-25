@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
 import Breadcrumb from "./BreadCrumb";
 import { useNavigate } from "react-router-dom";
@@ -21,8 +20,10 @@ export default function StudentRegister() {
 
   async function Create() {
     setIsLoading(true);
+    let loadingToast;
     try {
-      // const loadingToast = toast.loading("Creating student...");
+      loadingToast = toast.loading("Creating student...");
+
       const res = await createStudent({
         studentId,
         firstName,
@@ -36,14 +37,15 @@ export default function StudentRegister() {
         isActive: isActive == "true",
         role: "student",
       });
-      const loadingToast = toast.loading("Creating student...");
+
       toast.success("Student Created Successfully", { id: loadingToast });
+
       const newStudentId = res.data?.student?._id;
       navigate(`/admin/students/studentView/${newStudentId}`);
     } catch (e) {
       const message = e.response?.data?.message || "Something went wrong";
 
-      toast.error(message);
+      toast.error(message, { id: loadingToast });
     } finally {
       setIsLoading(false);
     }

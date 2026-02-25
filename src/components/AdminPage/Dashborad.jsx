@@ -11,7 +11,7 @@ export function Dashboard() {
     getStats()
     .then((res) => {
       setCountStudent(res.data);
-      console.log("response data:", res.data);
+      
     });
   }, []);
 

@@ -60,13 +60,8 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
     const loadingToast = toast.loading("Creating payment...");
 
     try {
-      // await axios.post(
-      //   "http://localhost:8080/payment/create",
-      //   payload,
-      // );
-
       const response = await createPayment(payload);
-      console.log("response", response.data);
+      
       toast.dismiss(loadingToast);
 
       const smsResult = response.data.sendSMS;

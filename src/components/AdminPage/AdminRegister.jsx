@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import UnderDevelopment from "../UnderDevelopment";
+import UnderDevelopment from "./UnderDevelopment";
 
 export default function AdminRegister() {
   const [name, setAdminName] = useState("");
@@ -17,7 +17,7 @@ export default function AdminRegister() {
   useEffect(() => {
     axios.get("http://localhost:8080/admin/all").then((res) => {
       setGetAdmins(res.data);
-      console.log(res.data);
+     
     });
   }, []);
 
