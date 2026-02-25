@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+
 import {
   User,
   Mail,
@@ -16,6 +17,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import Breadcrumb from "./BreadCrumb";
+import { editStudent, updateEdit } from "../../api/StudentApi";
 
 export default function EditStudent() {
   const { id } = useParams();
@@ -39,9 +41,7 @@ export default function EditStudent() {
   useEffect(() => {
     if (!id) return;
 
-    axios
-      .get(`http://localhost:8080/student/getOne/${id}`)
-      .then((res) => {
+      editStudent(id).then((res) => {
         const s = res.data;
 
         setForm({
@@ -75,7 +75,8 @@ export default function EditStudent() {
 
   async function handleEdit() {
     try {
-      await axios.put(`http://localhost:8080/student/${id}`, form);
+      
+      await updateEdit(id, form);
 
       toast.success("Student updated successfully");
       navigate("/admin/students");

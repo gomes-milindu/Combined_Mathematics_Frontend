@@ -1,6 +1,28 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { CheckCircle2, XCircle, Building2, Calendar } from "lucide-react";
+import { getPayments } from "../../api/PaymentApi";
+
+// Convert month name (e.g. "January") or number string to a number (1–12)
+const monthNameToNumber = {
+  January: 1,
+  February: 2,
+  March: 3,
+  April: 4,
+  May: 5,
+  June: 6,
+  July: 7,
+  August: 8,
+  September: 9,
+  October: 10,
+  November: 11,
+  December: 12,
+};
+
+function getMonthNumber(month) {
+  if (!isNaN(Number(month)) && Number(month) >= 1) return Number(month);
+  return monthNameToNumber[month] || 0;
+}
 
 export default function PaymentStudent({ studentId }) {
   const [payment, setPayment] = useState([]);
@@ -9,8 +31,9 @@ export default function PaymentStudent({ studentId }) {
   useEffect(() => {
     if (!studentId) return;
 
-    axios
-      .get(`http://localhost:8080/payment?studentId=${studentId}`)
+    // axios
+    //   .get(`http://localhost:8080/payment?studentId=${studentId}`)
+    getPayments(studentId)
       .then((res) => {
         setPayment(res.data);
       })
@@ -25,21 +48,18 @@ export default function PaymentStudent({ studentId }) {
       return;
     }
 
-    const theoryPayment = payment.filter((p) => p.batch == "2027 Theory");
-    const paperPayments = payment.filter((p) => p.batch == "2027 Paper");
+    const theoryPayment = payment.filter((p) => p.batch == "2028 Theory");
+   
 
     const maxTheory = theoryPayment.length
-      ? Math.max(...theoryPayment.map((p) => Number(p.month)))
+      ? Math.max(...theoryPayment.map((p) => getMonthNumber(p.month)))
       : null;
 
-    const maxPaper = paperPayments.length
-      ? Math.max(...paperPayments.map((p) => Number(p.month)))
-      : null;
+    
 
     const finalArray = payment.filter(
       (p) =>
-        (p.batch == "2027 Theory" && Number(p.month) == maxTheory) ||
-        (p.batch == "2027 Paper" && Number(p.month) == maxPaper),
+        (p.batch == "2028 Theory" && getMonthNumber(p.month) == maxTheory),
     );
 
     setNewArr(finalArray);
@@ -66,8 +86,8 @@ export default function PaymentStudent({ studentId }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {newArr.map((p, index) => {
-        const isPaid = Number(p.month) >= thisMonth;
-        const monthName = monthNames[Number(p.month) - 1];
+        const isPaid = getMonthNumber(p.month) >= thisMonth;
+        const monthName = monthNames[getMonthNumber(p.month) - 1] || p.month;
 
         return (
           <div
