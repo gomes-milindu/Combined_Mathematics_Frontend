@@ -6,6 +6,9 @@ import toast from "react-hot-toast";
 import Breadcrumb from "./Breadcrumb";
 import DeleteConfirmation from "./DeleteConfirmation";
 import { api } from "../../utils/api";
+import StudentTable from "./StudentTable";
+import StudentMobileList from "./StudentMobileList";
+import StudentActionMenu from "./StudentActionMenu";
 
 export default function StudentDetails() {
   const [openMenuId, setOpenMenuId] = useState(null);
