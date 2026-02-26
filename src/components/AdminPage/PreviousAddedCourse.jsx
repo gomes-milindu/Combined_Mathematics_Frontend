@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { api } from "../../utils/api";
 import { Edit, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import Breadcrumb from "./Breadcrumb";
+import Breadcrumb from "./BreadCrumb";
 
 export default function PreviousAddedCourse() {
   const [courses, setCourses] = useState([]);
