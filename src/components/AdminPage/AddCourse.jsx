@@ -22,8 +22,7 @@ export default function AddCourse() {
         coursePrice,
         courseUrl,
         courseDescription,
-      });
-
+      })
       toast.success("Admin Created Successfully");
       await navigate("/admin/course");
     } catch (e) {

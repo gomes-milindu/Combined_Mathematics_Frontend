@@ -18,6 +18,7 @@ import {
   CheckCircle2,
   XCircle,
 } from "lucide-react";
+import { viewStudent } from "../../api/StudentApi";
 
 export default function ViewStudent() {
   const { id } = useParams();
