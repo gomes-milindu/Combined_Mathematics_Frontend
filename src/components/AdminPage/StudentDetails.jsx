@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { MoreVertical, Eye, Edit, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 import DeleteConfirmation from "./DeleteConfirmation";
-import { deleteStudent } from "../../api/StudentApi";
-import StudentMobileList from "../AdminPage/StudentMobileList";
-import StudentTable from "../AdminPage/StudentTable";
-import StudentActionMenu from "../AdminPage/StudentActionMenu";
+import { api } from "../../utils/api";
 
 export default function StudentDetails() {
   const [openMenuId, setOpenMenuId] = useState(null);
@@ -23,7 +21,17 @@ export default function StudentDetails() {
 
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
 
-  const toggleMenu = (index, e, student) => {
+  useEffect(() => {
+    loadStudents();
+  }, []);
+
+  function loadStudents() {
+    api.get("/student/").then((res) => {
+      setStudents(res.data);
+    });
+  }
+
+  const toggleMenu = (index, e) => {
     e.stopPropagation();
     if (openMenuId === index) {
       setOpenMenuId(null);
@@ -59,12 +67,13 @@ export default function StudentDetails() {
 
   const confirmDelete = async () => {
     try {
-      await deleteStudent(deleteModal.studentId);
+      await api.delete(`/student/${deleteModal.studentId}`);
+      setStudents((prev) =>
+        prev.filter((s) => s._id !== deleteModal.studentId),
+      );
       toast.success("Student deleted successfully");
       closeDeleteModal();
-      // Reload the page to refresh the list
-      window.location.reload();
-    } catch (error) {
+    } catch (err) {
       toast.error("Failed to delete student");
     }
   };

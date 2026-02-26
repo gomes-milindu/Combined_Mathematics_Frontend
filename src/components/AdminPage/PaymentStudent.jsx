@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "../../utils/api";
 import { useState, useEffect } from "react";
 import { CheckCircle2, XCircle, Building2, Calendar } from "lucide-react";
 import { getPayments } from "../../api/PaymentApi";
@@ -31,9 +31,8 @@ export default function PaymentStudent({ studentId }) {
   useEffect(() => {
     if (!studentId) return;
 
-    // axios
-    //   .get(`http://localhost:8080/payment?studentId=${studentId}`)
-    getPayments(studentId)
+    api
+      .get(`/payment?studentId=${studentId}`)
       .then((res) => {
         setPayment(res.data);
       })

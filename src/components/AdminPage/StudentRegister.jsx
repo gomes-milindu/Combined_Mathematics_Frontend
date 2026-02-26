@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { api } from "../../utils/api";
 import toast from "react-hot-toast";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 import { useNavigate } from "react-router-dom";
 import { createStudent } from "../../api/StudentApi";
 
@@ -22,9 +23,7 @@ export default function StudentRegister() {
     setIsLoading(true);
     let loadingToast;
     try {
-      loadingToast = toast.loading("Creating student...");
-
-      const res = await createStudent({
+      await api.post("/student/", {
         studentId,
         firstName,
         lastName,
