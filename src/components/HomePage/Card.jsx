@@ -1,16 +1,28 @@
 import icon from '../../assets/Hero/icon.png'
 
-function Card(){
-    return(
-        <div className="w-4/12 h-[200px] bg-[#F9F5FF] border rounded-xl border-[#B692F6] flex flex-col justify-center items-center gap-4">
-            <div className="w-[351px]">
-                <div className="w-[54px] h-[54px] bg-cover bg-no-repeat" style={{backgroundImage: `url(${icon})`}}></div>
+function Card() {
+    return (
+        <>
+            {/* Mobile: Horizontal card (icon left, text right) */}
+            <div className="md:hidden w-full h-auto bg-[#F9F5FF] border rounded-xl border-[#B692F6] flex flex-row items-center gap-4 p-5">
+                <div className="w-[54px] h-[54px] bg-cover bg-no-repeat shrink-0" style={{ backgroundImage: `url(${icon})` }}></div>
+                <div className="flex flex-col gap-1">
+                    <div className="text-[15px] font-semibold text-[#414651]">Sell Online Courses</div>
+                    <div className="text-[12px] font-normal text-[#717680]">simply dummy text of the printing and typesetting industry. simply dummy text.</div>
+                </div>
             </div>
-            <div className="w-[351px] h-[82px] flex flex-col gap-1">
-                <div className="text-[20px] font-[600px] text-[#414651]">Sell Online Courses</div>
-                <div className="text-[16px] font-[400px] text-[#717680]">simply dummy text of the printing and typesetting industry. simply dummy text.</div>
+
+            {/* Tablet & Desktop: Vertical card (icon top, text below) */}
+            <div className="hidden md:flex w-full min-h-[200px] bg-[#F9F5FF] border rounded-xl border-[#B692F6] flex-col justify-center items-center gap-4 p-5">
+                <div className="w-full">
+                    <div className="w-[54px] h-[54px] bg-cover bg-no-repeat" style={{ backgroundImage: `url(${icon})` }}></div>
+                </div>
+                <div className="w-full flex flex-col gap-1">
+                    <div className="text-[18px] lg:text-[20px] font-semibold text-[#414651]">Sell Online Courses</div>
+                    <div className="text-[14px] lg:text-[16px] font-normal text-[#717680]">simply dummy text of the printing and typesetting industry. simply dummy text.</div>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

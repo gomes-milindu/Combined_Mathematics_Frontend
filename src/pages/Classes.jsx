@@ -5,13 +5,17 @@ import NavBar from "../components/NavBar"
 import HeaderImage from "../assets/Hero/classCardHeader.jpg"
 import ClassCardSection from "../sections/ClassPage/ClassCardSection"
 
-function Classes(){
-    return(
+function Classes() {
+    return (
         <>
-            <Header backgroundImage= "bg-[url(./assets/Hero/classCardHeader.jpg)]"/>
+            <Header
+                backgroundImage="bg-[url(./assets/Hero/classCardHeader.jpg)]"
+                heroTitle="Join Our Classes &"
+                heroSubtitle="Start Learning Today"
+            />
             <NavBar />
 
-            <div className="w-full flex justify-center items-center mt-20">
+            <div className="w-full flex justify-center items-center mt-10 md:mt-20">
                 <ClassCardSection />
             </div>
             <Footer />

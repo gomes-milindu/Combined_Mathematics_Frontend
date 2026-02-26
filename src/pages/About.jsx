@@ -14,22 +14,56 @@ import sir from "../assets/Images/sir.png";
 function About() {
   return (
     <>
-      <Header backgroundImage="bg-[url(./assets/Images/About.png)]" />
+      <Header
+        backgroundImage="bg-[url(./assets/Images/About.png)]"
+        heroTitle="Passion for Teaching."
+        heroSubtitle="Commitment to Results"
+      />
       <NavBar />
 
-      <section className="relative w-full py-24 bg-white">
+      {/* About Teacher Section */}
+      <section className="relative w-full py-12 md:py-24 bg-white">
         <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:18px_18px] opacity-40"></div>
 
-        <div className="flex justify-center items-center m-10">
+        <div className="flex justify-center items-center mb-6 md:m-10">
           <Topic topic="About The Teacher" />
         </div>
-        <div className="flex flex-col justify-center items-center max-w-7xl mx-auto px-6 ">
-          <div className="grid md:grid-cols-[340px_1fr]  items-start">
+
+        <div className="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 md:px-6">
+          {/* Mobile & Tablet: Stacked centered */}
+          <div className="flex flex-col items-center md:hidden">
+            <img
+              src={sir}
+              alt="Teacher"
+              className="w-[200px] h-[220px] object-cover rounded-xl mb-6"
+            />
+            <div className="text-[14px] text-gray-600 leading-[24px] space-y-4 text-center px-2">
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                pariatur molestias similique, natus iste, ipsam vero
+                accusantium, itaque culpa fugiat maxime debitis? Quo ex totam id
+                iste saepe rem eveniet!
+              </p>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                pariatur molestias similique, natus iste, ipsam vero
+                accusantium, itaque culpa fugiat maxime debitis?
+              </p>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                pariatur molestias similique, natus iste, ipsam vero
+                accusantium, itaque culpa fugiat maxime debitis?
+              </p>
+            </div>
+          </div>
+
+          {/* Tablet & Desktop: Grid layout with image left, text right */}
+          <div className="hidden md:grid md:grid-cols-[300px_1fr] lg:grid-cols-[340px_1fr] items-start gap-8">
             <div>
               <img
                 src={sir}
                 alt="Teacher"
-                className="w-[300px] h-[320px] object-cover rounded-xl mb-6"
+                className="w-[260px] md:w-[300px] h-[280px] md:h-[320px] object-cover rounded-xl mb-6"
               />
 
               <h3 className="text-[18px] font-semibold text-gray-800">
@@ -46,7 +80,7 @@ function About() {
               </div>
             </div>
 
-            <div className="text-[15px] text-gray-600 leading-[28px] space-y-6 text-justify">
+            <div className="text-[14px] lg:text-[15px] text-gray-600 leading-[26px] lg:leading-[28px] space-y-6 text-justify">
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
                 pariatur molestias similique, natus iste, ipsam vero
@@ -97,24 +131,24 @@ function About() {
       </section>
 
       {/* Mission */}
-      <div className="flex flex-col justify-center items-center max-w-7xl mx-auto px-6  ">
-        <div className="flex flex-row justify-start items-start">
-          <div className="">
+      <div className="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-0">
+        <div className="flex flex-col md:flex-row justify-start items-start gap-6 md:gap-0">
+          <div>
             <img
               src={mission}
-              alt="Teacher"
-              className="w-[700px] h-[350px] object-cover rounded-xl mb-6 bg-cover bg-center bg-no-repeat"
+              alt="Mission"
+              className="w-full md:w-[500px] lg:w-[700px] h-[220px] md:h-[280px] lg:h-[350px] object-cover rounded-xl mb-6 bg-cover bg-center bg-no-repeat"
             />
           </div>
 
-          <div className="w-[550px] text-[15px] text-gray-600 leading-[28px] space-y-6 text-justify pl-15">
-            
-              <Topic topic="Our Mission" />
-              <p className="text-justify">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
-                pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
-                pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
-                pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
+          <div className="w-full md:w-[450px] lg:w-[550px] text-[14px] md:text-[15px] text-gray-600 leading-[26px] md:leading-[28px] space-y-6 text-justify md:pl-10 lg:pl-15">
+
+            <Topic topic="Our Mission" />
+            <p className="text-justify">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+              pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
+              pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
+              pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
             </p>
           </div>
         </div>
@@ -122,29 +156,29 @@ function About() {
 
 
 
-      {/* Vission */}
-      <div className="flex flex-col justify-center items-center max-w-7xl mx-auto px-6   mt-25 mb-25">
-        <div className="flex flex-row justify-start items-start">
-          <div className="w-[550px] text-[15px] text-gray-600 leading-[28px] space-y-6 text-justify pr-15">
-            
-              <Topic topic="Our Vision" />
-              <p className="text-justify">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
-                pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
-                pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
-                pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
+      {/* Vision */}
+      <div className="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 md:px-6 py-8 md:mt-25 md:mb-25">
+        <div className="flex flex-col-reverse md:flex-row justify-start items-start gap-6 md:gap-0">
+          <div className="w-full md:w-[450px] lg:w-[550px] text-[14px] md:text-[15px] text-gray-600 leading-[26px] md:leading-[28px] space-y-6 text-justify md:pr-10 lg:pr-15">
+
+            <Topic topic="Our Vision" />
+            <p className="text-justify">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+              pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
+              pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
+              pariatur molestias similique, natus iste, ipsam vero pariatur molestias similique, natus iste, ipsam vero
             </p>
           </div>
 
-          <div className="">
+          <div>
             <img
               src={vission}
-              alt="Teacher"
-              className="w-[700px] h-[350px] object-cover rounded-xl mb-6 bg-contain bg-center bg-no-repeat"
+              alt="Vision"
+              className="w-full md:w-[500px] lg:w-[700px] h-[220px] md:h-[280px] lg:h-[350px] object-cover rounded-xl mb-6 bg-contain bg-center bg-no-repeat"
             />
           </div>
 
-          
+
         </div>
       </div>
 
