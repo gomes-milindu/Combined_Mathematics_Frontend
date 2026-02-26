@@ -1,5 +1,3 @@
-import { FiEdit2, FiTrash2 } from "react-icons/fi";
-
 import React, { useEffect, useState } from "react";
 import { api } from "../../utils/api";
 import { Edit, Trash2 } from "lucide-react";
@@ -10,10 +8,18 @@ export default function PreviousAddedCourse() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    api.get("/addcourse/").then((response) => {
-      console.log(response.data);
-      setCourses(response.data);
-    });
+    const loadCourses = async () => {
+      try {
+        const response = await api.get("/addcourse");
+        setCourses(response.data);
+      } catch (err) {
+        console.error(err);
+        // optional: show toast
+        // toast.error("Failed to load courses");
+      }
+    };
+
+    loadCourses();
   }, []);
 
   return (
@@ -41,7 +47,7 @@ export default function PreviousAddedCourse() {
           <div className="p-6 border-b border-gray-200 flex justify-between items-center">
             <h2 className="text-lg font-medium text-gray-800">Course List</h2>
             <Link
-              to="/admin/course/*"
+              to="/admin/course"
               className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2"
             >
               + Add New Course
@@ -103,7 +109,7 @@ export default function PreviousAddedCourse() {
                     <td className="px-6 py-4">
                       <span
                         className={`inline-flex px-2 py-1 text-xs font-medium rounded ${
-                          course.category === "Pure Mathematics"
+                          course.courseCategory === "Pure Mathematics"
                             ? "bg-blue-100 text-blue-700"
                             : "bg-green-100 text-green-700"
                         }`}
