@@ -233,30 +233,24 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
       amount: Number(formData.amount),
     };
 
-    if (
-      !payload.studentId ||
-      !payload.batch ||
-      !payload.month ||
-      !payload.cardType
-    ) {
+    if (!payload.studentId || !payload.batch || !payload.month || !payload.cardType) {
       toast.error("Fill all fields");
       return;
     }
 
-    try {
-      const response = await api.post(`/payment/create`, payload);
+    const loadingToast = toast.loading("Saving payment...");
 
     try {
+      // Use ONE method only (recommended: your PaymentApi)
       const response = await createPayment(payload);
-      
-      toast.dismiss(loadingToast);
 
-      const smsResult = response.data.sendSMS;
+      const smsResult = response?.data?.sendSMS;
+
       if (smsResult?.status === "failed") {
-        toast.success("Payment saved", { duration: 3000 });
+        toast.success("Payment saved", { id: loadingToast });
         toast.error(`SMS not sent: ${smsResult.reason}`, { duration: 3000 });
       } else {
-        toast.success("Payment saved & SMS sent!", { duration: 3000 });
+        toast.success("Payment saved & SMS sent!", { id: loadingToast });
       }
 
       setFormData({
@@ -270,10 +264,9 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
       setTimeout(() => {
         onClose();
         window.location.reload();
-      }, 3000);
+      }, 2000);
     } catch (err) {
-      toast.dismiss(loadingToast);
-      toast.error(err.response?.data?.message || "Payment failed");
+      toast.error(err.response?.data?.message || "Payment failed", { id: loadingToast });
     }
   };
 
