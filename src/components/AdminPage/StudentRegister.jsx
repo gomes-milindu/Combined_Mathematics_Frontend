@@ -34,7 +34,7 @@ export default function StudentRegister() {
         institute,
         batch,
         dateOfBirth,
-        isActive: isActive == "true",
+        isActive,
         role: "student",
       });
 
@@ -151,6 +151,7 @@ export default function StudentRegister() {
                 <option>Samathwee</option>
                 <option>New Sense</option>
                 <option>Sarwa</option>
+                <option>Sky Zone</option>
               </select>
             </div>
 
