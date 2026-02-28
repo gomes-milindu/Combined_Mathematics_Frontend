@@ -50,6 +50,7 @@ export default function ViewStudent() {
     if (!id) return;
     viewStudent(id)
       .then((res) => {
+        console.log("API response:", res.data);
         setStudent(res.data);
       })
       .catch((err) => {
@@ -197,7 +198,7 @@ export default function ViewStudent() {
         <PaymentDrawer
           isOpen={isPaymentDrawerOpen}
           onClose={() => setIsPaymentDrawerOpen(false)}
-          studentId={student.studentId}
+          student={student}
         />
 
         {/* Auto-Open Recent Payments Drawer (Mobile/Tablet) */}
