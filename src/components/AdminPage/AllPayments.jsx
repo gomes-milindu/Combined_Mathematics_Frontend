@@ -1,7 +1,6 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { CreditCard, Banknote, Calendar, CheckCircle2 } from "lucide-react";
-import { getPayments } from "../../api/PaymentApi";
+import { api } from "../../utils/api";
 
 export default function AllPayments({ studentId }) {
   const [payment, setPayment] = useState([]);
@@ -9,9 +8,8 @@ export default function AllPayments({ studentId }) {
   useEffect(() => {
     if (!studentId) return;
 
-    // axios
-    //   .get(`http://localhost:8080/payment?studentId=${studentId}`)
-    getPayments(studentId)
+    api
+      .get(`/payment?studentId=${studentId}`)
       .then((res) => {
         setPayment(res.data);
       })
