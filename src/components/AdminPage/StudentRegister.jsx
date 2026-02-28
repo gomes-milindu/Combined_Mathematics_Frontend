@@ -151,6 +151,7 @@ export default function StudentRegister() {
                 <option>New Sense</option>
                 <option>Sarwa</option>
                 <option>Sky Zone</option>
+                <option>Savidma</option>
               </select>
             </div>
 
