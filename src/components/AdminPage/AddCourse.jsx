@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopNav from "./TopNav";
 import toast from "react-hot-toast";
-import axios from "axios";
-import Breadcrumb from "./BreadCrumb";
-import { createCourse } from "../../api/CourseApi";
+import Breadcrumb from "./Breadcrumb";
+import { api } from "../../utils/api";
 
 export default function AddCourse() {
   const [courseName, setCourseName] = useState("");
@@ -17,16 +16,8 @@ export default function AddCourse() {
 
   async function Create() {
     try {
-      // await axios.post("http://localhost:8080/addcourse/", {
-      //   courseName,
-      //   courseCategory,
-      //   coursePrice,
-      //   courseUrl,
-      //   courseDescription,
-      // });
-
-      await createCourse({
-         courseName,
+      await api.post("/addcourse", {
+        courseName,
         courseCategory,
         coursePrice,
         courseUrl,

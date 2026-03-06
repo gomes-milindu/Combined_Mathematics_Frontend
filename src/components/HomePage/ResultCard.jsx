@@ -1,5 +1,5 @@
 import he from "../../assets/Hero/hee.jpg"
-import student from "../../assets/Images/student.png"
+import student from "../../assets/Images/Student.png";
 
 
 function ResultCard(props){
