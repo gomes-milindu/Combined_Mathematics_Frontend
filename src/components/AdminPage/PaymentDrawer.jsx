@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { createPayment } from "../../api/PaymentApi";
 import { getPricing } from "../../api/PricingApi";
+import React from "react";
 
 export default function PaymentDrawer({ isOpen, onClose, student }) {
   const [formData, setFormData] = useState({
@@ -10,10 +11,28 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
     institute: "",
     batch: "",
     month: "",
-    cardType: "Full Payment",
+    cardType: "",
   });
 
   const [pricing, setPricing] = useState(null);
+
+  const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const currentMonth = monthNames[new Date().getMonth()];
+    console.log("Current Month:", currentMonth);
 
   // ✅ Fill student data when drawer opens
   useEffect(() => {
@@ -27,8 +46,8 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
       studentId: student.studentId || "",
       institute: instituteValue || "",
       batch: student.batch || "",
-      month: "",
-      cardType: "Full Payment",
+      month: currentMonth,
+      cardType: student.paymentType || "",
     });
   }, [student, isOpen]);
 
@@ -36,13 +55,12 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
   useEffect(() => {
     if (!student || !isOpen) return;
 
-  
-  getPricing(
-  Array.isArray(student.institute)
-    ? student.institute[0]
-    : student.institute,
-  student.batch
-)
+    getPricing(
+      Array.isArray(student.institute)
+        ? student.institute[0]
+        : student.institute,
+      student.batch,
+    )
       .then((res) => {
         setPricing(res.data);
       })
@@ -58,9 +76,9 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
 
     if (formData.cardType === "Full Payment") return pricing.fullPayment;
 
-    if (formData.cardType === "Half Card") return pricing.halfPayment;
+    if (formData.cardType === "Half Payment") return pricing.halfPayment;
 
-    if (formData.cardType === "Free Card") return pricing.freePayment;
+    if (formData.cardType === "Free Payment") return pricing.freePayment;
 
     return "";
   })();
@@ -86,6 +104,8 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
       toast.error("Fill all fields");
       return;
     }
+
+    
 
     const loadingToast = toast.loading("Creating payment...");
 
@@ -205,23 +225,13 @@ font-medium shadow-sm"
 
           {/* Card Type */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Card Type
-            </label>
-            <select
-              name="cardType"
+            <label className="block text-sm mb-1">Card Type</label>
+            <input
+              type="text"
               value={formData.cardType}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-3 rounded-xl border-2 border-purple-200 
-focus:border-purple-600 focus:ring-4 focus:ring-purple-100 
-transition-all duration-200 bg-white text-gray-800 
-font-medium shadow-sm"
-            >
-              <option value="Full Payment">Full Payment</option>
-              <option value="Half Card">Half Card</option>
-              <option value="Free Card">Free Card</option>
-            </select>
+              readOnly
+              className="w-full px-3 py-2 border rounded bg-gray-100"
+            />
           </div>
 
           {/* Amount (Auto Calculated) */}

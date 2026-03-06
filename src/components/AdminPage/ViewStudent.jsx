@@ -17,6 +17,7 @@ import {
   ArrowLeft,
   CheckCircle2,
   XCircle,
+  Edit,
 } from "lucide-react";
 import { viewStudent } from "../../api/StudentApi";
 
@@ -138,6 +139,12 @@ export default function ViewStudent() {
                   label="Date of Birth"
                   value={student.dateOfBirth}
                 />
+
+                <InfoItem
+                  icon={CreditCard}
+                  label="Payment Type"
+                  value={student.paymentType}
+                />
               </div>
 
               {/* Action Buttons */}
@@ -155,6 +162,14 @@ export default function ViewStudent() {
                 >
                   <QrCode size={18} />
                   Scan Another
+                </Link>
+
+                <Link
+                  to={`/admin/students/studentEdit/${student._id}`}
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition font-medium"
+                >
+                  <Edit size={18} />
+                  Edit Student
                 </Link>
               </div>
             </div>

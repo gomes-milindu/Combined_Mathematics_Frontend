@@ -15,6 +15,7 @@ export default function StudentRegister() {
   const [institute, setInstitute] = useState("");
   const [batch, setBatch] = useState("");
   const [dateOfBirth, setBirthday] = useState("");
+  const [paymentType, setPaymentType] = useState("Full Payment");
   const [isActive, setIsActive] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,6 +35,7 @@ export default function StudentRegister() {
         institute,
         batch,
         dateOfBirth,
+        paymentType,
         isActive,
         role: "student",
       });
@@ -181,6 +183,22 @@ export default function StudentRegister() {
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
                 onChange={(e) => setBirthday(e.target.value)}
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Payment Type
+              </label>
+              <select
+                type="date"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
+                onChange={(e) => setPaymentType(e.target.value)}
+              >
+              <option value={paymentType}>{paymentType}</option>
+              {/* <option value="Full Payment">Full Payment</option> */}
+              <option value="Half Payment">Half Payment</option>
+              <option value="Free Payment">Free Payment</option>
+              </select>
             </div>
           </div>
 

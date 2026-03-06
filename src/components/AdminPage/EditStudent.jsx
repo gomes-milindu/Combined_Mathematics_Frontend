@@ -33,6 +33,7 @@ export default function EditStudent() {
     institute: "",
     batch: "",
     dateOfBirth: "",
+    paymentType: "",
     isActive: false,
   });
 
@@ -54,6 +55,7 @@ export default function EditStudent() {
           institute: s.institute || "",
           batch: s.batch || "",
           dateOfBirth: s.dateOfBirth ? s.dateOfBirth.substring(0, 10) : "",
+          paymentType: s.paymentType || "",
           isActive: !!s.isActive,
         });
         setIsLoading(false);
@@ -239,6 +241,15 @@ export default function EditStudent() {
                 value={form.dateOfBirth}
                 onChange={updateField}
                 icon={Calendar}
+              />
+
+              <SelectField
+                label="Payment Type"
+                name="paymentType"
+                value={form.paymentType}
+                onChange={updateField}
+                icon={Calendar}
+                options={["Full Payment", "Half Payment", "Free Payment"]}
               />
               {/* Academic Details Section */}
               <div className="col-span-1 md:col-span-2 pt-4 pb-2 border-b border-slate-100 dark:border-slate-800 mt-2">
