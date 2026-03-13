@@ -9,32 +9,31 @@ function Login(props) {
   const [role, setRole] = useState("");
 
   const navigate = useNavigate();
+
   async function login(e) {
-    e?.preventDefault();
-    let loadingToast;
+    e.preventDefault();
+    const loadingToast = toast.loading("Logging in...");
+
     try {
-       loadingToast = toast.loading("Checking Details..");
-      const response = await axios.post(
-      "http://localhost:8080/admin/login",
-      {
-        
-          userName: usergetName,
-          password: Password,
-          role: role
-      }
-      );
-      
-      navigate("/admin")
-      
+      const response = await api.post("/admin/login", {
+        userName: usergetName,
+        password: Password,
+        role: role,
+      });
+
       localStorage.setItem("token", response.data.token);
-      
-      const message = response.data.message;
-      toast.success(message, { id: loadingToast });
+
+      toast.success(response.data.message || "Login successful", { id: loadingToast });
+
+      // navigate after success
+      navigate("/admin");
     } catch (e) {
-      const message = e.response?.data?.message ||  "Password or username is incorrect";
-      toast.error(message , { id: loadingToast });
+      const message =
+        e.response?.data?.message || "Password or username is incorrect";
+      toast.error(message, { id: loadingToast });
     }
-    return false
+
+    return false;
   }
 
 return (
