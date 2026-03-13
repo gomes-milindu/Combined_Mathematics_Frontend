@@ -13,9 +13,10 @@ function Login(props) {
     e?.preventDefault();
     let loadingToast;
     try {
-      // await api.post(
-      // "/admin/login",
-      // {
+       loadingToast = toast.loading("Checking Details..");
+      const response = await axios.post(
+      "http://localhost:8080/admin/login",
+      {
         
           userName: usergetName,
           password: Password,
