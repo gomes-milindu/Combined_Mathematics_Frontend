@@ -321,6 +321,8 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
     }
   };
 
+  
+
   if (!isOpen) return null;
 
   return (
@@ -332,15 +334,13 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
           <h2 className="text-xl font-semibold text-gray-800">
             Process Payment
           </h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             ✕
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+
           {/* Student ID */}
           <div>
             <label className="block text-sm mb-1">Student ID</label>
@@ -405,7 +405,7 @@ font-medium shadow-sm"
             </select>
           </div>
 
-          {/* Card Type */}
+          {/* Batch */}
           <div>
             <label className="block text-sm mb-1">Card Type</label>
             <input
@@ -443,6 +443,7 @@ font-medium shadow-sm"
               Confirm
             </button>
           </div>
+
         </form>
       </div>
     </div>
