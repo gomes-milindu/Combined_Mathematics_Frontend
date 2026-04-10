@@ -24,7 +24,7 @@ export default function StudentRegister() {
     setIsLoading(true);
     let loadingToast;
     try {
-      await api.post("/student/", {
+      const res = await api.post("/student/", {
         studentId,
         firstName,
         lastName,
@@ -38,7 +38,7 @@ export default function StudentRegister() {
         isActive,
         role: "student",
       });
-
+      
       toast.success("Student Created Successfully", { id: loadingToast });
 
       const newStudentId = res.data?.student?._id;
