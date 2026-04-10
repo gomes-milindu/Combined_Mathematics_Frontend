@@ -8,6 +8,8 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
+  console.log("Interceptor running"); // 👈 ADD THIS LINE
+
   const token = localStorage.getItem("token");
 
   if (token) {
