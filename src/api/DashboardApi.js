@@ -1,5 +1,5 @@
-import axios from "axios";
+import api from '../config/axios';
 
 export const getStats = () => {
-  return axios.get("http://localhost:8080/dashboard");
+  return api.get('/dashboard');
 }

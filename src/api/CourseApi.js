@@ -1,9 +1,11 @@
-import axios from "axios";
+import api from '../config/axios';
 
-export const createCourse = () => {
-  return axios.post("http://localhost:8080/addcourse");
+// Create course
+export const createCourse = (courseData) => {
+  return api.post('/addcourse', courseData);
 }
 
+// Get all courses
 export const getCourses = () => {
-  return axios.get("http://localhost:8080/addcourse");
+  return api.get('/addcourse');
 }
