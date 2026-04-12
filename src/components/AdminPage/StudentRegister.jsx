@@ -3,7 +3,6 @@ import { api } from "../../utils/api";
 import toast from "react-hot-toast";
 import Breadcrumb from "./Breadcrumb";
 import { useNavigate } from "react-router-dom";
-import { createStudent } from "../../api/StudentApi";
 
 export default function StudentRegister() {
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ export default function StudentRegister() {
         isActive,
         role: "student",
       });
-      
+
       toast.success("Student Created Successfully", { id: loadingToast });
 
       const newStudentId = res.data?.student?._id;
