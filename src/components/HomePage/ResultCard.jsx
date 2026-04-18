@@ -58,15 +58,15 @@
 // export default ResultCard
 
 
-import he from "../../assets/Hero/hee.jpg"
-import student from "../../assets/Images/student.png"
+
+
 
 
 function ResultCard(props) {
 
   return (
     <div className="w-full md:w-4/12 h-auto bg-white border border-[#E9EAEB] rounded-xl flex flex-col justify-center items-center gap-6 md:gap-8 p-4">
-      <div className="w-full h-[220px] md:h-[280px] lg:h-[328px] rounded-xl bg-red-200 bg-cover bg-center" style={{ backgroundImage: `url(${student})` }}></div>
+      <div className="w-full h-[220px] md:h-[280px] lg:h-[328px] rounded-xl bg-red-200 bg-cover bg-center" style={{ backgroundImage: `url('https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/Student.png')` }}></div>
       <div className="w-full flex flex-col justify-center gap-1">
         <div className="text-[1.2rem] md:text-[1.5rem] font-semibold text-[#414651]">{props.name}</div>
 
