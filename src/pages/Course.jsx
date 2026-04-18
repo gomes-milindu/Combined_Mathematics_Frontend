@@ -13,7 +13,7 @@ export default function Course(){
     return(
         <>
         <Header
-                backgroundImage="bg-[url(./assets/Hero/courses.png)]"
+                
                 heroTitle="Your Learning"
                 heroSubtitle="Journey Starts Here"
             />
