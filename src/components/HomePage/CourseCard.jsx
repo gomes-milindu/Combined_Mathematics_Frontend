@@ -1,11 +1,11 @@
-function CourseCard({ title, category, price }) {
+function CourseCard({ title, category, price, image }) {
   return (
     <div className="w-full h-125 border border-gray-200 rounded-2xl p-4 flex flex-col gap-4">
 
       {/* IMAGE */}
       <div className="w-full h-[180px] sm:h-[200px] lg:h-[220px] rounded-xl overflow-hidden bg-yellow-500">
         <img
-          src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb"
+          src={image}
           alt={title}
           className="w-full h-full object-cover"
         />
@@ -33,9 +33,9 @@ function CourseCard({ title, category, price }) {
         </div>
 
         {/* DESCRIPTION */}
-        <p className="text-sm text-gray-500 leading-relaxed">
+        <p className="text-lg text-gray-500 leading-relaxed">
           simply dummy text of the printing and typesetting industry. simply dummy
-          text. simply dummy text of the printing and typesetting industry.
+          text. simply dummy text of the printing and typesetting industry.simply dummy text of the printing and typesetting industry.
         </p>
 
         {/* BUTTON */}
