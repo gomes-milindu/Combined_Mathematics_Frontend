@@ -2,7 +2,7 @@ import he from "../assets/Hero/hee.jpg"
 
 function Header({color2,backgroundImage}){
     return(
-        <div className='w-full h-screen'>
+        <div className='hidden md:inline-flex w-full h-screen'>
             <div className="w-full h-full bg-[#F9F5FF] bg-cover bg-center" style={{clipPath: 'polygon(0 0, 100% 0, 100% 82%, 0 100%)'}}>
                 
             </div>
