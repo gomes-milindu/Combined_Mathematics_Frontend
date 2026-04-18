@@ -4,9 +4,9 @@ import Topic from "../../components/HomePage/Topic"
 function PopularCourses(){
 
     const courses = [
-        ["Center of Gravity", "Applied Mathematics", "2000"],
-        ["Limits", "Pure Mathematics", "2500"],
-        ["Vectors", "Pure Mathematics", "2200"]
+        ["Center of Gravity", "Appl Mathematics", "2000","https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=1200&auto=format&fit=crop"],
+        ["Limits", "Pure Mathematics", "2500","https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=1200&auto=format&fit=crop"],
+        ["Vectors", "Pure Mathematics", "2200","https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=1200&auto=format&fit=crop"]
     ]
 
     return(
@@ -24,7 +24,7 @@ function PopularCourses(){
                     {
                     courses.map(
                         (course) => (
-                            <CourseCard title={course[0]} category={course[1]} price={course[2]} />
+                            <CourseCard title={course[0]} category={course[1]} price={course[2]} image={course[3]} />
                         )
                     )
                     }

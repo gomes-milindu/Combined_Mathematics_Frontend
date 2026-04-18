@@ -9,7 +9,7 @@ import { Mail, Phone } from "lucide-react";
 import Topic from "../components/HomePage/Topic";
 import mission from "../assets/Images/mission.png";
 import vission from "../assets/Images/vision.png";
-import sir from "../assets/Images/sir.png";
+
 
 function About() {
   return (
@@ -27,7 +27,7 @@ function About() {
           <div className="grid md:grid-cols-[340px_1fr]  items-start">
             <div>
               <img
-                src={sir}
+                src='https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/sir.jpeg'
                 alt="Teacher"
                 className="w-[300px] h-[320px] object-cover rounded-xl mb-6"
               />

@@ -14,7 +14,7 @@ import HeaderMobile from "../components/HomePage/HeaderMobile";
 function HomePage() {
   return (
     <>
-      <Header backgroundImage="bg-[url(./assets/Hero/hee.jpg)]"/>
+      <Header />
       
 
       <HeroText />
