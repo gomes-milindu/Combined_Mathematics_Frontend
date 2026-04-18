@@ -13,7 +13,7 @@ export default function Course(){
     return(
         <>
         <Header
-                
+                bgImage="https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Course%20PAge/courses.png"
                 heroTitle="Your Learning"
                 heroSubtitle="Journey Starts Here"
             />

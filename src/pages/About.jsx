@@ -2,19 +2,18 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 
-import teacherImg from "../assets/Hero/hee.jpg";
+
 // import missionImg from "../assets/Hero/courses.png";
-import visionImg from "../assets/Hero/hee.jpg";
+
 import { Mail, Phone } from "lucide-react";
 import Topic from "../components/HomePage/Topic";
-import mission from "../assets/Images/mission.png";
-import vission from "../assets/Images/vision.png";
+
 
 
 function About() {
   return (
     <>
-      <Header backgroundImage="bg-[url(./assets/Images/About.png)]" />
+      <Header bgImage="https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/About.png" />
       <NavBar />
 
       <section className="relative w-full py-24 bg-white">
@@ -101,7 +100,7 @@ function About() {
         <div className="flex flex-row justify-start items-start">
           <div className="">
             <img
-              src={mission}
+              src='https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/mission.png'
               alt="Teacher"
               className="w-[700px] h-[350px] object-cover rounded-xl mb-6 bg-cover bg-center bg-no-repeat"
             />
@@ -138,7 +137,7 @@ function About() {
 
           <div className="">
             <img
-              src={vission}
+              src='https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/vision.png'
               alt="Teacher"
               className="w-[700px] h-[350px] object-cover rounded-xl mb-6 bg-contain bg-center bg-no-repeat"
             />

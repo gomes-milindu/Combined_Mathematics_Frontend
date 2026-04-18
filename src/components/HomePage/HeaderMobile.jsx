@@ -1,4 +1,4 @@
-import he from "../../assets/Hero/hee.jpg"
+
 
 export default function HeaderMobile({color2,backgroundImage}){
     return(

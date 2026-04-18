@@ -5,7 +5,7 @@ import NavBar from "../components/NavBar";
 function Contact() {
   return (
     <>
-      <Header backgroundImage= "bg-[url(./assets/Images/Contact.png)]" />
+      <Header bgImage= "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Contact%20Page/Contact.png" />
       <NavBar />
 
       {/* Contact Section */}

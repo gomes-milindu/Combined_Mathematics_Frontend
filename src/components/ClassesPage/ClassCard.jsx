@@ -1,4 +1,4 @@
-import hee from "../../assets/Hero/hee.jpg";
+
 
 function ClassCard({ title, description, time, category }) {
   return (
