@@ -60,8 +60,6 @@
 
 
 
-
-
 function ResultCard(props) {
 
   return (
