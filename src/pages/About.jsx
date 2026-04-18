@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 
 import teacherImg from "../assets/Hero/hee.jpg";
-import missionImg from "../assets/Hero/courses.png";
+// import missionImg from "../assets/Hero/courses.png";
 import visionImg from "../assets/Hero/hee.jpg";
 import { Mail, Phone } from "lucide-react";
 import Topic from "../components/HomePage/Topic";
