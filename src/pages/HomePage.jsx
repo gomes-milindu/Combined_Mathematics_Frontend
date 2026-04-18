@@ -15,7 +15,7 @@ function HomePage() {
   return (
     <>
       <Header backgroundImage="bg-[url(./assets/Hero/hee.jpg)]"/>
-      <HeaderMobile backgroundImage="bg-[url(./assets/Hero/hee.jpg)]"/>
+      
 
       <HeroText />
       
