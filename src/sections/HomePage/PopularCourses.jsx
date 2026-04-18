@@ -5,8 +5,8 @@ function PopularCourses(){
 
     const courses = [
         ["Center of Gravity", "Appl Mathematics", "2000","https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=1200&auto=format&fit=crop"],
-        ["Limits", "Pure Mathematics", "2500","https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=1200&auto=format&fit=crop"],
-        ["Vectors", "Pure Mathematics", "2200","https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=1200&auto=format&fit=crop"]
+        // ["Limits", "Pure Mathematics", "2500","https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=1200&auto=format&fit=crop"],
+        // ["Vectors", "Pure Mathematics", "2200","https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=1200&auto=format&fit=crop"]
     ]
 
     return(
@@ -16,10 +16,8 @@ function PopularCourses(){
 
             </div>
 
-            <div className="w-[1216px] h-[605px] gap-8 flex flex-row">
-                    {/* <CourseCard />
-                    <CourseCard />
-                    <CourseCard /> */}
+            <div className=" w-[90%] lg:max-w-7xl h-[605px] gap-8 flex flex-row">
+                 
 
                     {
                     courses.map(
