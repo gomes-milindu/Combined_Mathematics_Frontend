@@ -1,7 +1,12 @@
 import api from '../config/axios';
 
-export const getStudents = (page = 1, limit = 10) => {
-  return api.get('/student', { params: { page, limit } });
+export const getStudents = (page = 1, limit = 10, searchQuery = "") => {
+  const params = { page, limit };
+  const query = (searchQuery || "").trim();
+  if (query) {
+    params.search = query;
+  }
+  return api.get('/student', { params });
 }
 
 export const deleteStudent = (id) => {
