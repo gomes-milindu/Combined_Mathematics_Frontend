@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { MoreVertical } from "lucide-react";
 import PaginationPage from "./PaginationPage";
 import { getStudents } from "../../api/StudentApi";
@@ -8,17 +8,42 @@ export default function StudentTable({
   onStudentsLoaded,
   onDeleteClick, // not used here (delete happens in action menu), but kept for future
   overrideStudents, // optional: if parent updates list after delete
+  searchQuery,
 }) {
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [students, setStudents] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
   const [pageCount, setPageCount] = useState(1);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchStudents(page);
+    setPage(1);
+    const query = (searchQuery || "").trim();
+    if (!query) {
+      setIsSearching(false);
+      return;
+    }
+
+    setIsSearching(true);
+    fetchAllStudents(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (!isSearching) {
+      fetchStudents(page);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, isSearching]);
+
+  const visibleStudents = useMemo(() => {
+    if (!isSearching) return students;
+
+    const start = (page - 1) * limit;
+    return searchResults.slice(start, start + limit);
+  }, [isSearching, students, searchResults, page, limit]);
 
   // If parent provides override list (after delete), apply it
   useEffect(() => {
@@ -58,6 +83,42 @@ export default function StudentTable({
     }
   };
 
+  const fetchAllStudents = async (query) => {
+    setLoading(true);
+    try {
+      let all = [];
+      let currentPage = 1;
+      let totalPages = 1;
+
+      do {
+        const res = await getStudents(currentPage, limit);
+        const raw = res?.data || {};
+        const list = normalizeList(raw);
+
+        all = [...all, ...list];
+        totalPages = raw?.totalPages || raw?.data?.totalPages || 1;
+        currentPage += 1;
+      } while (currentPage <= totalPages);
+
+      const filtered = all.filter((item) => {
+        const fullName = `${item.firstName || ""} ${item.lastName || ""}`.toLowerCase();
+        return fullName.includes(query.toLowerCase());
+      });
+
+      setSearchResults(filtered);
+      setPageCount(Math.max(1, Math.ceil(filtered.length / limit)));
+      setLoading(false);
+
+      if (onStudentsLoaded) onStudentsLoaded(filtered.slice(0, limit));
+    } catch (err) {
+      console.error("Failed to fetch search students:", err);
+      setSearchResults([]);
+      setPageCount(1);
+      setLoading(false);
+      if (onStudentsLoaded) onStudentsLoaded([]);
+    }
+  };
+
   const handlePageChange = (e, value) => setPage(value);
 
   return (
@@ -84,14 +145,14 @@ export default function StudentTable({
                 Loading...
               </td>
             </tr>
-          ) : students.length === 0 ? (
+          ) : visibleStudents.length === 0 ? (
             <tr>
               <td colSpan={7} className="px-6 py-4 text-center text-slate-500">
                 No students found
               </td>
             </tr>
           ) : (
-            students.map((item, index) => (
+            visibleStudents.map((item, index) => (
               <tr
                 key={item._id || item.id || index}
                 className="hover:bg-slate-50/70 transition"
