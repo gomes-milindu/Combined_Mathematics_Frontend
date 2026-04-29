@@ -11,16 +11,16 @@ const AboutTeacher = () => {
 
   return (
     <section className="w-full h-auto py-10 md:py-12 lg:py-16 flex justify-center items-center">
-      <div className="w-11/12 md:w-10/12 max-w-[1208px] flex flex-col justify-center items-center gap-6 md:gap-8">
-        <div className="text-[24px] md:text-[30px] lg:text-[36px] font-semibold text-center text-[#7F56D9]">
+      <div className="w-11/12 md:w-10/12 max-w-[1208px] flex flex-col justify-center items-center gap-2 md:gap-8">
+        <div className="hidden text-[24px] lg:block md:text-[30px] lg:text-[36px] font-semibold text-center text-[#7F56D9]">
           About The Teacher
         </div>
 
         {/* Mobile & Tablet: Stacked layout (image centered, text below) */}
         <div className="flex flex-col lg:hidden justify-center items-center gap-6">
           <div
-            className="w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-xl bg-cover bg-center bg-no-repeat shrink-0"
-            style={{ backgroundImage: `url('https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/sir.jpeg')` }}
+            className="w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-xl bg-cover bg-center bg-no-repeat shrink-0"
+            style={{ backgroundImage: `url('https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/Sir_Mobile.png')` }}
           ></div>
 
           {/* Mobile: truncated with Read More */}
