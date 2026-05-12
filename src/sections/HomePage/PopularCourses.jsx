@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import CourseCard from "../../components/HomePage/CourseCard"
 import Topic from "../../components/HomePage/Topic"
 
@@ -24,12 +24,19 @@ function PopularCourses() {
 
     const handleTouchEnd = () => {
         const diff = touchStartX.current - touchEndX.current;
-        if (diff > 50 && current < courses.length - 1) {
-            setCurrent(current + 1);
-        } else if (diff < -50 && current > 0) {
-            setCurrent(current - 1);
+        if (diff > 50) {
+            setCurrent((prev) => (prev === courses.length - 1 ? 0 : prev + 1));
+        } else if (diff < -50) {
+            setCurrent((prev) => (prev === 0 ? courses.length - 1 : prev - 1));
         }
     };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrent((prev) => (prev === courses.length - 1 ? 0 : prev + 1));
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <section className="w-full h-auto py-10 md:py-12 lg:py-16 flex flex-col justify-center items-center gap-8 md:gap-12 lg:gap-16">
@@ -52,15 +59,15 @@ function PopularCourses() {
                 onTouchEnd={handleTouchEnd}
             >
                 <div
-                    className="flex transition-transform duration-400 ease-out"
+                    className="flex transition-transform duration-500 ease-out"
                     style={{
-                        transform: `translateX(calc(-${current * 85}% + 7.5%))`,
+                        transform: `translateX(calc(-${current * 75}% + 12.5%))`,
                     }}
                 >
                     {courses.map((course, index) => (
                         <div
                             key={index}
-                            className={`w-[85%] shrink-0 px-3 transition-all duration-400 ${index === current ? 'opacity-100 scale-100' : 'opacity-40 scale-[0.92]'
+                            className={`w-[75%] shrink-0 px-2 transition-all duration-500 ${index === current ? 'opacity-100 scale-100' : 'opacity-50 scale-[0.90]'
                                 }`}
                         >
                             <CourseCard title={course[0]} category={course[1]} price={course[2]} />
