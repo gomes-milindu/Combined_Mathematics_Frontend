@@ -8,16 +8,17 @@ function NavBar() {
         <>
             <div className="w-full absolute z-15 top-5">
                 <div className="flex justify-center items-center">
-                    <div className="w-[90%] md:w-[95%] lg:w-4xl h-[60px] md:h-[68px] bg-white flex flex-row items-center justify-between md:justify-around px-5 md:px-4 rounded-[12px]">
+                    {/* Desktop/Tablet - White pill navbar */}
+                    <div className="hidden md:flex w-[95%] lg:w-4xl h-[68px] bg-white flex-row items-center justify-around px-4 rounded-[12px]">
                         <Link
                             to="/"
-                            className="text-[1.2rem] md:text-[1.5rem] font-semibold text-[#6941C6]"
+                            className="text-[1.5rem] font-semibold text-[#6941C6]"
                         >
                             Tution Master
                         </Link>
 
                         {/* Desktop/Tablet nav links */}
-                        <div className="hidden md:flex w-4/12 flex-row items-center justify-around">
+                        <div className="flex w-4/12 flex-row items-center justify-around">
                             <Link to="/classes" className="text-[0.9rem] lg:text-[1rem]">Classes</Link>
                             <Link to="/course" className="text-[0.9rem] lg:text-[1rem]">Courses</Link>
                             <Link to="/about" className="text-[0.9rem] lg:text-[1rem]">About</Link>
@@ -27,27 +28,29 @@ function NavBar() {
                         {/* Desktop/Tablet login button */}
                         <Link
                             to="/login"
-                            className="hidden md:flex w-[120px] lg:w-[136px] h-9 bg-[#7F56D9] justify-center items-center text-white text-[13px] lg:text-[14px] rounded-lg"
+                            className="flex w-[120px] lg:w-[136px] h-9 bg-[#7F56D9] justify-center items-center text-white text-[13px] lg:text-[14px] rounded-lg"
                         >
                             Student Logging
                         </Link>
+                    </div>
 
-                        {/* Mobile hamburger */}
+                    {/* Mobile - Transparent (just hamburger) */}
+                    <div className="flex md:hidden w-full h-[60px] flex-row items-center justify-end px-5">
                         <button
-                            className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8"
+                            className="flex flex-col justify-center items-center gap-[5px] w-8 h-8"
                             onClick={() => setMenuOpen(!menuOpen)}
                             aria-label="Toggle menu"
                         >
                             <span
-                                className={`w-5 h-[2px] bg-gray-800 transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""
+                                className={`w-5 h-[2px] bg-white transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""
                                     }`}
                             ></span>
                             <span
-                                className={`w-5 h-[2px] bg-gray-800 transition-all duration-300 ${menuOpen ? "opacity-0" : ""
+                                className={`w-5 h-[2px] bg-white transition-all duration-300 ${menuOpen ? "opacity-0" : ""
                                     }`}
                             ></span>
                             <span
-                                className={`w-5 h-[2px] bg-gray-800 transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+                                className={`w-5 h-[2px] bg-white transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
                                     }`}
                             ></span>
                         </button>

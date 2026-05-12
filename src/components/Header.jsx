@@ -11,12 +11,12 @@ function Header({ color2, backgroundImage, heroTitle, heroSubtitle }) {
             </div>
 
             {/* Mobile hero text - centered white on image */}
-            <div className="absolute z-12 top-[30%] left-1/2 -translate-x-1/2 text-center w-[90%] md:hidden">
+            <div className="absolute z-12 top-[40%] left-1/2 -translate-x-1/2 text-center w-[90%] md:hidden">
                 <div className="text-[16px] font-medium text-white drop-shadow-lg">
-                    Join Our Classes &
+                    {heroTitle || "Join Our Classes &"}
                 </div>
                 <div className="text-[24px] font-bold text-white drop-shadow-lg mt-1">
-                    Online | Colombo | Kandy
+                    {heroSubtitle || "Online | Colombo | Kandy"}
                 </div>
             </div>
 
