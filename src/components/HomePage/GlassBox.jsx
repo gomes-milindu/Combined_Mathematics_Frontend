@@ -6,11 +6,13 @@ export default function GlassBox() {
 
   return (
     <>
+      {/* ===== DESKTOP/TABLET - Glass pill navbar (unchanged) ===== */}
       <div
         className="
-          w-[90%] md:w-[95%] lg:w-4xl h-[60px] md:h-[67px]
-          flex flex-row items-center justify-between md:justify-around
-          px-5 md:px-4
+          hidden md:flex
+          w-[95%] lg:w-4xl h-[67px]
+          flex-row items-center justify-around
+          px-4
           rounded-xl
           bg-linear-to-r from-[#F3ECFF]/30 to-white/40
           border border-white/20
@@ -22,42 +24,53 @@ export default function GlassBox() {
         style={{ WebkitBackdropFilter: "blur(12px)" }}
       >
         {/* Logo */}
-        <Link to="/" className="text-[18px] md:text-[24px] font-semibold">
+        <Link to="/" className="text-[24px] font-semibold">
           Tution Master
         </Link>
 
-        {/* Desktop/Tablet Nav Links */}
-        <div className="hidden md:flex text-[14px] lg:text-[16px] flex-row items-center justify-between gap-4 lg:gap-6">
+        {/* Nav Links */}
+        <div className="flex text-[14px] lg:text-[16px] flex-row items-center justify-between gap-4 lg:gap-6">
           <Link to="/classes">Classes</Link>
           <Link to="/course">Courses</Link>
           <Link to="/about">About</Link>
           <Link to="/contact">Contact</Link>
         </div>
 
-        {/* Desktop/Tablet Login Button */}
+        {/* Login Button */}
         <Link
           to="/login"
-          className="hidden md:flex w-[120px] lg:w-[136px] h-9 bg-[#7F56D9] justify-center items-center text-white text-[13px] lg:text-[14px] rounded-lg"
+          className="flex w-[120px] lg:w-[136px] h-9 bg-[#7F56D9] justify-center items-center text-white text-[13px] lg:text-[14px] rounded-lg"
         >
           Student Logging
         </Link>
+      </div>
 
-        {/* Mobile Hamburger Button */}
+      {/* ===== MOBILE - Transparent navbar (just hamburger) ===== */}
+      <div
+        className="
+          flex md:hidden
+          w-full h-[60px]
+          flex-row items-center justify-end
+          px-5
+          absolute z-20 top-5
+          left-0
+        "
+      >
         <button
-          className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8"
+          className="flex flex-col justify-center items-center gap-[5px] w-8 h-8"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
           <span
-            className={`w-5 h-[2px] bg-gray-800 transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""
+            className={`w-5 h-[2px] bg-white transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""
               }`}
           ></span>
           <span
-            className={`w-5 h-[2px] bg-gray-800 transition-all duration-300 ${menuOpen ? "opacity-0" : ""
+            className={`w-5 h-[2px] bg-white transition-all duration-300 ${menuOpen ? "opacity-0" : ""
               }`}
           ></span>
           <span
-            className={`w-5 h-[2px] bg-gray-800 transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+            className={`w-5 h-[2px] bg-white transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
               }`}
           ></span>
         </button>
