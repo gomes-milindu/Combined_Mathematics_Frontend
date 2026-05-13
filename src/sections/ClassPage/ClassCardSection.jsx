@@ -68,7 +68,7 @@ function ClassCardSection() {
   );
 
   return (
-    <section className="w-full flex justify-center py-20 px-4">
+    <section className="w-full flex justify-center pt-8 pb-20 md:py-20 px-4">
       <div className="w-full max-w-[1216px] flex flex-col items-center gap-12">
 
         {/* 🔹 FILTER TABS */}

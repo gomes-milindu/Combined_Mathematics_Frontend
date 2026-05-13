@@ -15,7 +15,7 @@ function Classes() {
             />
             <NavBar />
 
-            <div className="w-full flex justify-center items-center mt-10 md:mt-20">
+            <div className="w-full flex justify-center items-center -mt-8 md:mt-20">
                 <ClassCardSection />
             </div>
             <Footer />

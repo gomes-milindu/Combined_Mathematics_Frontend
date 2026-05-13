@@ -83,8 +83,7 @@ function NavBar() {
                 <div className="flex flex-col w-full px-8">
                     <Link to="/" className="text-[14px] text-[#6941C6] py-4 text-center border-b border-gray-100" onClick={() => setMenuOpen(false)}>Home</Link>
                     <Link to="/classes" className="text-[14px] text-[#6941C6] py-4 text-center border-b border-gray-100" onClick={() => setMenuOpen(false)}>Classes</Link>
-                    <Link to="/events" className="text-[14px] text-[#6941C6] py-4 text-center border-b border-gray-100" onClick={() => setMenuOpen(false)}>Events</Link>
-                    <Link to="/gallery" className="text-[14px] text-[#6941C6] py-4 text-center border-b border-gray-100" onClick={() => setMenuOpen(false)}>Gallery</Link>
+                    <Link to="/course" className="text-[14px] text-[#6941C6] py-4 text-center border-b border-gray-100" onClick={() => setMenuOpen(false)}>Courses</Link>
                     <Link to="/about" className="text-[14px] text-[#6941C6] py-4 text-center border-b border-gray-100" onClick={() => setMenuOpen(false)}>About Us</Link>
                     <Link to="/contact" className="text-[14px] text-[#6941C6] py-4 text-center border-b border-gray-100" onClick={() => setMenuOpen(false)}>Contact Us</Link>
                 </div>

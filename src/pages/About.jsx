@@ -133,11 +133,11 @@ function About() {
       {/* Mission */}
       <div className="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-0">
         <div className="flex flex-col md:flex-row justify-start items-start gap-6 md:gap-0">
-          <div>
+          <div className="w-full flex justify-center md:block">
             <img
               src={mission}
               alt="Mission"
-              className="w-full md:w-[500px] lg:w-[700px] h-[220px] md:h-[280px] lg:h-[350px] object-cover rounded-xl mb-6 bg-cover bg-center bg-no-repeat"
+              className="w-[80%] max-w-[300px] md:max-w-none md:w-[500px] lg:w-[700px] h-auto md:h-[280px] lg:h-[350px] object-contain md:object-cover rounded-xl mb-6 bg-contain bg-center bg-no-repeat"
             />
           </div>
 
@@ -170,11 +170,11 @@ function About() {
             </p>
           </div>
 
-          <div>
+          <div className="w-full flex justify-center md:block">
             <img
               src={vission}
               alt="Vision"
-              className="w-full md:w-[500px] lg:w-[700px] h-[220px] md:h-[280px] lg:h-[350px] object-cover rounded-xl mb-6 bg-contain bg-center bg-no-repeat"
+              className="w-[80%] max-w-[300px] md:max-w-none md:w-[500px] lg:w-[700px] h-auto md:h-[280px] lg:h-[350px] object-contain md:object-cover rounded-xl mb-6 bg-contain bg-center bg-no-repeat"
             />
           </div>
 
