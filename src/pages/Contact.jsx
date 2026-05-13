@@ -1,6 +1,7 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
+import { ChevronDown } from "lucide-react";
 
 function Contact() {
   return (
@@ -66,9 +67,10 @@ function Contact() {
                 Contact Number*
               </label>
               <div className="flex border rounded-md overflow-hidden focus-within:border-purple-500 border-[#D5D7DA]">
-                <span className="px-3 py-2 bg-gray-100 text-sm text-gray-600 shrink-0">
-                  +94 ∨
-                </span>
+                <div className="flex items-center px-3 py-2 bg-white border-r border-[#D5D7DA] text-sm text-gray-600 shrink-0 cursor-pointer">
+                  <span>+94</span>
+                  <ChevronDown className="w-4 h-4 ml-1 text-gray-500" />
+                </div>
                 <input
                   type="text"
                   placeholder="Enter your contact number"

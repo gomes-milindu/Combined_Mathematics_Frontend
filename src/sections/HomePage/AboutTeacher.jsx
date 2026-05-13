@@ -1,5 +1,6 @@
 import sir from "../../assets/Images/sir.png";
 import { useState } from "react";
+import Card from "../../components/HomePage/Card";
 
 const AboutTeacher = () => {
   const [expanded, setExpanded] = useState(false);
@@ -22,17 +23,23 @@ const AboutTeacher = () => {
           ></div>
 
           {/* Mobile: truncated with Read More */}
-          <div className="md:hidden text-center">
-            <div className="text-[14px] text-[#717680] leading-relaxed">
-              {expanded ? fullText : fullText.slice(0, 200) + "..."}
+          <div className="md:hidden text-center flex flex-col gap-6 w-full text-left">
+            <div>
+              <div className="text-[14px] text-[#717680] leading-relaxed text-justify px-2">
+                {expanded ? fullText : fullText.slice(0, 120) + "..."}
+              </div>
+              <button
+                onClick={() => setExpanded(!expanded)}
+                className="text-[14px] font-medium text-[#414651] mt-3 flex items-center gap-1 mx-auto"
+              >
+                {expanded ? "Show Less" : "Read More"}
+                <span className="text-[16px]">{expanded ? "‹" : "›"}</span>
+              </button>
             </div>
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="text-[14px] font-medium text-[#414651] mt-3 flex items-center gap-1 mx-auto"
-            >
-              {expanded ? "Show Less" : "Read More"}
-              <span className="text-[16px]">{expanded ? "‹" : "›"}</span>
-            </button>
+            
+            <div className="w-full text-left mt-2 px-2">
+              <Card />
+            </div>
           </div>
 
           {/* Tablet: full text shown */}
