@@ -11,26 +11,27 @@ import Classes from "./pages/Classes";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
--toast
+import ProtectedRoute from "../src/components/ProtectedRoute";
+-toast;
 
 function App() {
   return (
     <>
-      
-      
       {/* <GridLayout /> */}
       <BrowserRouter>
-        <Toaster position="top-center"/>
+        <Toaster position="top-center" />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/admin/*" element={<Admin />} />
+          <Route element={<ProtectedRoute />}>
+          
+            <Route path="/admin/*" element={<Admin />} />
+          </Route>
+
           <Route path="/course/*" element={<Course />} />
           <Route path="/classes/*" element={<Classes />} />
           <Route path="/about/*" element={<About />} />
           <Route path="/contact/*" element={<Contact />} />
           <Route path="/login" element={<Login />} />
-          
-          
         </Routes>
       </BrowserRouter>
     </>

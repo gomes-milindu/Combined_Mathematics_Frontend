@@ -6,11 +6,7 @@ import { ChevronDown } from "lucide-react";
 function Contact() {
   return (
     <>
-      <Header
-        backgroundImage="bg-[url(./assets/Images/Contact.png)]"
-        heroTitle="Get in Touch and"
-        heroSubtitle="Start Your Learning Journey"
-      />
+      <Header bgImage= "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Contact%20Page/Contact.png" />
       <NavBar />
 
       {/* Contact Section */}

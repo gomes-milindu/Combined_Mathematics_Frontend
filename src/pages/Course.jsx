@@ -12,18 +12,18 @@ export default function Course() {
 
     return (
         <>
-            <Header
-                backgroundImage="bg-[url(./assets/Hero/courses.png)]"
+        <Header
+                bgImage="https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Course%20PAge/courses.png"
                 heroTitle="Your Learning"
                 heroSubtitle="Journey Starts Here"
             />
-
-
-            <NavBar />
-
-            <CourseCardSection />
-
-            <Footer />
+        
+        
+        <NavBar />
+        
+        <CourseCardSection />
+        
+        <Footer />
         </>
     )
 }

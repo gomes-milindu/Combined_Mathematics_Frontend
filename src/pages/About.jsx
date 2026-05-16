@@ -2,23 +2,18 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 
-import teacherImg from "../assets/Hero/hee.jpg";
-import missionImg from "../assets/Hero/courses.png";
-import visionImg from "../assets/Hero/hee.jpg";
+
+// import missionImg from "../assets/Hero/courses.png";
+
 import { Mail, Phone } from "lucide-react";
 import Topic from "../components/HomePage/Topic";
-import mission from "../assets/Images/mission.png";
-import vission from "../assets/Images/vision.png";
-import sir from "../assets/Images/sir.png";
+
+
 
 function About() {
   return (
     <>
-      <Header
-        backgroundImage="bg-[url(./assets/Images/About.png)]"
-        heroTitle="Passion for Teaching."
-        heroSubtitle="Commitment to Results"
-      />
+      <Header bgImage="https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/About.png" />
       <NavBar />
 
       {/* About Teacher Section */}
@@ -61,7 +56,7 @@ function About() {
           <div className="hidden md:grid md:grid-cols-[300px_1fr] lg:grid-cols-[340px_1fr] items-start gap-8">
             <div>
               <img
-                src={sir}
+                src='https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/sir.jpeg'
                 alt="Teacher"
                 className="w-[260px] md:w-[300px] h-[280px] md:h-[320px] object-cover rounded-xl mb-6"
               />
@@ -135,9 +130,9 @@ function About() {
         <div className="flex flex-col md:flex-row justify-start items-start gap-6 md:gap-0">
           <div className="w-full flex justify-center md:block">
             <img
-              src={mission}
-              alt="Mission"
-              className="w-[80%] max-w-[300px] md:max-w-none md:w-[500px] lg:w-[700px] h-auto md:h-[280px] lg:h-[350px] object-contain md:object-cover rounded-xl mb-6 bg-contain bg-center bg-no-repeat"
+              src='https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/mission.png'
+              alt="Teacher"
+              className="w-[700px] h-[350px] object-cover rounded-xl mb-6 bg-cover bg-center bg-no-repeat"
             />
           </div>
 
@@ -172,9 +167,9 @@ function About() {
 
           <div className="w-full flex justify-center md:block">
             <img
-              src={vission}
-              alt="Vision"
-              className="w-[80%] max-w-[300px] md:max-w-none md:w-[500px] lg:w-[700px] h-auto md:h-[280px] lg:h-[350px] object-contain md:object-cover rounded-xl mb-6 bg-contain bg-center bg-no-repeat"
+              src='https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/vision.png'
+              alt="Teacher"
+              className="w-[700px] h-[350px] object-cover rounded-xl mb-6 bg-contain bg-center bg-no-repeat"
             />
           </div>
 

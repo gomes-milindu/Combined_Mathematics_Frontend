@@ -1,16 +1,19 @@
-import axios from "axios";
+import { api } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { Users, CreditCard, TrendingUp, Building2 } from "lucide-react";
+import { getStats } from "../../api/DashboardApi";
 
 export function Dashboard() {
   const [countStudent, setCountStudent] = useState();
 
   useEffect(() => {
-    axios.get("http://localhost:8080/dashboard/").then((res) => {
+    api.get("/dashboard/").then((res) => {
       setCountStudent(res.data);
-      console.log("response data:", res.data);
+      
     });
   }, []);
+
+  const monthName = new Date().toLocaleString('default', { month: 'long' });
 
   // Reusable Stat Card Component
   const StatCard = ({ title, value, icon: Icon, colorClass, bgClass }) => (
@@ -36,21 +39,21 @@ export function Dashboard() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
-          title="Total Students"
+          title="Total Students "
           value={countStudent?.totalStudents || 0}
           icon={Users}
           colorClass="text-purple-600"
           bgClass="bg-purple-50 dark:bg-purple-900/20"
         />
         <StatCard
-          title="Total Income"
+          title={`Total Income (${monthName})`}
           value={`LKR ${countStudent?.totalIncome || 0}`}
           icon={CreditCard}
           colorClass="text-blue-600"
           bgClass="bg-blue-50 dark:bg-blue-900/20"
         />
         <StatCard
-          title="Net Profit"
+          title={`Net Profit (${monthName})`}
           value={`LKR ${countStudent?.netProfit || 0}`}
           icon={TrendingUp}
           colorClass="text-emerald-600"
@@ -129,7 +132,7 @@ export function Dashboard() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {countStudent?.activeCounts?.map((item, index) => (
+              {countStudent?.totalByInstituteAndMonth?.map((item, index) => (
                 <tr
                   key={index}
                   className="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors duration-150 group"
@@ -147,11 +150,11 @@ export function Dashboard() {
                   <td className="p-5">
                     <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
                       <Users className="w-4 h-4 text-slate-400" />
-                      {item.totalStudents}
+                      {item.studentCount}
                     </div>
                   </td>
                   <td className="p-5 font-semibold text-emerald-600 dark:text-emerald-400">
-                    LKR 5000
+                    {item.totalAmount}
                   </td>
                 </tr>
               ))}
