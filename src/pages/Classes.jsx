@@ -5,13 +5,13 @@ import NavBar from "../components/NavBar"
 
 import ClassCardSection from "../sections/ClassPage/ClassCardSection"
 
-function Classes(){
-    return(
+function Classes() {
+    return (
         <>
             <Header bgImage= "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Classes%20Page/classCardHeader.jpg"/>
             <NavBar />
 
-            <div className="w-full flex justify-center items-center mt-20">
+            <div className="w-full flex justify-center items-center -mt-8 md:mt-20">
                 <ClassCardSection />
             </div>
             <Footer />

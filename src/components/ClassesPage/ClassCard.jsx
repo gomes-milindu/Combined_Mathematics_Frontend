@@ -16,14 +16,14 @@ function ClassCard({ title, description, time, category }) {
       {/* CONTENT */}
       <div className="flex flex-col gap-3">
 
-        {/* TITLE + BADGE */}
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+        {/* TITLE + BADGE on same row */}
+        <div className="flex flex-row justify-between items-center gap-2">
           <h3 className="text-base sm:text-lg font-semibold text-gray-900">
             {title}
           </h3>
 
           {category === "online" && (
-            <span className="w-fit text-xs bg-purple-100 text-purple-600 px-3 py-1 rounded-full">
+            <span className="w-fit text-xs bg-purple-100 text-purple-600 px-3 py-1 rounded-full whitespace-nowrap">
               via Zoom
             </span>
           )}
@@ -39,13 +39,13 @@ function ClassCard({ title, description, time, category }) {
           {time}
         </p>
 
-        {/* ACTIONS */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 mt-2">
-          <button className="bg-purple-600 text-white px-6 py-2 rounded-md text-sm">
+        {/* ACTIONS - always in a row */}
+        <div className="flex flex-row items-center gap-4 mt-2">
+          <button className="bg-purple-600 text-white px-6 py-2.5 rounded-lg text-sm flex-1">
             Enroll Now
           </button>
 
-          <button className="text-purple-600 text-sm font-medium">
+          <button className="text-purple-600 text-sm font-medium whitespace-nowrap">
             View Details
           </button>
         </div>
