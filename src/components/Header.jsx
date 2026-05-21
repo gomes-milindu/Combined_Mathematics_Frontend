@@ -1,12 +1,10 @@
-import he from "../assets/Hero/hee.jpg"
-
 function Header({ color2, backgroundImage, heroTitle, heroSubtitle }) {
     return (
         <div className='w-full h-[35vh] md:h-[70vh] lg:h-screen relative'>
             <div className="w-full h-full bg-[#E9D7FE] bg-cover bg-center" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 82%, 0 100%)' }} >
 
             </div>
-            <div className={`w-full h-full absolute z-10 top-0 bg-cover bg-center ${backgroundImage}`} style={{ clipPath: 'polygon(0 0, 100% 0, 100% 95%, 0 75%)' }}>
+            <div className="w-full h-full absolute z-10 top-0 bg-cover bg-center" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 95%, 0 75%)', backgroundImage: `url(${backgroundImage})` }}>
                 <div className="w-full h-full bg-[#8A38F5] opacity-20"></div>
             </div>
 

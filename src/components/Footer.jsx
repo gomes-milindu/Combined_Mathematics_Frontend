@@ -1,12 +1,4 @@
-import rect6 from "../assets/Footer/Rectangle 6.png";
-import rect7 from "../assets/Footer/Rectangle 7.png";
-import name from "../assets/Footer/name.png";
-import mail from "../assets/Footer/mail.png";
-import call from "../assets/Footer/call.png";
-import map from "../assets/Footer/map.png";
-import fb from "../assets/Footer/fb.png";
-import insta from "../assets/Footer/insta.png";
-import youtube from "../assets/Footer/youtube.png";
+import Assets from "../data/AssetLinks";
 
 function Footer() {
   return (
@@ -15,11 +7,11 @@ function Footer() {
         {/* Background decorative layers */}
         <div
           className="w-full h-[50px] md:h-[115px] bg-cover bg-no-repeat relative"
-          style={{ backgroundImage: `url(${rect6})` }}
+          style={{ backgroundImage: `url(${Assets.Footer_Rect6})` }}
         >
           <div
             className="w-full h-full bg-cover absolute z-1 bg-no-repeat right-0 top-0"
-            style={{ backgroundImage: `url(${rect7})` }}
+            style={{ backgroundImage: `url(${Assets.Footer_Rect7})` }}
           ></div>
         </div>
 
@@ -31,7 +23,7 @@ function Footer() {
             <div className="flex flex-col items-center mb-8">
               <div
                 className="w-[200px] h-[100px] bg-contain bg-no-repeat bg-center"
-                style={{ backgroundImage: `url(${name})` }}
+                style={{ backgroundImage: `url(${Assets.Footer_Name})` }}
               ></div>
               <div className="text-white text-[12px] font-light text-center mt-2 px-4 leading-5">
                 At Tuition Master, we make learning simple, fun, and
@@ -50,21 +42,21 @@ function Footer() {
                   <div className="flex flex-row items-center gap-2">
                     <div
                       className="w-[18px] h-[15px] bg-contain bg-no-repeat bg-center shrink-0"
-                      style={{ backgroundImage: `url(${mail})` }}
+                      style={{ backgroundImage: `url(${Assets.Footer_Mail})` }}
                     ></div>
                     <div>info@mathteacher.com</div>
                   </div>
                   <div className="flex flex-row items-center gap-2">
                     <div
                       className="w-[18px] h-[15px] bg-contain bg-no-repeat bg-center shrink-0"
-                      style={{ backgroundImage: `url(${call})` }}
+                      style={{ backgroundImage: `url(${Assets.Footer_Call})` }}
                     ></div>
                     <div>+94 78 778 78 456</div>
                   </div>
                   <div className="flex flex-row items-center gap-2">
                     <div
                       className="w-[18px] h-[15px] bg-contain bg-no-repeat bg-center shrink-0"
-                      style={{ backgroundImage: `url(${map})` }}
+                      style={{ backgroundImage: `url(${Assets.Footer_Map})` }}
                     ></div>
                     <div>MathsKing, Colombo 12</div>
                   </div>
@@ -119,7 +111,7 @@ function Footer() {
               <div className="flex flex-col items-center">
                 <div
                   className="w-[180px] h-[90px] bg-contain bg-no-repeat bg-center"
-                  style={{ backgroundImage: `url(${name})` }}
+                  style={{ backgroundImage: `url(${Assets.Footer_Name})` }}
                 ></div>
                 <div className="text-white text-[11px] font-light text-center mt-2 leading-5 px-2">
                   At Tuition Master, we make learning simple, fun, and
@@ -130,15 +122,15 @@ function Footer() {
                 <div className="flex flex-row gap-3 mt-4">
                   <div
                     className="w-[24px] h-[24px] bg-contain bg-no-repeat bg-center"
-                    style={{ backgroundImage: `url(${fb})` }}
+                    style={{ backgroundImage: `url(${Assets.Footer_Fb})` }}
                   ></div>
                   <div
                     className="w-[24px] h-[24px] bg-contain bg-no-repeat bg-center"
-                    style={{ backgroundImage: `url(${insta})` }}
+                    style={{ backgroundImage: `url(${Assets.Footer_Insta})` }}
                   ></div>
                   <div
                     className="w-[24px] h-[24px] bg-contain bg-no-repeat bg-center"
-                    style={{ backgroundImage: `url(${youtube})` }}
+                    style={{ backgroundImage: `url(${Assets.Footer_Youtube})` }}
                   ></div>
                 </div>
               </div>
@@ -150,21 +142,21 @@ function Footer() {
                   <div className="flex flex-row items-center gap-3">
                     <div
                       className="w-[20px] h-[18px] bg-contain bg-no-repeat bg-center shrink-0"
-                      style={{ backgroundImage: `url(${mail})` }}
+                      style={{ backgroundImage: `url(${Assets.Footer_Mail})` }}
                     ></div>
                     <div>info@mathteacher.com</div>
                   </div>
                   <div className="flex flex-row items-center gap-3">
                     <div
                       className="w-[20px] h-[18px] bg-contain bg-no-repeat bg-center shrink-0"
-                      style={{ backgroundImage: `url(${call})` }}
+                      style={{ backgroundImage: `url(${Assets.Footer_Call})` }}
                     ></div>
                     <div>+94 78 778 78 456</div>
                   </div>
                   <div className="flex flex-row items-center gap-3">
                     <div
                       className="w-[20px] h-[18px] bg-contain bg-no-repeat bg-center shrink-0"
-                      style={{ backgroundImage: `url(${map})` }}
+                      style={{ backgroundImage: `url(${Assets.Footer_Map})` }}
                     ></div>
                     <div>MathsKing, Colombo 12</div>
                   </div>
@@ -193,7 +185,7 @@ function Footer() {
                 <div className="w-full h-full flex flex-col justify-center items-center">
                   <div
                     className="w-full h-[200px] bg-contain bg-no-repeat bg-center scale-75"
-                    style={{ backgroundImage: `url(${name})` }}
+                    style={{ backgroundImage: `url(${Assets.Footer_Name})` }}
                   ></div>
                   <div className="w-[70%] h-[100px] text-white text-[13px] font-light text-center">
                     At Tuition Master, we make learning simple, fun, and
@@ -211,21 +203,21 @@ function Footer() {
                     <div className="flex flex-row justify-center items-center gap-3">
                       <div
                         className="w-[25px] h-[20px] bg-contain bg-no-repeat bg-center"
-                        style={{ backgroundImage: `url(${mail})` }}
+                        style={{ backgroundImage: `url(${Assets.Footer_Mail})` }}
                       ></div>
                       <div className="w-full">info@mathteacher.com</div>
                     </div>
                     <div className="flex flex-row justify-center items-center gap-3">
                       <div
                         className="w-[25px] h-[20px] bg-contain bg-no-repeat bg-center"
-                        style={{ backgroundImage: `url(${call})` }}
+                        style={{ backgroundImage: `url(${Assets.Footer_Call})` }}
                       ></div>
                       <div className="w-full">+94 78 778 78 456</div>
                     </div>
                     <div className="flex flex-row justify-center items-center gap-3">
                       <div
                         className="w-[25px] h-[20px] bg-contain bg-no-repeat bg-center"
-                        style={{ backgroundImage: `url(${map})` }}
+                        style={{ backgroundImage: `url(${Assets.Footer_Map})` }}
                       ></div>
                       <div className="w-full">MathsKing, Colombo 12</div>
                     </div>
@@ -233,15 +225,15 @@ function Footer() {
                   <div className="flex flex-row gap-4 mt-5">
                     <div
                       className="w-[28px] h-[25px] bg-contain bg-no-repeat bg-center"
-                      style={{ backgroundImage: `url(${fb})` }}
+                      style={{ backgroundImage: `url(${Assets.Footer_Fb})` }}
                     ></div>
                     <div
                       className="w-[28px] h-[25px] bg-contain bg-no-repeat bg-center"
-                      style={{ backgroundImage: `url(${insta})` }}
+                      style={{ backgroundImage: `url(${Assets.Footer_Insta})` }}
                     ></div>
                     <div
                       className="w-[28px] h-[25px] bg-contain bg-no-repeat bg-center"
-                      style={{ backgroundImage: `url(${youtube})` }}
+                      style={{ backgroundImage: `url(${Assets.Footer_Youtube})` }}
                     ></div>
                   </div>
                 </div>

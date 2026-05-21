@@ -1,5 +1,4 @@
-import he from "../../assets/Hero/hee.jpg"
-import student from "../../assets/Images/student.png"
+import Assets from "../../data/AssetLinks"
 
 
 function ResultCard(props) {
@@ -7,7 +6,7 @@ function ResultCard(props) {
   return (
     <div className="w-full md:w-4/12 h-auto bg-white border border-[#E9EAEB] rounded-xl flex flex-col items-center p-3 gap-4">
       {/* IMAGE */}
-      <div className="w-full h-[160px] md:h-[200px] lg:h-[240px] rounded-xl bg-red-200 bg-cover bg-center" style={{ backgroundImage: `url(${student})` }}></div>
+      <div className="w-full h-[160px] md:h-[200px] lg:h-[240px] rounded-xl bg-red-200 bg-cover bg-center" style={{ backgroundImage: `url(${Assets.Student_Photo})` }}></div>
       
       {/* CONTENT */}
       <div className="w-full flex flex-col gap-2 px-1">

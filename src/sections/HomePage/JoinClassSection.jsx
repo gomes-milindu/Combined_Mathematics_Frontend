@@ -1,12 +1,11 @@
-// import image from '../../assets/sounds/image.png'
-import image from '../../assets/image.png'
+import Assets from '../../data/AssetLinks'
 import JoinClass from '../../components/HomePage/JoinClass'
 
 function JoinClassSection() {
   return (
     <section className='w-full h-auto min-h-[auto] md:min-h-[500px] lg:min-h-[600px] relative bg-white md:bg-transparent'>
       {/* Background image */}
-      <div className='w-full h-full bg-cover bg-center bg-no-repeat absolute inset-0' style={{ backgroundImage: `url(${image})` }}>
+      <div className='w-full h-full bg-cover bg-center bg-no-repeat absolute inset-0' style={{ backgroundImage: `url(${Assets.Girl_Image})` }}>
         {/* Mobile: light white overlay for readability. Desktop: original purple overlay */}
         <div className="w-full h-full bg-white/90 md:bg-[#8A38F5] md:opacity-30 absolute z-5"></div>
       </div>
