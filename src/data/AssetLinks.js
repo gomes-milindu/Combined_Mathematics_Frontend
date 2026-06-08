@@ -7,18 +7,20 @@
 //   Hero_Home: "https://your-project.supabase.co/storage/v1/object/public/images/hero-home.jpg",
 // ============================================
 
+// --- Supabase URLs ---
+const heroHome = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/hee.jpg";
+const heroClasses = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Classes%20Page/classCardHeader.jpg";
+const heroCourses = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Course%20PAge/courses.png";
+const heroAbout = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/About.png";
+const heroContact = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Contact%20Page/Contact.png";
+
 // --- Local Imports ---
-import heroHome from "../assets/Hero/hee.jpg";
-import heroClasses from "../assets/Hero/classCardHeader.jpg";
-import heroCourses from "../assets/Hero/courses.png";
-import heroAbout from "../assets/Images/About.png";
-import heroContact from "../assets/Images/Contact.png";
 
 import cardIcon from "../assets/Hero/icon.png";
 
 import teacherPhoto from "../assets/Images/sir.png";
-import missionImage from "../assets/Images/mission.png";
-import visionImage from "../assets/Images/vision.png";
+const missionImage = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/mission.png";
+const visionImage = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/vision.png";
 import studentPhoto from "../assets/Images/student.png";
 import girlImage from "../assets/image.png";
 
