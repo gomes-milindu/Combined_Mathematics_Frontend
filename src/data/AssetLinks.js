@@ -16,23 +16,23 @@ const heroContact = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/
 
 // --- Local Imports ---
 
-import cardIcon from "../assets/Hero/icon.png";
+const cardIcon = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/icon.png";
 
-import teacherPhoto from "../assets/Images/sir.png";
+const teacherPhoto = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/sir.jpeg";
 const missionImage = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/mission.png";
 const visionImage = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/vision.png";
-import studentPhoto from "../assets/Images/student.png";
-import girlImage from "../assets/image.png";
+const studentPhoto = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/Student.png";
+const girlImage = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/Vector2Mob.png";
 
-import footerRect6 from "../assets/Footer/Rectangle 6.png";
-import footerRect7 from "../assets/Footer/Rectangle 7.png";
-import footerName from "../assets/Footer/name.png";
-import footerMail from "../assets/Footer/mail.png";
-import footerCall from "../assets/Footer/call.png";
-import footerMap from "../assets/Footer/map.png";
-import footerFb from "../assets/Footer/fb.png";
-import footerInsta from "../assets/Footer/insta.png";
-import footerYoutube from "../assets/Footer/youtube.png";
+const footerRect6 = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/Rectangle%206.png";
+const footerRect7 = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/Rectangle%207.png";
+const footerName = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/name.png";
+const footerMail = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/mail.png";
+const footerCall = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/call.png";
+const footerMap = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/map.png";
+const footerFb = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/fb.png";
+const footerInsta = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/insta.png";
+const footerYoutube = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/youtube.png";
 
 
 // ============================================
