@@ -1,4 +1,4 @@
-
+import Assets from "../../data/AssetLinks";
 
 function ClassCard({ title, description, time, category }) {
   return (
@@ -7,7 +7,7 @@ function ClassCard({ title, description, time, category }) {
       {/* IMAGE */}
       <div className="w-full h-[160px] sm:h-[180px] md:h-[200px] rounded-xl overflow-hidden">
         <img
-          src="https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/hee.jpg"
+          src={Assets.Hero_Home}
           alt={title}
           className="w-full h-full object-cover"
         />

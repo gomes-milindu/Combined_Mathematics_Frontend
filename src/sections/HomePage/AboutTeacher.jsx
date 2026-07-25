@@ -1,6 +1,4 @@
-// 
-
-
+import Assets from "../../data/AssetLinks";
 import { useState } from "react";
 
 const AboutTeacher = () => {
@@ -19,8 +17,8 @@ const AboutTeacher = () => {
         {/* Mobile & Tablet: Stacked layout (image centered, text below) */}
         <div className="flex flex-col lg:hidden justify-center items-center gap-6">
           <div
-            className="w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-xl bg-cover bg-center bg-no-repeat shrink-0"
-            style={{ backgroundImage: `url('https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/Sir_Mobile.png')` }}
+            className="w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-xl bg-cover bg-center bg-no-repeat shrink-0"
+            style={{ backgroundImage: `url(${Assets.Teacher_Photo})` }}
           ></div>
 
           {/* Mobile: truncated with Read More */}
@@ -51,7 +49,7 @@ const AboutTeacher = () => {
         <div className="hidden lg:flex flex-row justify-center items-center gap-8">
           <div
             className="w-[416px] h-[399px] rounded-xl bg-cover bg-center bg-no-repeat shrink-0"
-            style={{ backgroundImage: `url('https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/sir.jpeg')` }}
+            style={{ backgroundImage: `url(${Assets.Teacher_Photo})` }}
           ></div>
           <div className="w-full flex flex-col gap-8">
             <div className="text-[18px] text-[#717680]">{fullText}</div>
