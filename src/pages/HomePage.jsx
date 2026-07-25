@@ -9,6 +9,7 @@ import ResultCardSection from "../sections/HomePage/ResultCardSection";
 import Assets from "../data/AssetLinks";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import HeaderMobile from "../components/HomePage/HeaderMobile";
 
 function HomePage() {
   return (
@@ -16,7 +17,7 @@ function HomePage() {
       <Header backgroundImage={Assets.Hero_Home}/>
       <HeroText />
       
-        <GlassBox />
+      <GlassBox />
       
 
       <CardSection />

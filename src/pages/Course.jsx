@@ -18,13 +18,13 @@ export default function Course() {
                 heroTitle="Your Learning"
                 heroSubtitle="Journey Starts Here"
             />
-
-
-            <NavBar />
-
-            <CourseCardSection />
-
-            <Footer />
+        
+        
+        <NavBar />
+        
+        <CourseCardSection />
+        
+        <Footer />
         </>
     )
 }

@@ -1,7 +1,7 @@
-import axios from "axios";
+import { api } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 import PaymentStudent from "./PaymentStudent";
 import PaymentDrawer from "./PaymentDrawer";
 import RecentPaymentsDrawer from "./RecentPaymentsDrawer";
@@ -17,7 +17,9 @@ import {
   ArrowLeft,
   CheckCircle2,
   XCircle,
+  Edit,
 } from "lucide-react";
+import { viewStudent } from "../../api/StudentApi";
 
 export default function ViewStudent() {
   const { id } = useParams();
@@ -48,9 +50,10 @@ export default function ViewStudent() {
   useEffect(() => {
     if (!id) return;
 
-    axios
-      .get(`http://localhost:8080/student/getOne/${id}`)
+    api
+      .get(`/student/getOne/${id}`)
       .then((res) => {
+        console.log("API response:", res.data);
         setStudent(res.data);
       })
       .catch((err) => {
@@ -138,6 +141,12 @@ export default function ViewStudent() {
                   label="Date of Birth"
                   value={student.dateOfBirth}
                 />
+
+                <InfoItem
+                  icon={CreditCard}
+                  label="Payment Type"
+                  value={student.paymentType}
+                />
               </div>
 
               {/* Action Buttons */}
@@ -155,6 +164,14 @@ export default function ViewStudent() {
                 >
                   <QrCode size={18} />
                   Scan Another
+                </Link>
+
+                <Link
+                  to={`/admin/students/studentEdit/${student._id}`}
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition font-medium"
+                >
+                  <Edit size={18} />
+                  Edit Student
                 </Link>
               </div>
             </div>
@@ -198,7 +215,7 @@ export default function ViewStudent() {
         <PaymentDrawer
           isOpen={isPaymentDrawerOpen}
           onClose={() => setIsPaymentDrawerOpen(false)}
-          studentId={student.studentId}
+          student={student}
         />
 
         {/* Auto-Open Recent Payments Drawer (Mobile/Tablet) */}

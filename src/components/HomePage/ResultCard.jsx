@@ -20,30 +20,31 @@ function ResultCard(props) {
             <div className="w-[26px] h-[26px] rounded-full flex items-center justify-center bg-[#fcf2fa] text-[#c21574] text-[11px] font-semibold shadow-sm">
               A
             </div>
-            <div className="w-[26px] h-[26px] rounded-full flex items-center justify-center bg-[#fcf2fa] text-[#c21574] text-[11px] font-semibold shadow-sm">
+
+            <div className="w-7 h-7 rounded-full flex items-center justify-center
+                    bg-[#fcf2fa] text-[#c21574] text-xs font-semibold
+                     shadow-sm">
               A
             </div>
-            <div className="w-[26px] h-[26px] rounded-full flex items-center justify-center bg-[#fcf2fa] text-[#c21574] text-[11px] font-semibold shadow-sm">
+
+            <div className="w-7 h-7 rounded-full flex items-center justify-center
+                    bg-[#fcf2fa] text-[#c21574] text-xs font-semibold
+                     shadow-sm">
               A
             </div>
           </div>
 
           {/* Badge label */}
-          <div className="bg-[#f3f2ff] px-[10px] h-[26px] rounded-lg flex items-center text-[#5925db] text-[11px] md:text-[12px] font-medium whitespace-nowrap">
+          <div className="bg-[#f3f2ff] px-3 h-7 rounded-lg flex items-center
+                  text-[#5925db] text-xs md:text-sm font-medium whitespace-nowrap">
             District 1st - 2023 A/L
           </div>
+
         </div>
 
-        {/* DETAILS */}
-        <div className="flex flex-col gap-[2px] mt-1">
-          <div className="text-[13px] md:text-[14px] font-normal text-[#717680]">{props.index}</div>
-          <div className="text-[13px] md:text-[14px] font-normal text-[#717680]">{props.school}</div>
-        </div>
-        
-        {/* DESCRIPTION */}
-        <div className="text-[12px] md:text-[13px] font-normal text-[#717680] leading-[20px] mt-1 mb-1">
-          simply dummy text of the printing and typesetting industry. text of the printing and typesetting industry.
-        </div>
+        <div className="text-[0.95rem] md:text-[1.125rem] font-normal text-[#717680] mt-2">{props.index}</div>
+        <div className="text-[0.95rem] md:text-[1.125rem] font-normal text-[#717680]">{props.school}</div>
+        <div className="text-[13px] md:text-[16px] lg:text-[18px] font-normal text-[#717680]">simply dummy text of the printing and typesetting industry. text of the printing and typesetting industry.</div>
       </div>
     </div>
   )

@@ -1,6 +1,5 @@
 import Assets from "../../data/AssetLinks";
 import { useState } from "react";
-import Card from "../../components/HomePage/Card";
 
 const AboutTeacher = () => {
   const [expanded, setExpanded] = useState(false);
@@ -10,8 +9,8 @@ const AboutTeacher = () => {
 
   return (
     <section className="w-full h-auto py-10 md:py-12 lg:py-16 flex justify-center items-center">
-      <div className="w-11/12 md:w-10/12 max-w-[1208px] flex flex-col justify-center items-center gap-6 md:gap-8">
-        <div className="text-[24px] md:text-[30px] lg:text-[36px] font-semibold text-center text-[#7F56D9]">
+      <div className="w-11/12 md:w-10/12 max-w-[1208px] flex flex-col justify-center items-center gap-2 md:gap-8">
+        <div className="hidden text-[24px] lg:block md:text-[30px] lg:text-[36px] font-semibold text-center text-[#7F56D9]">
           About The Teacher
         </div>
 
@@ -23,23 +22,17 @@ const AboutTeacher = () => {
           ></div>
 
           {/* Mobile: truncated with Read More */}
-          <div className="md:hidden text-center flex flex-col gap-6 w-full text-left">
-            <div>
-              <div className="text-[14px] text-[#717680] leading-relaxed text-justify px-2">
-                {expanded ? fullText : fullText.slice(0, 120) + "..."}
-              </div>
-              <button
-                onClick={() => setExpanded(!expanded)}
-                className="text-[14px] font-medium text-[#414651] mt-3 flex items-center gap-1 mx-auto"
-              >
-                {expanded ? "Show Less" : "Read More"}
-                <span className="text-[16px]">{expanded ? "‹" : "›"}</span>
-              </button>
+          <div className="md:hidden text-center">
+            <div className="text-[14px] text-[#717680] leading-relaxed">
+              {expanded ? fullText : fullText.slice(0, 200) + "..."}
             </div>
-            
-            <div className="w-full text-left mt-2 px-2">
-              <Card />
-            </div>
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="text-[14px] font-medium text-[#414651] mt-3 flex items-center gap-1 mx-auto"
+            >
+              {expanded ? "Show Less" : "Read More"}
+              <span className="text-[16px]">{expanded ? "‹" : "›"}</span>
+            </button>
           </div>
 
           {/* Tablet: full text shown */}
