@@ -1,5 +1,4 @@
 
-import GlassBox from "../components/HomePage/GlassBox";
 import HeroText from "../components/HomePage/HeroText";
 import AboutTeacher from "../sections/HomePage/AboutTeacher";
 import CardSection from "../sections/HomePage/CardSection";
@@ -17,7 +16,7 @@ function HomePage() {
       <Header backgroundImage={Assets.Hero_Home}/>
       <HeroText />
       
-      <GlassBox />
+       
       
 
       <CardSection />
