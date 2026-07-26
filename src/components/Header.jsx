@@ -1,65 +1,54 @@
-// // 
+import NavBar from "./NavBar";
 
-
-
-// function Header({ color2, heroTitle, heroSubtitle }) {
-//     return (
-//         <div className='w-full h-[60vh] md:h-[70vh] lg:h-screen relative'>
-//             <div className="w-full h-full bg-[#E9D7FE] bg-cover bg-center" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 82%, 0 90%)' }} >
-
-//             </div>
-//             <div className={`w-full h-full absolute z-10 top-0 bg-cover bg-center`} style={{ 
-//                 backgroundImage: `url('https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/hee.jpg')`,
-//                 clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 70%)' }}>
-//                 <div className="w-full h-full bg-[#8A38F5] opacity-20"></div>
-//             </div>
-
-//             {/* Hero text overlay */}
-//             {heroTitle && (
-//                 <div className="absolute z-12 bottom-[32%] md:bottom-[20%] left-1/2 -translate-x-1/2 text-center w-[90%] md:w-auto">
-//                     <div className="text-[18px] md:text-[24px] lg:text-[30px] font-medium text-white drop-shadow-lg">
-//                         {heroTitle}
-//                     </div>
-//                     <div className="text-[24px] md:text-[32px] lg:text-[42px] font-bold text-white drop-shadow-lg">
-//                         {heroSubtitle}
-//                     </div>
-//                 </div>
-//             )}
-//         </div>
-
-//     )
-// }
-
-// export default Header;
-
-
-
-function Header({ color2, heroTitle, heroSubtitle, bgImage }) {
+function Header({ color2, backgroundImage, heroTitle, heroSubtitle }) {
     return (
-        <div className='w-full h-[60vh] md:h-[70vh] lg:h-screen relative'>
-            <div className="w-full h-full bg-[#E9D7FE] bg-cover bg-center" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 82%, 0 100%)' }} >
+        <div className="w-full h-[35vh] md:h-[70vh] lg:h-screen relative">
 
-            </div>
-            <div className={`w-full h-full absolute z-10 top-0 bg-cover bg-center `} style={{ 
-                backgroundImage: bgImage ? `url(${bgImage})` : 'none' ,
-                clipPath: 'polygon(0 0, 100% 0, 100% 95%, 0 60%)' }}>
+            {/* Navbar */}
+            <NavBar />
+
+            {/* Background Shape */}
+            <div
+                className="w-full h-full bg-[#E9D7FE] bg-cover bg-center"
+                style={{
+                    clipPath: "polygon(0 0, 100% 0, 100% 82%, 0 100%)",
+                }}
+            />
+
+            {/* Hero Image */}
+            <div
+                className="w-full h-full absolute z-10 top-0 bg-cover bg-center"
+                style={{
+                    clipPath: "polygon(0 0, 100% 0, 100% 95%, 0 75%)",
+                    backgroundImage: `url(${backgroundImage})`,
+                }}
+            >
                 <div className="w-full h-full bg-[#8A38F5] opacity-20"></div>
             </div>
 
-            {/* Hero text overlay */}
+            {/* Mobile Hero Text */}
+            <div className="absolute z-20 top-[55%] left-1/2 -translate-x-1/2 text-center w-[90%] md:hidden">
+                <div className="text-[16px] font-medium text-white drop-shadow-lg">
+                    {heroTitle || "Join Our Classes &"}
+                </div>
+                <div className="text-[24px] font-bold text-white drop-shadow-lg mt-1">
+                    {heroSubtitle || "Online | Colombo | Kandy"}
+                </div>
+            </div>
+
+            {/* Desktop / Tablet Hero Text */}
             {heroTitle && (
-                <div className="absolute z-12 bottom-[32%] md:bottom-[20%] left-1/2 -translate-x-1/2 text-center w-[90%] md:w-auto">
-                    <div className="text-[18px] md:text-[24px] lg:text-[30px] font-medium text-white drop-shadow-lg">
+                <div className="absolute z-20 bottom-[20%] left-1/2 -translate-x-1/2 text-center w-auto hidden md:block">
+                    <div className="md:text-[24px] lg:text-[30px] font-medium text-white drop-shadow-lg">
                         {heroTitle}
                     </div>
-                    <div className="text-[24px] md:text-[32px] lg:text-[42px] font-bold text-white drop-shadow-lg">
+                    <div className="md:text-[32px] lg:text-[42px] font-bold text-white drop-shadow-lg">
                         {heroSubtitle}
                     </div>
                 </div>
             )}
         </div>
-
-    )
+    );
 }
 
 export default Header;

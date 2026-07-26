@@ -5,9 +5,9 @@ import Topic from "../../components/HomePage/Topic"
 function PopularCourses() {
 
     const courses = [
-        ["Center of Gravity", "Appl Mathematics", "2000","https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=1200&auto=format&fit=crop"],
-        // ["Limits", "Pure Mathematics", "2500","https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=1200&auto=format&fit=crop"],
-        // ["Vectors", "Pure Mathematics", "2200","https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=1200&auto=format&fit=crop"]
+        ["Center of Gravity", "Applied Mathematics", "2000"],
+        ["Limits", "Pure Mathematics", "2500"],
+        ["Vectors", "Pure Mathematics", "2200"]
     ]
 
     const [current, setCurrent] = useState(0);
@@ -44,16 +44,48 @@ function PopularCourses() {
                 <Topic topic="Our Popular Courses" subtopic="Discover the most loved courses by our students." />
             </div>
 
-            <div className=" w-[90%] lg:max-w-7xl h-[605px] gap-8 flex flex-row">
-                 
+            {/* Desktop/Tablet: side by side */}
+            <div className="hidden md:flex w-10/12 max-w-[1216px] gap-6 lg:gap-8 flex-row">
+                {courses.map((course, index) => (
+                    <CourseCard key={index} title={course[0]} category={course[1]} price={course[2]} />
+                ))}
+            </div>
 
-                    {
-                    courses.map(
-                        (course) => (
-                            <CourseCard title={course[0]} category={course[1]} price={course[2]} image={course[3]} />
-                        )
-                    )
-                    }
+            {/* Mobile: Swipeable carousel with peek */}
+            <div
+                className="md:hidden w-full overflow-hidden relative"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+            >
+                <div
+                    className="flex transition-transform duration-500 ease-out"
+                    style={{
+                        transform: `translateX(calc(-${current * 75}% + 12.5%))`,
+                    }}
+                >
+                    {courses.map((course, index) => (
+                        <div
+                            key={index}
+                            className={`w-[75%] shrink-0 px-2 transition-all duration-500 ${index === current ? 'opacity-100 scale-100' : 'opacity-50 scale-[0.90]'
+                                }`}
+                        >
+                            <CourseCard title={course[0]} category={course[1]} price={course[2]} />
+                        </div>
+                    ))}
+                </div>
+
+                {/* Dots indicator */}
+                <div className="flex justify-center gap-2 mt-6">
+                    {courses.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setCurrent(index)}
+                            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === current ? 'bg-[#7F56D9] w-6' : 'bg-gray-300'
+                                }`}
+                        />
+                    ))}
+                </div>
             </div>
         </section>
     )

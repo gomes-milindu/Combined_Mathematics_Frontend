@@ -1,6 +1,6 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { CreditCard, Banknote, Calendar, CheckCircle2 } from "lucide-react";
-import { api } from "../../utils/api";
 
 export default function AllPayments({ studentId }) {
   const [payment, setPayment] = useState([]);
@@ -8,8 +8,8 @@ export default function AllPayments({ studentId }) {
   useEffect(() => {
     if (!studentId) return;
 
-    api
-      .get(`/payment?studentId=${studentId}`)
+    axios
+      .get(`http://localhost:8080/payment?studentId=${studentId}`)
       .then((res) => {
         setPayment(res.data);
       })
@@ -20,19 +20,24 @@ export default function AllPayments({ studentId }) {
 
   if (!payment.length) return null;
 
-  const hasTheory = payment.some((p) => p.batch === "2028 Theory");
- 
+  const hasTheory = payment.some((p) => p.batch === "2027 Theory");
+  const hasPaper = payment.some((p) => p.batch === "2027 Paper");
 
   return (
     <div className="space-y-8 mt-8">
       {hasTheory && (
         <PaymentTable
-          title="2028 Theory Payments"
-          data={payment.filter((p) => p.batch === "2028 Theory")}
+          title="2027 Theory Payments"
+          data={payment.filter((p) => p.batch === "2027 Theory")}
         />
       )}
 
-      
+      {hasPaper && (
+        <PaymentTable
+          title="2027 Paper Class Payments"
+          data={payment.filter((p) => p.batch === "2027 Paper")}
+        />
+      )}
     </div>
   );
 }
@@ -73,8 +78,10 @@ function PaymentTable({ title, data }) {
               >
                 <td className="p-4">
                   <div className="flex items-center gap-2 font-medium text-slate-700 dark:text-slate-200">
-                    
-                    <span>{p.month}</span>
+                    <span className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-500">
+                      {p.month}
+                    </span>
+                    <span>Month {p.month}</span>
                   </div>
                 </td>
                 <td className="p-4">

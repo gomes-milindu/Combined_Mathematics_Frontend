@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopNav from "./TopNav";
 import toast from "react-hot-toast";
-import Breadcrumb from "./Breadcrumb";
-import { api } from "../../utils/api";
+import axios from "axios";
+import Breadcrumb from "./BreadCrumb";
 
 export default function AddCourse() {
   const [courseName, setCourseName] = useState("");
@@ -16,13 +16,14 @@ export default function AddCourse() {
 
   async function Create() {
     try {
-      await api.post("/addcourse", {
+      await axios.post("http://localhost:8080/addcourse/", {
         courseName,
         courseCategory,
         coursePrice,
         courseUrl,
         courseDescription,
-      })
+      });
+
       toast.success("Admin Created Successfully");
       await navigate("/admin/course");
     } catch (e) {

@@ -2,11 +2,16 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import { ChevronDown } from "lucide-react";
+import Assets from "../data/AssetLinks";
 
 function Contact() {
   return (
     <>
-      <Header bgImage= "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Contact%20Page/Contact.png" />
+      <Header
+        backgroundImage={Assets.Hero_Contact}
+        heroTitle="Get in Touch and"
+        heroSubtitle="Start Your Learning Journey"
+      />
       <NavBar />
 
       {/* Contact Section */}

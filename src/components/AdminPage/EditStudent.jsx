@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { api } from "../../utils/api";
+import axios from "axios";
 import toast from "react-hot-toast";
-
 import {
   User,
   Mail,
@@ -16,7 +15,7 @@ import {
   X,
   CheckCircle2,
 } from "lucide-react";
-import Breadcrumb from "./Breadcrumb";
+import Breadcrumb from "./BreadCrumb";
 
 export default function EditStudent() {
   const { id } = useParams();
@@ -32,7 +31,6 @@ export default function EditStudent() {
     institute: "",
     batch: "",
     dateOfBirth: "",
-    paymentType: "",
     isActive: false,
   });
 
@@ -41,8 +39,8 @@ export default function EditStudent() {
   useEffect(() => {
     if (!id) return;
 
-    api
-      .get(`/student/getOne/${id}`)
+    axios
+      .get(`http://localhost:8080/student/getOne/${id}`)
       .then((res) => {
         const s = res.data;
 
@@ -56,7 +54,6 @@ export default function EditStudent() {
           institute: s.institute || "",
           batch: s.batch || "",
           dateOfBirth: s.dateOfBirth ? s.dateOfBirth.substring(0, 10) : "",
-          paymentType: s.paymentType || "",
           isActive: !!s.isActive,
         });
         setIsLoading(false);
@@ -78,11 +75,11 @@ export default function EditStudent() {
 
   async function handleEdit() {
     try {
-      await api.put(`/student/${id}`, form);
+      await axios.put(`http://localhost:8080/student/${id}`, form);
 
       toast.success("Student updated successfully");
       navigate("/admin/students");
-    } catch (err) {
+    } catch {
       toast.error("Update failed. Please try again.");
     }
   }
@@ -241,15 +238,6 @@ export default function EditStudent() {
                 value={form.dateOfBirth}
                 onChange={updateField}
                 icon={Calendar}
-              />
-
-              <SelectField
-                label="Payment Type"
-                name="paymentType"
-                value={form.paymentType}
-                onChange={updateField}
-                icon={Calendar}
-                options={["Full Payment", "Half Payment", "Free Payment"]}
               />
               {/* Academic Details Section */}
               <div className="col-span-1 md:col-span-2 pt-4 pb-2 border-b border-slate-100 dark:border-slate-800 mt-2">

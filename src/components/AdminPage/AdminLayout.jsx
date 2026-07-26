@@ -3,7 +3,6 @@ import { Outlet, useLocation } from "react-router-dom";
 import Slidebar from "./SlideBar";
 import TopNav from "./TopNav";
 
-
 export default function AdminLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
@@ -49,7 +48,6 @@ export default function AdminLayout() {
 
         <main className="flex-1 overflow-y-auto p-4 md:p-6 scroll-smooth">
           <Outlet />
-          
         </main>
       </div>
     </div>

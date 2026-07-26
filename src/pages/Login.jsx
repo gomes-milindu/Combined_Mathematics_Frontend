@@ -1,4 +1,4 @@
-import { api } from "../utils/api";
+import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, Navigate, useNavigate } from "react-router-dom";
@@ -9,31 +9,27 @@ function Login(props) {
   const [role, setRole] = useState("");
 
   const navigate = useNavigate();
-
   async function login(e) {
-    e.preventDefault();
-    const loadingToast = toast.loading("Logging in...");
-
+    e?.preventDefault();
     try {
-      const response = await api.post("/admin/login", {
-        userName: usergetName,
-        password: Password,
-        role: role,
-      });
+      // await axios.post(
+      // "http://localhost:8080/admin/login",
+      // {
+        
+      //     userName: usergetName,
+      //     password: Password,
+      //     role: role
+      // }
+      // );
+      // alert("He")
+      navigate("/admin")
+      
 
-      localStorage.setItem("token", response.data.token);
-
-      toast.success(response.data.message || "Login successful", { id: loadingToast });
-
-      // navigate after success
-      navigate("/admin");
+      toast.success("Admin Login Succesfull");
     } catch (e) {
-      const message =
-        e.response?.data?.message || "Password or username is incorrect";
-      toast.error(message, { id: loadingToast });
+      toast.error("Admin Not Log");
     }
-
-    return false;
+    return false
   }
 
 return (
@@ -74,7 +70,7 @@ return (
                 className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm focus:border-[#6D28D9] focus:ring-2 focus:ring-purple-200 outline-none transition"
                 onChange={(e) => {
                   setuserName(e.target.value);
-                  
+                  console.log(e.target.value)
                 }}
               />
             </div>
@@ -89,7 +85,7 @@ return (
                 className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm focus:border-[#6D28D9] focus:ring-2 focus:ring-purple-200 outline-none transition"
                 onChange={(e) => {
                   setPassword(e.target.value);
-                  
+                  console.log(e.target.value)
                 }}
               />
             </div>
@@ -102,7 +98,7 @@ return (
                 className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm focus:border-[#6D28D9] focus:ring-2 focus:ring-purple-200 outline-none transition"
                 onChange={(e) => {
                   setRole(e.target.value);
-                  ;
+                  console.log(e.target.value);
                 }}
               >
                 <option value="student" defaultValue>
@@ -115,7 +111,6 @@ return (
             <button
               type="submit"
               className="w-full rounded-xl bg-[#6D28D9] py-3 text-white shadow-lg shadow-purple-200 hover:bg-[#5B21B6] active:scale-[.99] transition font-medium"
-              onSubmit={login}
             >
               Submit
             </button>
@@ -135,5 +130,3 @@ return (
 }
 
 export default Login;
-
-

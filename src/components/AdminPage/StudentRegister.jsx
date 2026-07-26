@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { api } from "../../utils/api";
+import axios from "axios";
 import toast from "react-hot-toast";
-import Breadcrumb from "./Breadcrumb";
+import Breadcrumb from "./BreadCrumb";
 import { useNavigate } from "react-router-dom";
 
 export default function StudentRegister() {
@@ -15,15 +15,11 @@ export default function StudentRegister() {
   const [institute, setInstitute] = useState("");
   const [batch, setBatch] = useState("");
   const [dateOfBirth, setBirthday] = useState("");
-  const [paymentType, setPaymentType] = useState("Full Payment");
-  const [isActive, setIsActive] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isActive, setIsActive] = useState("");
 
   async function Create() {
-    setIsLoading(true);
-    let loadingToast;
     try {
-      const res = await api.post("/student/", {
+      await axios.post("http://localhost:8080/student/", {
         studentId,
         firstName,
         lastName,
@@ -33,21 +29,14 @@ export default function StudentRegister() {
         institute,
         batch,
         dateOfBirth,
-        paymentType,
-        isActive,
-        role: "student",
+        isActive: isActive === "true",
+        role: "admin",
       });
 
-      toast.success("Student Created Successfully", { id: loadingToast });
-
-      const newStudentId = res.data?.student?._id;
-      navigate(`/admin/students/studentView/${newStudentId}`);
+      toast.success("Student Created Successfully");
+      navigate("/admin/students");
     } catch (e) {
-      const message = e.response?.data?.message || "Something went wrong";
-
-      toast.error(message, { id: loadingToast });
-    } finally {
-      setIsLoading(false);
+      toast.error("Student Not Created");
     }
   }
 
@@ -138,6 +127,19 @@ export default function StudentRegister() {
               />
             </div>
 
+            {/* Password */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Password
+              </label>
+              <input
+                type="password"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
+                placeholder="••••••••"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
             {/* Institute */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -149,10 +151,7 @@ export default function StudentRegister() {
               >
                 <option value="">Select Institute</option>
                 <option>Samathwee</option>
-                <option>New Sense</option>
-                <option>Sarwa</option>
-                <option>Sky Zone</option>
-                <option>Savidma</option>
+                <option>Sisulka</option>
               </select>
             </div>
 
@@ -162,12 +161,11 @@ export default function StudentRegister() {
                 Batch
               </label>
               <select
-                value={batch}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
                 onChange={(e) => setBatch(e.target.value)}
               >
-                <option value="">Select Batch</option>
-                <option value="2028 Theory">2028 Theory</option>
+                <option value="">Select batch</option>
+                <option>2027 Theory</option>
               </select>
             </div>
 
@@ -183,19 +181,18 @@ export default function StudentRegister() {
               />
             </div>
 
+            {/* Active Status */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Payment Type
+                Active Status
               </label>
               <select
-                type="date"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
-                onChange={(e) => setPaymentType(e.target.value)}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
+                onChange={(e) => setIsActive(e.target.value)}
               >
-              <option value={paymentType}>{paymentType}</option>
-              {/* <option value="Full Payment">Full Payment</option> */}
-              <option value="Half Payment">Half Payment</option>
-              <option value="Free Payment">Free Payment</option>
+                <option value="">Select status</option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
               </select>
             </div>
           </div>
@@ -210,10 +207,9 @@ export default function StudentRegister() {
             </button>
             <button
               onClick={Create}
-              disabled={isLoading}
-              className="w-full md:w-auto px-6 py-2.5 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition text-sm font-medium shadow-sm hover:shadow focus:ring-2 focus:ring-purple-400 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full md:w-auto px-6 py-2.5 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition text-sm font-medium shadow-sm hover:shadow focus:ring-2 focus:ring-purple-400 focus:ring-offset-1"
             >
-              {isLoading ? "Creating.." : "Create Student"}
+              Create Student
             </button>
           </div>
         </div>
