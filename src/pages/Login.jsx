@@ -27,7 +27,11 @@ function Login(props) {
       }
 
       localStorage.setItem("token", res.data.token);
-      navigate("/admin");
+      if (role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/student");
+      }
       toast.success(role === "admin" ? "Admin Login Successful" : "Student Login Successful");
     } catch (e) {
       const msg = e.response?.data?.message || "Login failed";

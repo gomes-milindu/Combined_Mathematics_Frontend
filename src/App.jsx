@@ -12,6 +12,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import ProtectedRoute from "../src/components/ProtectedRoute";
+import Student from "./pages/Student";
 -toast;
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
           
             <Route path="/admin/*" element={<Admin />} />
+            <Route path="/student/*" element={<Student />} />
           </Route>
 
           <Route path="/course/*" element={<Course />} />
