@@ -6,21 +6,29 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 function Login(props) {
   const [usergetName, setuserName] = useState("");
   const [Password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("student");
 
   const navigate = useNavigate();
   async function login(e) {
     e?.preventDefault();
     try {
-      const res = await api.post("/admin/login", {
-        userName: usergetName,
-        password: Password,
-        role: role,
-      });
+      let res;
+      if (role === "admin") {
+        res = await api.post("/admin/login", {
+          userName: usergetName,
+          password: Password,
+          role: role,
+        });
+      } else {
+        res = await api.post("/student/login", {
+          email: usergetName,
+          password: Password,
+        });
+      }
 
       localStorage.setItem("token", res.data.token);
       navigate("/admin");
-      toast.success("Admin Login Successful");
+      toast.success(role === "admin" ? "Admin Login Successful" : "Student Login Successful");
     } catch (e) {
       const msg = e.response?.data?.message || "Login failed";
       toast.error(msg);
@@ -57,11 +65,11 @@ return (
           <form className="mt-8 space-y-5" onSubmit={login}>
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-700">
-                Username
+                {role === "admin" ? "Username" : "Email"}
               </label>
               <input
-                type="text"
-                placeholder="Enter your username"
+                type={role === "admin" ? "text" : "email"}
+                placeholder={role === "admin" ? "Enter your username" : "Enter your email"}
                 className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm focus:border-[#6D28D9] focus:ring-2 focus:ring-purple-200 outline-none transition"
                 onChange={(e) => {
                   setuserName(e.target.value);
