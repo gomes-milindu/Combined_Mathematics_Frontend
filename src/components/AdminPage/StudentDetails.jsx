@@ -26,7 +26,7 @@ export default function StudentDetails() {
 
   function loadStudents() {
     api.get("/student/").then((res) => {
-      setStudents(res.data);
+      setStudents(res.data.students);
     });
   }
 
