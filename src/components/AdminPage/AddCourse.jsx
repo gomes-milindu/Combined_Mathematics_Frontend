@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopNav from "./TopNav";
 import toast from "react-hot-toast";
-import axios from "axios";
+import api from "../../config/axios";
 import Breadcrumb from "./BreadCrumb";
 
 export default function AddCourse() {
@@ -16,7 +16,7 @@ export default function AddCourse() {
 
   async function Create() {
     try {
-      await axios.post("http://localhost:8080/addcourse/", {
+      await api.post("/addcourse/", {
         courseName,
         courseCategory,
         coursePrice,

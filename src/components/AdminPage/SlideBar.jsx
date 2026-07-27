@@ -36,9 +36,8 @@ export default function Slidebar({ onClose }) {
   const handleLogout = () => {
     setShowSettingsMenu(false);
     if (onClose) onClose();
-    // Add logout logic here (clear auth, redirect to login, etc.)
-    localStorage.removeItem("authToken"); // Example
-    navigate("/");
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   const handleLoadAdmins = () => {

@@ -184,7 +184,7 @@
 //   );
 // }
 
-import axios from "axios";
+import api from "../../config/axios";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
@@ -224,7 +224,7 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
       cardType: formData.cardType,
     };
 
-    console.log("Payload sending →", payload);
+
 
     // frontend guard
     if (
@@ -239,12 +239,11 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/payment/create",
+      const response = await api.post(
+        "/payment/create",
         payload,
       );
 
-      console.log("Response →", response.data);
       toast.success("Payment Success");
 
       // ✅ reset form (keep student + defaults)
@@ -259,7 +258,6 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
       onClose();
       window.location.reload()
     } catch (err) {
-      console.log("ERROR:", err.response?.data || err.message);
       toast.error(err.response?.data?.message || "Payment failed");
     }
   };

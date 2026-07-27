@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../config/axios";
 import toast from "react-hot-toast";
 import {
   User,
@@ -39,8 +39,8 @@ export default function EditStudent() {
   useEffect(() => {
     if (!id) return;
 
-    axios
-      .get(`http://localhost:8080/student/getOne/${id}`)
+    api
+      .get(`/student/getOne/${id}`)
       .then((res) => {
         const s = res.data;
 
@@ -75,7 +75,7 @@ export default function EditStudent() {
 
   async function handleEdit() {
     try {
-      await axios.put(`http://localhost:8080/student/${id}`, form);
+      await api.put(`/student/${id}`, form);
 
       toast.success("Student updated successfully");
       navigate("/admin/students");

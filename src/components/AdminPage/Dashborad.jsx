@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../config/axios";
 import { useEffect, useState } from "react";
 import { Users, CreditCard, TrendingUp, Building2 } from "lucide-react";
 
@@ -6,9 +6,8 @@ export function Dashboard() {
   const [countStudent, setCountStudent] = useState();
 
   useEffect(() => {
-    axios.get("http://localhost:8080/dashboard/").then((res) => {
+    api.get("/dashboard/").then((res) => {
       setCountStudent(res.data);
-      console.log("response data:", res.data);
     });
   }, []);
 

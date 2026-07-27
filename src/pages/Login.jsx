@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../config/axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, Navigate, useNavigate } from "react-router-dom";
@@ -12,24 +12,19 @@ function Login(props) {
   async function login(e) {
     e?.preventDefault();
     try {
-      // await axios.post(
-      // "http://localhost:8080/admin/login",
-      // {
-        
-      //     userName: usergetName,
-      //     password: Password,
-      //     role: role
-      // }
-      // );
-      // alert("He")
-      navigate("/admin")
-      
+      const res = await api.post("/admin/login", {
+        userName: usergetName,
+        password: Password,
+        role: role,
+      });
 
-      toast.success("Admin Login Succesfull");
+      localStorage.setItem("token", res.data.token);
+      navigate("/admin");
+      toast.success("Admin Login Successful");
     } catch (e) {
-      toast.error("Admin Not Log");
+      const msg = e.response?.data?.message || "Login failed";
+      toast.error(msg);
     }
-    return false
   }
 
 return (
@@ -70,7 +65,6 @@ return (
                 className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm focus:border-[#6D28D9] focus:ring-2 focus:ring-purple-200 outline-none transition"
                 onChange={(e) => {
                   setuserName(e.target.value);
-                  console.log(e.target.value)
                 }}
               />
             </div>
@@ -85,7 +79,6 @@ return (
                 className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm focus:border-[#6D28D9] focus:ring-2 focus:ring-purple-200 outline-none transition"
                 onChange={(e) => {
                   setPassword(e.target.value);
-                  console.log(e.target.value)
                 }}
               />
             </div>
@@ -98,7 +91,6 @@ return (
                 className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm focus:border-[#6D28D9] focus:ring-2 focus:ring-purple-200 outline-none transition"
                 onChange={(e) => {
                   setRole(e.target.value);
-                  console.log(e.target.value);
                 }}
               >
                 <option value="student" defaultValue>
