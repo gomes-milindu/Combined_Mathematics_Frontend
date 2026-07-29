@@ -11,6 +11,7 @@ import {
   Sun,
   ChevronRight,
   ShieldCheck,
+  BadgeDollarSign,
 } from "lucide-react";
 
 export default function Slidebar({ onClose }) {
@@ -119,6 +120,15 @@ export default function Slidebar({ onClose }) {
           </div>
           <span className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap delay-75">
             Course Details
+          </span>
+        </NavLink>
+
+        <NavLink to="/admin/pricing" className={linkClass} onClick={onClose}>
+          <div className="min-w-[20px] flex justify-center">
+            <BadgeDollarSign className="w-5 h-5" />
+          </div>
+          <span className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap delay-75">
+            Pricing Setup
           </span>
         </NavLink>
       </div>

@@ -12,6 +12,7 @@ import StudentDetails from "../components/AdminPage/StudentDetails";
 import AddCourse from "../components/AdminPage/AddCourse";
 import PreviousAddedCourse from "../components/AdminPage/PreviousAddedCourse";
 import UnderDevelopment from "../components/AdminPage/UnderDevelopment";
+import PricingManagement from "../components/AdminPage/PricingManagement";
 
 function Admin() {
   return (
@@ -30,6 +31,8 @@ function Admin() {
             <Route path="/course" element={<UnderDevelopment />} />
             {/* Note: AdminCourseRegister wrapped AddCourse. Direct use: */}
             <Route path="/course/*" element={<AddCourse />} />
+
+            <Route path="/pricing" element={<PricingManagement />} />
 
             <Route path="/scan" element={<AdminScanStudents />} />
             <Route path="/scan/*" element={<QrScanner />} />

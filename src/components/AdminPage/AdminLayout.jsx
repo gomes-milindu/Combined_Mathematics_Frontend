@@ -13,6 +13,7 @@ export default function AdminLayout() {
     const path = location.pathname;
     if (path.includes("/admin/students")) setPageTitle("Student Management");
     else if (path.includes("/admin/course")) setPageTitle("Course Management");
+    else if (path.includes("/admin/pricing")) setPageTitle("Pricing Management");
     else if (path.includes("/admin/scan")) setPageTitle("QR Scanner");
     else if (path.includes("/admin/register")) setPageTitle("Registration");
     else if (path.includes("/admin/createAdmin"))
