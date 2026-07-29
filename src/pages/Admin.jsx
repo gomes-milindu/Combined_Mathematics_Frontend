@@ -28,7 +28,7 @@ function Admin() {
             <Route path="/register" element={<AdminStudentRegister />} />
             <Route path="/register/*" element={<AdminStudentRegister />} />
 
-            <Route path="/course" element={<UnderDevelopment />} />
+            <Route path="/course" element={<PreviousAddedCourse />} />
             {/* Note: AdminCourseRegister wrapped AddCourse. Direct use: */}
             <Route path="/course/*" element={<AddCourse />} />
 

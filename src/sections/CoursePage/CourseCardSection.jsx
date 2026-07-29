@@ -1,11 +1,27 @@
-import { useState } from "react";
-import cardData from "../../../Data/CourseData";
+import { useState, useEffect } from "react";
 import CourseCard from "../../components/HomePage/CourseCard";
 import { Search } from "lucide-react";
+import axios from "axios";
+import { API_BASE_URL } from "../../config/axios";
 
 function CourseCardSection() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
+  const [cardData, setCardData] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${API_BASE_URL}/addcourse/`)
+      .then((res) => {
+        const mapped = (res.data || []).map((c) => ({
+          id: c._id,
+          title: c.courseName,
+          category: c.courseCategory,
+          price: c.coursePrice,
+        }));
+        setCardData(mapped);
+      })
+      .catch(() => setCardData([]));
+  }, []);
 
   const filteredData = cardData.filter((item) => {
     const matchCategory =
