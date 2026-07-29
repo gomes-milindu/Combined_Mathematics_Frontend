@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../config/axios";
 import toast from "react-hot-toast";
 import Breadcrumb from "./BreadCrumb";
@@ -16,6 +16,28 @@ export default function StudentRegister() {
   const [batch, setBatch] = useState("");
   const [dateOfBirth, setBirthday] = useState("");
   const [isActive, setIsActive] = useState("");
+  const [institutes, setInstitutes] = useState([]);
+  const [batches, setBatches] = useState([]);
+
+  useEffect(() => {
+    api.get("/pricing/institutes")
+      .then((res) => setInstitutes(res.data.institutes || []))
+      .catch(() => toast.error("Failed to load institutes"));
+  }, []);
+
+  const handleInstituteChange = async (value) => {
+    setInstitute(value);
+    setBatch("");
+    setBatches([]);
+    if (!value) return;
+    try {
+      const res = await api.get(`/pricing/institutes/${encodeURIComponent(value)}/batches`);
+      setBatches(res.data.batches || []);
+    } catch (err) {
+      console.error("Failed to load batches:", err);
+      setBatches([]);
+    }
+  };
 
   async function Create() {
     try {
@@ -147,11 +169,13 @@ export default function StudentRegister() {
               </label>
               <select
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
-                onChange={(e) => setInstitute(e.target.value)}
+                value={institute}
+                onChange={(e) => handleInstituteChange(e.target.value)}
               >
                 <option value="">Select Institute</option>
-                <option>Samathwee</option>
-                <option>Sisulka</option>
+                {institutes.map((inst) => (
+                  <option key={inst} value={inst}>{inst}</option>
+                ))}
               </select>
             </div>
 
@@ -162,10 +186,14 @@ export default function StudentRegister() {
               </label>
               <select
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
+                value={batch}
                 onChange={(e) => setBatch(e.target.value)}
+                disabled={!institute}
               >
                 <option value="">Select batch</option>
-                <option>2027 Theory</option>
+                {batches.map((b) => (
+                  <option key={b} value={b}>{b}</option>
+                ))}
               </select>
             </div>
 

@@ -1,33 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BadgeDollarSign, Pencil, PlusCircle, Trash2 } from "lucide-react";
 import Breadcrumb from "./BreadCrumb";
-
-const initialPricing = [
-  {
-    _id: "pricing-1",
-    institute: "Samathwee",
-    batch: "2028 Theory",
-    fullPayment: 3800,
-    halfPayment: 2000,
-    freePayment: 0,
-  },
-  {
-    _id: "pricing-2",
-    institute: "New Sense",
-    batch: "2028 Theory",
-    fullPayment: 5000,
-    halfPayment: 2500,
-    freePayment: 0,
-  },
-  {
-    _id: "pricing-3",
-    institute: "ABC Mathematics Institute",
-    batch: "2026 A/L",
-    fullPayment: 25000,
-    halfPayment: 15000,
-    freePayment: 0,
-  },
-];
+import api from "../../config/axios";
+import toast from "react-hot-toast";
 
 const emptyForm = {
   institute: "",
@@ -44,6 +19,24 @@ function formatCurrency(value) {
 
 export default function PricingManagement() {
   const [formData, setFormData] = useState(emptyForm);
+  const [pricingList, setPricingList] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchPricing = async () => {
+    try {
+      const res = await api.get("/pricing/");
+      setPricingList(res.data.pricing || []);
+    } catch (err) {
+      toast.error("Failed to load pricing");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPricing();
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -52,15 +45,47 @@ export default function PricingManagement() {
 
   const resetForm = () => {
     setFormData(emptyForm);
+    setEditingId(null);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      if (editingId) {
+        await api.put("/pricing/update", { id: editingId, ...formData });
+        toast.success("Pricing updated successfully");
+      } else {
+        await api.post("/pricing/create", formData);
+        toast.success("Pricing created successfully");
+      }
+      resetForm();
+      fetchPricing();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Operation failed");
+    }
   };
 
-  const handleEdit = () => {};
+  const handleEdit = (item) => {
+    setEditingId(item._id);
+    setFormData({
+      institute: item.institute,
+      batch: item.batch,
+      fullPayment: item.fullPayment,
+      halfPayment: item.halfPayment,
+      freePayment: item.freePayment,
+    });
+  };
 
-  const handleDelete = () => {};
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this pricing record?")) return;
+    try {
+      await api.delete(`/pricing/${id}`);
+      toast.success("Pricing deleted");
+      fetchPricing();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Delete failed");
+    }
+  };
 
   return (
     <main className="w-full min-h-screen bg-slate-50 dark:bg-slate-950">
@@ -172,7 +197,7 @@ export default function PricingManagement() {
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-purple-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-purple-700"
                 >
                   <PlusCircle size={16} />
-                  Create Pricing
+                  {editingId ? "Update Pricing" : "Create Pricing"}
                 </button>
 
                 <button
@@ -197,7 +222,7 @@ export default function PricingManagement() {
                 </p>
               </div>
               <span className="rounded-full bg-purple-50 px-3 py-1 text-sm font-medium text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
-                {initialPricing.length} records
+                {pricingList.length} records
               </span>
             </div>
 
@@ -214,7 +239,7 @@ export default function PricingManagement() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {initialPricing.map((item) => (
+                  {pricingList.map((item) => (
                     <tr key={item._id} className="hover:bg-slate-50 dark:hover:bg-slate-800/60">
                       <td className="px-6 py-4 font-semibold text-slate-800 dark:text-slate-100">
                         {item.institute}
@@ -256,7 +281,7 @@ export default function PricingManagement() {
             </div>
 
             <div className="grid gap-4 p-4 lg:hidden">
-              {initialPricing.map((item) => (
+              {pricingList.map((item) => (
                 <div
                   key={item._id}
                   className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/50"
