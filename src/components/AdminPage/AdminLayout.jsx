@@ -15,6 +15,7 @@ export default function AdminLayout() {
     else if (path.includes("/admin/course")) setPageTitle("Course Management");
     else if (path.includes("/admin/pricing")) setPageTitle("Pricing Management");
     else if (path.includes("/admin/scan")) setPageTitle("QR Scanner");
+    else if (path.includes("/admin/attendance")) setPageTitle("Attendance");
     else if (path.includes("/admin/register")) setPageTitle("Registration");
     else if (path.includes("/admin/createAdmin"))
       setPageTitle("Admin Management");
@@ -33,7 +34,7 @@ export default function AdminLayout() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-auto bg-transparent transform transition-transform duration-300 ease-in-out lg:translate-x-0 peer ${
+        className={`fixed inset-y-0 left-0 z-50 w-auto bg-transparent transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -41,7 +42,7 @@ export default function AdminLayout() {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 h-full ml-0 lg:ml-20 peer-hover:lg:ml-64 transition-all duration-300 ease-in-out">
+      <div className="flex-1 flex flex-col min-w-0 h-full ml-0 lg:ml-20 transition-all duration-300 ease-in-out">
         <TopNav
           pageTitle={pageTitle}
           onMenuClick={() => setIsSidebarOpen(true)}

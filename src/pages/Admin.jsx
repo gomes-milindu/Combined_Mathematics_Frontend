@@ -13,6 +13,7 @@ import AddCourse from "../components/AdminPage/AddCourse";
 import PreviousAddedCourse from "../components/AdminPage/PreviousAddedCourse";
 import UnderDevelopment from "../components/AdminPage/UnderDevelopment";
 import PricingManagement from "../components/AdminPage/PricingManagement";
+import AttendanceHistory from "../components/AdminPage/AttendanceHistory";
 
 function Admin() {
   return (
@@ -36,6 +37,8 @@ function Admin() {
 
             <Route path="/scan" element={<AdminScanStudents />} />
             <Route path="/scan/*" element={<QrScanner />} />
+
+            <Route path="/attendance" element={<AttendanceHistory />} />
 
             <Route path="/createAdmin" element={<AdminCreateAdmin />} />
 
