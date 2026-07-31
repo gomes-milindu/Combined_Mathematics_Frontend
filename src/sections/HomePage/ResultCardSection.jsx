@@ -5,7 +5,7 @@ import Topic from "../../components/HomePage/Topic"
 function ResultCardSection() {
 
     const results = [
-        ["Nimthara Dinekshi", "Index: 123456", "School: Royal College"],
+        ["Thejani Perera", "Index: 123456", "School: Royal College"],
         ["Kaveesha Perera", "Index: 654321", "School: Ananda College"],
         ["Sahan Wijesinghe", "Index: 112233", "School: St. Thomas College"]
     ]

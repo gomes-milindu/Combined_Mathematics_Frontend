@@ -2,51 +2,47 @@ import NavBar from "./NavBar";
 
 function Header({ color2, backgroundImage, heroTitle, heroSubtitle }) {
     return (
-        <div className="w-full h-[35vh] md:h-[70vh] lg:h-screen relative">
+        <div>
 
-            {/* Navbar */}
-            <NavBar />
+            <div className="relative w-full h-[40vh] md:hidden overflow-hidden">
 
-            {/* Background Shape */}
-            <div
-                className="w-full h-full bg-[#E9D7FE] bg-cover bg-center"
-                style={{
-                    clipPath: "polygon(0 0, 100% 0, 100% 82%, 0 100%)",
-                }}
-            />
+                {/* Navbar */}
+                <div className="relative z-30">
+                    <NavBar />
+                </div>
 
-            {/* Hero Image */}
-            <div
-                className="w-full h-full absolute z-10 top-0 bg-cover bg-center"
-                style={{
-                    clipPath: "polygon(0 0, 100% 0, 100% 95%, 0 75%)",
-                    backgroundImage: `url(${backgroundImage})`,
-                }}
-            >
-                <div className="w-full h-full bg-[#8A38F5] opacity-20"></div>
+                {/* Light purple layer */}
+                <div
+                    className="absolute inset-0 w-full h-full bg-[#ede8f5] z-10"
+                    style={{
+                        clipPath: "polygon(0 0, 100% 0, 100% 93%, 0 100%)",
+                    }}
+                />
+
+                {/* Image layer */}
+                <div
+                    className="absolute inset-0 w-full h-full bg-cover bg-center z-20"
+                    style={{
+                        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 78%)",
+                        backgroundImage: `url(${backgroundImage})`,
+                    }}
+                >
+                    <div className="w-full h-full bg-[#8A38F5] opacity-20" />
+                </div>
+
             </div>
 
-            {/* Mobile Hero Text */}
-            <div className="absolute z-20 top-[55%] left-1/2 -translate-x-1/2 text-center w-[90%] md:hidden">
-                <div className="text-[16px] font-medium text-white drop-shadow-lg">
-                    {heroTitle || "Join Our Classes &"}
+            {/* RED SECTION */}
+            <div className="relative z-25 -mt-8 w-fit h-fit left-5">
+                    <div className="text-[18px] font-medium text-[#53389e] drop-shadow-lg ">
+                    {heroTitle || "Join Our Classes  &"}
                 </div>
-                <div className="text-[24px] font-bold text-white drop-shadow-lg mt-1">
-                    {heroSubtitle || "Online | Colombo | Kandy"}
+                <div className="text-[24px] font-bold text-[#53389e] m-1">
+                    {heroSubtitle || "Online | Panadura | Kalutara"}
                 </div>
+
             </div>
 
-            {/* Desktop / Tablet Hero Text */}
-            {heroTitle && (
-                <div className="absolute z-20 bottom-[20%] left-1/2 -translate-x-1/2 text-center w-auto hidden md:block">
-                    <div className="md:text-[24px] lg:text-[30px] font-medium text-white drop-shadow-lg">
-                        {heroTitle}
-                    </div>
-                    <div className="md:text-[32px] lg:text-[42px] font-bold text-white drop-shadow-lg">
-                        {heroSubtitle}
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
