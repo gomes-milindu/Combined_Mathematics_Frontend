@@ -1,14 +1,15 @@
 
 
 // --- Supabase URLs ---
-const heroHome = "https://i.ibb.co/TqwPPHsX/hee.webp";
-const heroClasses = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Classes%20Page/classCardHeader.jpg";
+const heroHome = "https://i.ibb.co/G45K8ySD/Vector2.webp";
+const heroClasses = "https://i.ibb.co/84LK0bwt/Vector3.webp";
 const heroCourses = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Course%20PAge/courses.png";
 const heroAbout = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/About.png";
 const heroContact = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Contact%20Page/Contact.png";
 
 // --- Local Imports ---
-
+{/* HomePage*/}
+const JoinClassSection = "https://i.ibb.co/TqwPPHsX/hee.webp";
 const cardIcon = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/icon.png";
 
 const teacherPhoto = "https://i.ibb.co/VYRzMkSL/sir.webp";
@@ -42,6 +43,8 @@ export const Assets = {
   Hero_About: heroAbout,
   Hero_Contact: heroContact,
 
+  // HomePage
+  BACKGROUND_IMAGE_URL: JoinClassSection,
   // ---- Icons ----
   Card_Icon: cardIcon,
 

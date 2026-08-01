@@ -75,7 +75,7 @@ function CourseCardSection() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition
                   ${activeCategory === cat
-                    ? "bg-purple-50 text-purple-600"
+                    ? "bg-purple-50 text-red-600"
                     : "text-gray-600"
                   }`}
               >

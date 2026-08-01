@@ -8,7 +8,7 @@ function Card() {
             
             
             <div className="w-full flex justify-center items-center mt-15">
-                <div className="md:hidden w-[90%] h-auto bg-[#F9F5FF] border rounded-xl border-[#B692F6] flex flex-row items-center gap-5 py-3 px-7">
+                <div className="md:hidden w-[90%] h-auto bg-[#F9F5FF] border rounded-xl border-[#B692F6] flex flex-row items-center justify-around gap-5 py-3 px-7">
                     
                     <Presentation  strokeWidth={2} className="w-[35px] h-[35px] bg-cover bg-no-repeat shrink-0" />
                     <div className="flex flex-col gap-1">

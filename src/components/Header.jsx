@@ -1,6 +1,11 @@
 import NavBar from "./NavBar";
 
-function Header({ color2, backgroundImage, heroTitle, heroSubtitle }) {
+function Header({ color2,
+                    backgroundImage,
+                    heroTitle,
+                    heroSubtitle,
+                    showHomeHero = false,
+ }) {
     return (
         <div>
 
@@ -15,7 +20,7 @@ function Header({ color2, backgroundImage, heroTitle, heroSubtitle }) {
                 <div
                     className="absolute inset-0 w-full h-full bg-[#ede8f5] z-10"
                     style={{
-                        clipPath: "polygon(0 0, 100% 0, 100% 93%, 0 100%)",
+                        clipPath: "polygon(0 0, 100% 0, 100% 93%, 0 98%)",
                     }}
                 />
 
@@ -23,7 +28,7 @@ function Header({ color2, backgroundImage, heroTitle, heroSubtitle }) {
                 <div
                     className="absolute inset-0 w-full h-full bg-cover bg-center z-20"
                     style={{
-                        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 78%)",
+                        clipPath: "polygon(0 0, 100% 0, 100% 98%, 0 73%)",
                         backgroundImage: `url(${backgroundImage})`,
                     }}
                 >
@@ -33,6 +38,7 @@ function Header({ color2, backgroundImage, heroTitle, heroSubtitle }) {
             </div>
 
             {/* RED SECTION */}
+            {/*}
             <div className="relative z-25 -mt-8 w-fit h-fit left-5">
                     <div className="text-[18px] font-medium text-[#53389e] drop-shadow-lg ">
                     {heroTitle || "Join Our Classes  &"}
@@ -41,7 +47,20 @@ function Header({ color2, backgroundImage, heroTitle, heroSubtitle }) {
                     {heroSubtitle || "Online | Panadura | Kalutara"}
                 </div>
 
-            </div>
+            </div>*/}
+
+
+            {showHomeHero && (
+                <div className="relative z-25 -mt-8 w-fit h-fit left-5">
+                <div className="text-[18px] font-medium text-[#53389e] drop-shadow-lg">
+                    {heroTitle || "----------"}
+                </div>
+
+                <div className="text-[24px] font-bold text-[#53389e] m-1">
+                    {heroSubtitle || "--------"}
+                </div>
+                </div>
+            )}
 
         </div>
     );
