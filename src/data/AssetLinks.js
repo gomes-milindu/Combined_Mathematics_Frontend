@@ -1,23 +1,23 @@
 
 
 // --- Supabase URLs ---
-const heroHome = "https://i.ibb.co/G45K8ySD/Vector2.webp";
+const heroHome = "https://i.ibb.co/gZg5vgmd/lap-Header.webp";
 const heroClasses = "https://i.ibb.co/84LK0bwt/Vector3.webp";
-const heroCourses = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Course%20PAge/courses.png";
-const heroAbout = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/About.png";
-const heroContact = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/Contact%20Page/Contact.png";
+const heroCourses = "";
+const heroAbout = "";
+const heroContact = "";
 
 // --- Local Imports ---
 {/* HomePage*/}
 const JoinClassSection = "https://i.ibb.co/TqwPPHsX/hee.webp";
-const cardIcon = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/icon.png";
+const cardIcon = "";
 
 const teacherPhoto = "https://i.ibb.co/VYRzMkSL/sir.webp";
 const Mobile_Teacher_Photo = "https://i.ibb.co/fz3hknsC/Sir-Mobile.webp";
-const missionImage = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/mission.png";
-const visionImage = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/About%20Page/vision.png";
+const missionImage = "";
+const visionImage = "";
 const studentPhoto = "https://i.ibb.co/PvzTP2L9/Student.webp";
-const girlImage = "https://afablbkjnkbxwieszbtb.supabase.co/storage/v1/object/public/HomePage/Vector2Mob.png";
+const girlImage = "";
 
 const footerRect6 = "https://i.ibb.co/b5xxGk73/Rectangle-6.webp";
 const footerRect7 = "https://i.ibb.co/h1Lp05kn/Rectangle-7.webp";

@@ -19,16 +19,9 @@ function HomePage() {
         heroSubtitle="Online | Panadura | Kalutara"
       />
       
-      <HeroText />
+      <HeroText /> 
 
       <Card />
-
-      {/*}
-              <div className="w-[88%] justify-center items-c mt-2 px-2">
-              <Card />
-            </div>*/}
-
-      {/*<CardSection />*/}
       <AboutTeacher />
       <ResultCardSection />
 

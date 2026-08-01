@@ -210,47 +210,30 @@ function Footer() {
                   <div className="text-[24px] text-purple-300">Contact Us</div>
                   <div className="flex flex-col gap-2">
                     <div className="flex flex-row justify-center items-center gap-3">
-                      <div
-                        className="w-[25px] h-[20px] bg-contain bg-no-repeat bg-center"
-                        style={{
-                          backgroundImage: `url(${Assets.Footer_Mail})`,
-                        }}
-                      ></div>
+                      <Mail size={18} color="#FFFFFF" strokeWidth={1.8} />
                       <div className="w-full">info@mathteacher.com</div>
                     </div>
                     <div className="flex flex-row justify-center items-center gap-3">
-                      <div
-                        className="w-[25px] h-[20px] bg-contain bg-no-repeat bg-center"
-                        style={{
-                          backgroundImage: `url(${Assets.Footer_Call})`,
-                        }}
-                      ></div>
+                      <Phone size={18} color="#FFFFFF" strokeWidth={1.8} />
                       <div className="w-full">+94 78 778 78 456</div>
                     </div>
                     <div className="flex flex-row justify-center items-center gap-3">
-                      <div
-                        className="w-[25px] h-[20px] bg-contain bg-no-repeat bg-center"
-                        style={{ backgroundImage: `url(${Assets.Footer_Map})` }}
-                      ></div>
+                      <MapPin size={18} color="#FFFFFF" strokeWidth={1.8} />
                       <div className="w-full">MathsKing, Colombo 12</div>
                     </div>
                   </div>
-                  <div className="flex flex-row gap-4 mt-5">
-                    <div
-                      className="w-[28px] h-[25px] bg-contain bg-no-repeat bg-center"
-                      style={{ backgroundImage: `url(${Assets.Footer_Fb})` }}
-                    ></div>
-                    <div
-                      className="w-[28px] h-[25px] bg-contain bg-no-repeat bg-center"
-                      style={{ backgroundImage: `url(${Assets.Footer_Insta})` }}
-                    ></div>
-                    <div
-                      className="w-[28px] h-[25px] bg-contain bg-no-repeat bg-center"
-                      style={{
-                        backgroundImage: `url(${Assets.Footer_Youtube})`,
-                      }}
-                    ></div>
-                  </div>
+                  {/* Social Icons */}
+                <div className="flex gap-2.5 mt-5">
+                  {socials.map(({ icon: Icon, href }, index) => (
+                    <a
+                      key={index}
+                      href={href}
+                      className="w-11 h-11 flex items-center justify-center rounded-full border border-purple-400/40 hover:border-purple-400 hover:bg-purple-500/10 transition"
+                    >
+                      <Icon size={16} color="#FFFFFF" />
+                    </a>
+                  ))}
+                </div>
                 </div>
               </div>
 
