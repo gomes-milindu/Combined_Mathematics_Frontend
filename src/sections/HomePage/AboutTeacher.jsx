@@ -1,6 +1,7 @@
 import Assets from "../../data/AssetLinks";
 import { useState } from "react";
 import Card from "../../components/HomePage/Card";
+import React from "react";
 
 const AboutTeacher = () => {
   const [expanded, setExpanded] = useState(false);
@@ -61,7 +62,7 @@ const AboutTeacher = () => {
           <div className="w-full flex flex-col gap-8">
             <div className="text-[18px] text-[#717680]">{fullText}</div>
             <div className="text-[18px] text-[#717680] mt-2">{secondText}</div>
-            <div className="w-[142px] h-11 bg-[#7F56D9] rounded-lg"></div>
+            <button className="w-[142px] h-11 bg-[#7F56D9] rounded-lg text-white">Learn More</button>
           </div>
         </div>
       </div>

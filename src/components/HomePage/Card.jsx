@@ -60,7 +60,7 @@ function Card() {
                 <div className = "w-[400px] h-full bg-purple-400"></div>
                 <div className = "w-[400px] h-full bg-purple-400"></div>
             </div>*/}
-            <div className="w-full  flex flex-col justify-center items-center mt-15 mb-10">
+            <div className="w-full  flex flex-col justify-center items-center mt-15 mb-10 hidden md:flex">
             <div className="w-[90%] h-[170px] flex flex-row justify-evenly items-center gap-4 px-4">
             {features.map((item, index) => (
                 <FeatureCard

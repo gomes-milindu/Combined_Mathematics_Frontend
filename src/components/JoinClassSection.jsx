@@ -47,7 +47,7 @@ export default function JoinClassSection() {
 
           {/* CTA */}
           <div className="flex justify-center mt-8">
-            <button className="w-6 px-6 h-10 bg-[#7F56D9] md:bg-purple-600 rounded-lg text-white text-[14px] font-medium shadow-sm">
+            <button className="w-100 px-6 h-10 bg-[#7F56D9] md:bg-purple-600 rounded-lg text-white text-[14px] font-medium shadow-sm">
               Join Classes
             </button>
           </div>
@@ -56,47 +56,34 @@ export default function JoinClassSection() {
 
       {/* Desktop View*/}
 
-      {/* CHANGED: container is now a fixed-height flex column
-          (`h-[520px] flex flex-col justify-between`) so the heading
-          block can sit vertically centered while the cards row is
-          pinned to the bottom — previously everything stacked
-          top-down with margins only, which couldn't push the cards
-          to the bottom of the section. */}
+   
       <div className="relative w-full hidden md:flex md:flex-col md:justify-between h-[600px] overflow-hidden bg-red-300">
         <img
           src={Assets.BACKGROUND_IMAGE_URL}
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
         />
-        {/* CHANGED: replaced the left-to-right linear fade with a
-            radial "feathered" white glow that washes over the whole
-            image (strongest near the text, softly fading at the
-            edges) instead of a hard left/right split — matches
-            "white color going through whole image" from the
-            reference. */}
+  
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 100% 100% at 38% 38%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.55) 45%, rgba(255,255,255,0.55) 75%, rgba(255,255,255,0.55) 100%)",
+              "radial-gradient(ellipse 100% 100% at 38% 38%, rgba(255, 255, 255,0.45) 0%, rgba(255, 255, 255,0.45) 45%, rgba(255, 255, 255,0.45) 75%, rgba(255, 255, 255,0.45) 100%)",
           }}
         />
  
-        {/* CHANGED: heading block is centered as a group, then
-            nudged left of true-center with `mr-[10%]` — reads
-            "center, but a little to the left" instead of dead-
-            center or hugging the left edge. */}
+
         <div className="relative z-10 flex-1 flex flex-col justify-center items-center px-16">
           <div className="flex justify-start items-center w-[80%]">
             <div className="text-start mr-[10%]">
               <h2 className="text-5xl font-semibold text-[#6941C6] leading-tight">
                 Join Our Classes &
               </h2>
-              <h2 className="text-7xl font-medium text-[#101828] leading-tight mt-1">
+              <h2 className="text-6xl font-medium text-[#101828] leading-tight mt-1">
                 Start Learning Today
               </h2>
  
-              <button className="mt-6 bg-[#7F56D9] text-white font-medium text-[24px] px-6 h-10 rounded-lg shadow-sm">
+              <button className="mt-8 bg-[#7F56D9] text-white font-medium text-[16px] px-6 h-10 rounded-lg shadow-sm">
                 Join Classes
               </button>
             </div>

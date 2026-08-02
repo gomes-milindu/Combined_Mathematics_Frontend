@@ -44,6 +44,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Assets from "../../data/AssetLinks.js";
 
 export default function GlassBox() {
   const [menuOpen, setMenuOpen] = useState(false);
