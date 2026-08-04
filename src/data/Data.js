@@ -39,7 +39,7 @@ export const quickLinks = [
   },
   {
     name: "Courses",
-    path: "/courses",
+    path: "/course",
   },
   {
     name: "About Us",
