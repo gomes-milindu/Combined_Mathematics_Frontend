@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../../config/axios";
 import toast from "react-hot-toast";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 import { useNavigate } from "react-router-dom";
 
 export default function StudentRegister() {

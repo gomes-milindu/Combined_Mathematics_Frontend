@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
 import { Edit, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 
 export default function PreviousAddedCourse() {
   const [courses, setCourses] = useState([]);

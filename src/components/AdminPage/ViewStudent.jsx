@@ -1,7 +1,7 @@
 import api from "../../config/axios";
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 import PaymentStudent from "./PaymentStudent";
 import PaymentDrawer from "./PaymentDrawer";
 import RecentPaymentsDrawer from "./RecentPaymentsDrawer";

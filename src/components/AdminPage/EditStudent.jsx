@@ -15,7 +15,7 @@ import {
   X,
   CheckCircle2,
 } from "lucide-react";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 
 export default function EditStudent() {
   const { id } = useParams();

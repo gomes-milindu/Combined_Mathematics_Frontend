@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BadgeDollarSign, Pencil, PlusCircle, Trash2 } from "lucide-react";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 
 const initialPricing = [
   {
