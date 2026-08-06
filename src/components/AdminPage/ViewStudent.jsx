@@ -1,6 +1,7 @@
 import api from "../../config/axios";
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import Breadcrumb from "./Breadcrumb";
 import PaymentStudent from "./PaymentStudent";
 import PaymentDrawer from "./PaymentDrawer";
@@ -26,6 +27,24 @@ export default function ViewStudent() {
   const [isPaymentDrawerOpen, setIsPaymentDrawerOpen] = useState(false);
   const [isRecentPaymentsDrawerOpen, setIsRecentPaymentsDrawerOpen] =
     useState(false);
+  const [isGeneratingQr, setIsGeneratingQr] = useState(false);
+
+  async function generateQr() {
+    setIsGeneratingQr(true);
+    const loadingToast = toast.loading("Generating QR code...");
+    try {
+      const res = await api.post(`/student/${id}/qr`);
+      setStudent((prev) => ({ ...prev, qrCode: res.data.qrCode }));
+      toast.success("QR code generated", { id: loadingToast });
+    } catch (err) {
+      toast.error(
+        err.response?.data?.message || "Failed to generate QR code",
+        { id: loadingToast }
+      );
+    } finally {
+      setIsGeneratingQr(false);
+    }
+  }
 
   useEffect(() => {
     // Auto-open recent payments drawer on mobile/tablet
@@ -170,8 +189,15 @@ export default function ViewStudent() {
                       className="w-40 h-40 object-contain mix-blend-multiply dark:mix-blend-normal"
                     />
                   ) : (
-                    <div className="w-40 h-40 bg-slate-100 flex items-center justify-center rounded-lg text-slate-400 text-xs">
-                      No QR Code
+                    <div className="w-40 h-40 bg-slate-100 flex flex-col items-center justify-center gap-2 rounded-lg text-slate-400 text-xs p-3">
+                      <span>No QR Code</span>
+                      <button
+                        onClick={generateQr}
+                        disabled={isGeneratingQr}
+                        className="px-3 py-1.5 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-700 transition disabled:opacity-50"
+                      >
+                        {isGeneratingQr ? "Generating..." : "Generate QR"}
+                      </button>
                     </div>
                   )}
                 </div>
