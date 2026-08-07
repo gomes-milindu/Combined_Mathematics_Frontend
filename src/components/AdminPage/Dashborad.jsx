@@ -1,15 +1,82 @@
 import api from "../../config/axios";
-import { useEffect, useState } from "react";
-import { Users, CreditCard, TrendingUp, Building2 } from "lucide-react";
+import { useEffect, useState, useMemo } from "react";
+import { Users, CreditCard, TrendingUp, Building2, Calendar } from "lucide-react";
 
 export function Dashboard() {
   const [countStudent, setCountStudent] = useState();
+  const [pricingList, setPricingList] = useState([]);
 
   useEffect(() => {
-    api.get("/dashboard/").then((res) => {
-      setCountStudent(res.data);
-    });
+    api
+      .get("/dashboard/")
+      .then((res) => {
+        setCountStudent(res.data);
+      })
+      .catch((err) => console.error("Failed to load dashboard data:", err));
+
+    api
+      .get("/pricing/")
+      .then((res) => {
+        const data = res.data?.pricing || res.data || [];
+        setPricingList(Array.isArray(data) ? data : []);
+      })
+      .catch((err) => console.error("Failed to load pricing plans:", err));
   }, []);
+
+  const rawPerformance =
+    countStudent?.institutePerformance || countStudent?.activeCounts || [];
+  const currentMonth = countStudent?.currentMonth || "Current Month";
+
+  const performanceList = useMemo(() => {
+    if (!pricingList || pricingList.length === 0) return rawPerformance;
+
+    const activeInstituteNames = new Set(
+      pricingList.map((p) => p.institute).filter(Boolean)
+    );
+
+    const processed = pricingList.map((plan) => {
+      const instName = plan.institute;
+      const batchName = plan.batch;
+
+      // Match items with exact institute & batch OR orphaned institute entries for the same batch
+      const matches = rawPerformance.filter((item) => {
+        if (item.batch !== batchName) return false;
+        return (
+          item.institute === instName ||
+          !activeInstituteNames.has(item.institute)
+        );
+      });
+
+      const totalStudents = matches.reduce(
+        (sum, item) => sum + (Number(item.totalStudents) || 0),
+        0
+      );
+      const revenue = matches.reduce(
+        (sum, item) =>
+          sum + (Number(item.revenue ?? item.totalAmount) || 0),
+        0
+      );
+
+      return {
+        institute: instName,
+        batch: batchName,
+        totalStudents,
+        revenue,
+      };
+    });
+
+    const coveredKeys = new Set(
+      processed.map((p) => `${p.institute}_${p.batch}`)
+    );
+    rawPerformance.forEach((item) => {
+      const key = `${item.institute}_${item.batch}`;
+      if (activeInstituteNames.has(item.institute) && !coveredKeys.has(key)) {
+        processed.push(item);
+      }
+    });
+
+    return processed;
+  }, [pricingList, rawPerformance]);
 
   // Reusable Stat Card Component
   const StatCard = ({ title, value, icon: Icon, colorClass, bgClass }) => (
@@ -43,14 +110,14 @@ export function Dashboard() {
         />
         <StatCard
           title="Total Income"
-          value={`LKR ${countStudent?.totalIncome || 0}`}
+          value={`LKR ${(countStudent?.totalIncome || 0).toLocaleString()}`}
           icon={CreditCard}
           colorClass="text-blue-600"
           bgClass="bg-blue-50 dark:bg-blue-900/20"
         />
         <StatCard
           title="Net Profit"
-          value={`LKR ${countStudent?.netProfit || 0}`}
+          value={`LKR ${(countStudent?.netProfit || 0).toLocaleString()}`}
           icon={TrendingUp}
           colorClass="text-emerald-600"
           bgClass="bg-emerald-50 dark:bg-emerald-900/20"
@@ -59,16 +126,22 @@ export function Dashboard() {
 
       {/* Modern Table Section */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
-        <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">
-          <Building2 className="w-5 h-5 text-slate-500" />
-          <h2 className="text-lg font-bold text-slate-800 dark:text-white">
-            Institute Performance
-          </h2>
+        <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Building2 className="w-5 h-5 text-slate-500" />
+            <h2 className="text-lg font-bold text-slate-800 dark:text-white">
+              Institute Performance
+            </h2>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-semibold border border-purple-200 dark:border-purple-800">
+            <Calendar className="w-3.5 h-3.5" />
+            <span>{currentMonth} Revenue</span>
+          </div>
         </div>
 
         {/* Mobile Card View */}
         <div className="md:hidden grid grid-cols-1 gap-4 p-4">
-          {countStudent?.activeCounts?.map((item, index) => (
+          {performanceList.map((item, index) => (
             <div
               key={index}
               className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-col gap-3"
@@ -84,10 +157,10 @@ export function Dashboard() {
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">
-                    Revenue
+                    {currentMonth} Revenue
                   </p>
                   <p className="font-bold text-emerald-600 dark:text-emerald-400">
-                    LKR 5000
+                    LKR {(item.revenue ?? item.totalAmount ?? 0).toLocaleString()}
                   </p>
                 </div>
               </div>
@@ -95,13 +168,12 @@ export function Dashboard() {
               <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 pt-3 border-t border-slate-200 dark:border-slate-700">
                 <Users className="w-4 h-4 text-slate-400" />
                 <span className="font-medium">{item.totalStudents}</span>
-                <span className="text-slate-400">Total Students</span>
+                <span className="text-slate-400">Total Active Students</span>
               </div>
             </div>
           ))}
 
-          {(!countStudent?.activeCounts ||
-            countStudent.activeCounts.length === 0) && (
+          {performanceList.length === 0 && (
             <div className="p-8 text-center text-slate-500 dark:text-slate-400 italic bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
               No institute data available
             </div>
@@ -110,7 +182,7 @@ export function Dashboard() {
 
         {/* Desktop Table View */}
         <div className="hidden md:block overflow-x-auto">
-          <table className="w-full  text-left border-collapse min-w-[600px] whitespace-nowrap">
+          <table className="w-full text-left border-collapse min-w-[600px] whitespace-nowrap">
             <thead>
               <tr className="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
                 <th className="p-5 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
@@ -120,15 +192,15 @@ export function Dashboard() {
                   Batch
                 </th>
                 <th className="p-5 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
-                  Total Students
+                  Total Active Students
                 </th>
                 <th className="p-5 font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
-                  Revenue
+                  {currentMonth} Revenue
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {countStudent?.activeCounts?.map((item, index) => (
+              {performanceList.map((item, index) => (
                 <tr
                   key={index}
                   className="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors duration-150 group"
@@ -150,12 +222,11 @@ export function Dashboard() {
                     </div>
                   </td>
                   <td className="p-5 font-semibold text-emerald-600 dark:text-emerald-400">
-                    LKR 5000
+                    LKR {(item.revenue ?? item.totalAmount ?? 0).toLocaleString()}
                   </td>
                 </tr>
               ))}
-              {(!countStudent?.activeCounts ||
-                countStudent.activeCounts.length === 0) && (
+              {performanceList.length === 0 && (
                 <tr>
                   <td
                     colSpan="4"
@@ -172,3 +243,4 @@ export function Dashboard() {
     </div>
   );
 }
+
