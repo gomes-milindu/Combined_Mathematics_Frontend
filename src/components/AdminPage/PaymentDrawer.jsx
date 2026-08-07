@@ -1,217 +1,156 @@
-// import axios from "axios";
-// import { useState, useEffect } from "react";
-// import toast from "react-hot-toast";
-
-// export default function PaymentDrawer({ isOpen, onClose, studentId }) {
-//   const [formData, setFormData] = useState({});
-
-//   // Update studentId when prop changes
-//   useEffect(() => {
-//     if (studentId) {
-//       setFormData((prev) => ({ ...prev, studentId }));
-//     }
-//   }, [studentId]);
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({ ...prev, [name]: value }));
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     console.log("Payment Data:", formData);
-
-//     try {
-//       const payload = {
-//         studentId: formData.studentId,
-//         course: formData.course,
-//         month: formData.month,
-//         amount: Number(formData.amount),
-//         status:"PAID",
-//         cardType: formData.cardType,
-//       };
-
-//       const response = await axios.post(
-//         "http://localhost:8080/payment/create",
-//         payload,
-//       );
-
-//       console.log("This is Response", response.data);
-//       toast.success("Payment Success")
-//       onClose();
-//     } catch (err) {
-//       console.log("ERROR:", err.response?.data || err.message);
-//     }
-//   };
-
-//   if (!isOpen) return null;
-
-//   return (
-//     <div className="fixed inset-0 z-50 flex justify-end">
-//       {/* Backdrop */}
-//       <div
-//         className="absolute inset-0 bg-transparent transition-opacity"
-//         onClick={onClose}
-//       ></div>
-
-//       {/* Drawer */}
-//       <div className="relative w-full max-w-md bg-white h-full shadow-2xl p-6 overflow-y-auto transform transition-transform duration-300 ease-in-out">
-//         <div className="flex justify-between items-center mb-6 border-b pb-4">
-//           <h2 className="text-xl font-semibold text-gray-800">
-//             Process Payment
-//           </h2>
-//           <button
-//             onClick={onClose}
-//             className="text-gray-500 hover:text-gray-700 transition"
-//           >
-//             <svg
-//               xmlns="http://www.w3.org/2000/svg"
-//               className="h-6 w-6"
-//               fill="none"
-//               viewBox="0 0 24 24"
-//               stroke="currentColor"
-//             >
-//               <path
-//                 strokeLinecap="round"
-//                 strokeLinejoin="round"
-//                 strokeWidth={2}
-//                 d="M6 18L18 6M6 6l12 12"
-//               />
-//             </svg>
-//           </button>
-//         </div>
-
-//         <form onSubmit={handleSubmit} className="space-y-5">
-//           {/* Student ID */}
-//           <div>
-//             <label className="block text-sm font-medium text-gray-700 mb-1">
-//               Student ID
-//             </label>
-//             <input
-//               type="text"
-//               name="studentId"
-//               value={formData.studentId}
-//               onChange={handleChange}
-//               readOnly
-//               className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-500 focus:outline-none"
-//             />
-//           </div>
-
-//           {/* Course */}
-//           <div>
-//             <label className="block text-sm font-medium text-gray-700 mb-1">
-//               Course
-//             </label>
-//             <select
-//               name="course"
-//               value={formData.course}
-//               onChange={handleChange}
-//               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
-//             >
-//               <option value="2024 Theory">2024 Theory</option>
-//               <option value="2024 Revision">2024 Revision</option>
-//               <option value="2025 Theory">2025 Theory</option>
-//             </select>
-//           </div>
-
-//           {/* Month */}
-//           <div>
-//             <label className="block text-sm font-medium text-gray-700 mb-1">
-//               Month
-//             </label>
-//             <input
-//               type="month"
-//               name="month"
-//               value={formData.month}
-//               onChange={handleChange}
-//               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
-//               required
-//             />
-//           </div>
-
-//           {/* Amount */}
-//           <div>
-//             <label className="block text-sm font-medium text-gray-700 mb-1">
-//               Amount (LKR)
-//             </label>
-//             <input
-//               type="number"
-//               name="amount"
-//               value={formData.amount}
-//               onChange={handleChange}
-//               placeholder="e.g. 2500"
-//               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
-//               required
-//             />
-//           </div>
-
-//           {/* Card Type */}
-//           <div>
-//             <label className="block text-sm font-medium text-gray-700 mb-1">
-//               Card Type
-//             </label>
-//             <select
-//               name="cardType"
-//               value={formData.cardType}
-//               onChange={handleChange}
-//               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
-//             >
-//               <option value="Full Payment">Full Payment</option>
-//               <option value="Half Card">Half Card</option>
-//               <option value="Free Card">Free Card</option>
-//             </select>
-//           </div>
-
-//           {/* Buttons */}
-//           <div className="flex gap-3 pt-4">
-//             <button
-//               type="button"
-//               onClick={onClose}
-//               className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition font-medium"
-//             >
-//               Cancel
-//             </button>
-//             <button
-//               type="submit"
-//               className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition font-medium"
-//             >
-//               Confirm
-//             </button>
-//           </div>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// }
-
 import api from "../../config/axios";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 export default function PaymentDrawer({ isOpen, onClose, studentId }) {
-  // ✅ Proper initial state (fixes missing fields + controlled warnings)
   const [formData, setFormData] = useState({
     studentId: "",
-    batch: "2027 Theory",
+    batch: "",
     month: "",
     amount: "",
     cardType: "Full Payment",
   });
 
-  // ✅ Update studentId when prop changes
-  useEffect(() => {
-    if (studentId) {
-      setFormData((prev) => ({ ...prev, studentId }));
-    }
-  }, [studentId]);
+  const [batchesList, setBatchesList] = useState([]);
+  const [pricingList, setPricingList] = useState([]);
+  const [studentInfo, setStudentInfo] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // ✅ Handle change
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  // Fetch student info & pricing records when drawer opens or studentId changes
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const fetchData = async () => {
+      setLoading(true);
+      let sInfo = null;
+
+      // 1. Fetch Student Details if studentId is provided
+      if (studentId) {
+        try {
+          const sRes = await api.get(`/student/getOne/${studentId}`);
+          sInfo = sRes.data;
+          setStudentInfo(sInfo);
+        } catch (err) {
+          console.error("Failed to load student details:", err);
+        }
+      }
+
+      // 2. Fetch Pricing records
+      try {
+        const pRes = await api.get("/pricing/");
+        const pData = pRes.data?.pricing || pRes.data || [];
+        setPricingList(Array.isArray(pData) ? pData : []);
+
+        // Filter batches for student's institute if available
+        let availableBatches = [];
+        const studentInstitute = Array.isArray(sInfo?.institute)
+          ? sInfo.institute[0]
+          : sInfo?.institute;
+
+        if (studentInstitute) {
+          availableBatches = [
+            ...new Set(
+              pData
+                .filter((item) => item.institute === studentInstitute)
+                .map((item) => item.batch)
+                .filter(Boolean)
+            ),
+          ];
+        }
+
+        // If no institute specific batches, get all inserted batches from pricing
+        if (availableBatches.length === 0) {
+          availableBatches = [
+            ...new Set(pData.map((item) => item.batch).filter(Boolean)),
+          ];
+        }
+
+        // Fallback to student's own batch if present
+        if (sInfo?.batch && !availableBatches.includes(sInfo.batch)) {
+          availableBatches.push(sInfo.batch);
+        }
+
+        setBatchesList(availableBatches);
+
+        // Pre-select batch
+        const initialBatch = sInfo?.batch || availableBatches[0] || "";
+
+        // Find pricing record for initialBatch
+        const matchPricing =
+          pData.find(
+            (p) =>
+              (!studentInstitute || p.institute === studentInstitute) &&
+              p.batch === initialBatch
+          ) || pData.find((p) => p.batch === initialBatch);
+
+        const initialAmount = matchPricing
+          ? matchPricing.fullPayment
+          : "3800";
+
+        setFormData((prev) => ({
+          ...prev,
+          studentId: studentId || prev.studentId || "",
+          batch: initialBatch,
+          amount: String(initialAmount),
+        }));
+      } catch (err) {
+        console.error("Failed to load pricing data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [isOpen, studentId]);
+
+  // Update amount automatically when batch or cardType changes
+  const updateAmountForSelection = (batchName, cardTypeVal) => {
+    const studentInstitute = Array.isArray(studentInfo?.institute)
+      ? studentInfo.institute[0]
+      : studentInfo?.institute;
+
+    const matchPricing =
+      pricingList.find(
+        (p) =>
+          (!studentInstitute || p.institute === studentInstitute) &&
+          p.batch === batchName
+      ) || pricingList.find((p) => p.batch === batchName);
+
+    if (matchPricing) {
+      if (cardTypeVal === "Free Card" || cardTypeVal === "Free Payment") {
+        return String(matchPricing.freePayment ?? 0);
+      } else if (
+        cardTypeVal === "Half Card" ||
+        cardTypeVal === "Half Payment"
+      ) {
+        return String(matchPricing.halfPayment ?? 1900);
+      } else {
+        return String(matchPricing.fullPayment ?? 3800);
+      }
+    }
+    return null;
   };
 
-  // ✅ Submit
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => {
+      const updated = { ...prev, [name]: value };
+
+      if (name === "batch" || name === "cardType") {
+        const newAmount = updateAmountForSelection(
+          name === "batch" ? value : prev.batch,
+          name === "cardType" ? value : prev.cardType
+        );
+        if (newAmount !== null) {
+          updated.amount = newAmount;
+        }
+      }
+
+      return updated;
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -224,40 +163,33 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
       cardType: formData.cardType,
     };
 
-
-
-    // frontend guard
     if (
       !payload.studentId ||
       !payload.batch ||
       !payload.month ||
-      !payload.amount ||
+      payload.amount === undefined ||
       !payload.cardType
     ) {
-      toast.error("Fill all fields");
+      toast.error("Please fill all required fields");
       return;
     }
 
     try {
-      const response = await api.post(
-        "/payment/create",
-        payload,
-      );
+      await api.post("/payment/create", payload);
+      toast.success("Payment processed successfully");
 
-      toast.success("Payment Success");
-
-      // ✅ reset form (keep student + defaults)
       setFormData({
         studentId,
-        batch: "2027 Theory",
+        batch: batchesList[0] || "",
         month: "",
         amount: "",
         cardType: "Full Payment",
       });
 
       onClose();
-      window.location.reload()
+      window.location.reload();
     } catch (err) {
+      console.error("Payment error:", err);
       toast.error(err.response?.data?.message || "Payment failed");
     }
   };
@@ -267,132 +199,161 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-transparent" onClick={onClose}></div>
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
+        onClick={onClose}
+      ></div>
 
       {/* Drawer */}
-      <div className="relative w-full max-w-md bg-white h-full shadow-2xl p-6 overflow-y-auto">
-        <div className="flex justify-between items-center mb-6 border-b pb-4">
-          <h2 className="text-xl font-semibold text-gray-800">
-            Process Payment
-          </h2>
+      <div className="relative w-full max-w-md bg-white dark:bg-slate-900 h-full shadow-2xl p-6 overflow-y-auto z-10 border-l border-slate-200 dark:border-slate-800">
+        <div className="flex justify-between items-center mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
+          <div>
+            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
+              Process Payment
+            </h2>
+            {studentInfo && (
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Student: {studentInfo.firstName} {studentInfo.lastName} (
+                {Array.isArray(studentInfo.institute)
+                  ? studentInfo.institute.join(", ")
+                  : studentInfo.institute}
+                )
+              </p>
+            )}
+          </div>
 
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition text-lg font-bold p-1 cursor-pointer"
           >
             ✕
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Student ID */}
-          <div>
-            <label className="block text-sm mb-1">Student ID</label>
-            <input
-              type="text"
-              name="studentId"
-              value={formData.studentId || ""}
-              readOnly
-              className="w-full px-3 py-2 border rounded bg-gray-100"
-            />
+        {loading ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
           </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Student ID */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Student ID
+              </label>
+              <input
+                type="text"
+                name="studentId"
+                value={formData.studentId || ""}
+                readOnly
+                className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium"
+              />
+            </div>
 
-          {/* batch */}
-          <div>
-            <label className="block text-sm mb-1">Batch</label>
-            <select
-              name="batch"
-              value={formData.batch || ""}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border rounded"
-            >
-              <option value="2027 Theory">2028 Theory</option>
-              <option value="2027 Paper">2028 Paper</option>
-              
-            </select>
-          </div>
+            {/* Batch Dropdown (Dynamic from inserted data) */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Batch
+              </label>
+              <select
+                name="batch"
+                value={formData.batch || ""}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition"
+              >
+                <option value="">Select Batch</option>
+                {batchesList.map((b) => (
+                  <option key={b} value={b}>
+                    {b}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          
+            {/* Month Dropdown */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Month
+              </label>
+              <select
+                name="month"
+                value={formData.month || ""}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition"
+              >
+                <option value="">Select Month</option>
+                <option value="January">1 - January</option>
+                <option value="February">2 - February</option>
+                <option value="March">3 - March</option>
+                <option value="April">4 - April</option>
+                <option value="May">5 - May</option>
+                <option value="June">6 - June</option>
+                <option value="July">7 - July</option>
+                <option value="August">8 - August</option>
+                <option value="September">9 - September</option>
+                <option value="October">10 - October</option>
+                <option value="November">11 - November</option>
+                <option value="December">12 - December</option>
+              </select>
+            </div>
 
-          <div>
-            <label className="block text-sm mb-1">Month</label>
-            <select
-              name="month"
-              value={formData.month || ""}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border rounded"
-            >
-              <option value="">Select Month</option>
-              <option value="1">1 - January</option>
-              <option value="2">2 - February</option>
-              <option value="3">3 - March</option>
-              <option value="4">4 - April</option>
-              <option value="5">5 - May</option>
-              <option value="6">6 - June</option>
-              <option value="7">7 - July</option>
-              <option value="8">8 - August</option>
-              <option value="9">9 - September</option>
-              <option value="10">10 - October</option>
-              <option value="11">11 - November</option>
-              <option value="12">12 - December</option>
-            </select>
-          </div>
+            {/* Card Type */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Card Type
+              </label>
+              <select
+                name="cardType"
+                value={formData.cardType || ""}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition"
+              >
+                <option value="Full Payment">Full Payment</option>
+                <option value="Half Card">Half Card</option>
+                <option value="Free Card">Free Card</option>
+              </select>
+            </div>
 
-          {/* Amount */}
-          <div>
-            <label className="block text-sm mb-1">Amount</label>
-            <select
-              type="number"
-              name="amount"
-              value={formData.amount || ""}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border rounded"
-            >
-              
-              <option value="0">0</option>
-              <option value="1900">1900</option>
-              <option value="3800">3800</option>
-            </select>
-          </div>
+            {/* Amount */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Amount (LKR)
+              </label>
+              <input
+                type="number"
+                name="amount"
+                value={formData.amount}
+                onChange={handleChange}
+                placeholder="e.g. 3800"
+                required
+                className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition"
+              />
+            </div>
 
-          {/* Card Type */}
-          <div>
-            <label className="block text-sm mb-1">Card Type</label>
-            <select
-              name="cardType"
-              value={formData.cardType || ""}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border rounded"
-            >
-              <option value="Full Payment">Full Payment</option>
-              <option value="Half Card">Half Card</option>
-              <option value="Free Card">Free Card</option>
-            </select>
-          </div>
+            {/* Buttons */}
+            <div className="flex gap-3 pt-4">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex-1 border border-slate-200 dark:border-slate-700 py-2.5 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer"
+              >
+                Cancel
+              </button>
 
-          {/* Buttons */}
-          <div className="flex gap-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 border py-2 rounded"
-            >
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              className="flex-1 bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
-            >
-              Confirm
-            </button>
-          </div>
-        </form>
+              <button
+                type="submit"
+                className="flex-1 bg-purple-600 text-white py-2.5 rounded-xl font-semibold hover:bg-purple-700 transition shadow-sm cursor-pointer"
+              >
+                Confirm Payment
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
 }
+

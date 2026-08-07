@@ -35,6 +35,55 @@ export default function EditStudent() {
   });
 
   const [isLoading, setIsLoading] = useState(true);
+  const [institutes, setInstitutes] = useState([]);
+  const [batches, setBatches] = useState([]);
+
+  // Fetch unique institutes from pricing on component mount
+  useEffect(() => {
+    api
+      .get("/pricing/institutes")
+      .then((res) => {
+        setInstitutes(res.data?.institutes || []);
+      })
+      .catch(() => {
+        api
+          .get("/pricing/")
+          .then((res) => {
+            const pricingData = res.data?.pricing || res.data || [];
+            const unique = [
+              ...new Set(pricingData.map((p) => p.institute).filter(Boolean)),
+            ];
+            setInstitutes(unique);
+          })
+          .catch(() => {});
+      });
+  }, []);
+
+  // Fetch batches whenever form.institute changes
+  useEffect(() => {
+    if (!form.institute) {
+      setBatches([]);
+      return;
+    }
+    api
+      .get(`/pricing/institutes/${encodeURIComponent(form.institute)}/batches`)
+      .then((res) => {
+        setBatches(res.data?.batches || []);
+      })
+      .catch(() => {
+        api
+          .get("/pricing/")
+          .then((res) => {
+            const pricingData = res.data?.pricing || res.data || [];
+            const filtered = pricingData
+              .filter((p) => p.institute === form.institute)
+              .map((p) => p.batch)
+              .filter(Boolean);
+            setBatches([...new Set(filtered)]);
+          })
+          .catch(() => {});
+      });
+  }, [form.institute]);
 
   useEffect(() => {
     if (!id) return;
@@ -70,6 +119,7 @@ export default function EditStudent() {
     setForm((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
+      ...(name === "institute" ? { batch: "" } : {}),
     }));
   }
 
@@ -252,7 +302,7 @@ export default function EditStudent() {
                 value={form.institute}
                 onChange={updateField}
                 icon={Building2}
-                options={["Samathwee", "Sisulka"]}
+                options={institutes}
               />
               <SelectField
                 label="Batch"
@@ -260,7 +310,7 @@ export default function EditStudent() {
                 value={form.batch}
                 onChange={updateField}
                 icon={Layers}
-                options={["2027 Theory"]}
+                options={batches}
               />
               <InputField
                 label="New Password"
