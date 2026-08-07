@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import TopNav from "./TopNav";
 import toast from "react-hot-toast";
 import api from "../../config/axios";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 
 export default function AddCourse() {
   const [courseName, setCourseName] = useState("");

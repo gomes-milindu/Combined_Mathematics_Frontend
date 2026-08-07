@@ -4,7 +4,7 @@ import api from "../../config/axios";
 import { MoreVertical, Eye, Edit, Trash2, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 import DeleteConfirmation from "./DeleteConfirmation";
 import PaginationPage from "./PaginationPage";
 
