@@ -96,7 +96,7 @@ export default function PaymentStudent({ studentId }) {
   if (latestPayments.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="flex overflow-x-auto gap-6 pb-4 w-full">
       {latestPayments.map((p, index) => {
         const mNum = getMonthNumber(p.month);
         const isPaid = mNum >= currentMonthNum || p.status === "PAID";
@@ -105,7 +105,7 @@ export default function PaymentStudent({ studentId }) {
         return (
           <div
             key={p._id || index}
-            className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 transition-all hover:shadow-md"
+            className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 transition-all hover:shadow-md min-w-[280px] sm:min-w-[320px] shrink-0 flex-1"
           >
             {/* Top Accent Line */}
             <div
@@ -139,7 +139,7 @@ export default function PaymentStudent({ studentId }) {
 
             <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-300 mt-2">
               <span className="text-xs text-slate-400">Card Type</span>
-              <span className="font-semibold text-purple-600 dark:text-purple-400">
+              <span className="font-semibold text-slate-700 dark:text-slate-300">
                 {p.cardType || "Full Payment"}
               </span>
             </div>
@@ -158,8 +158,11 @@ export default function PaymentStudent({ studentId }) {
               </div>
               <div className="text-xs text-slate-400 font-mono">
                 {p.paidDate
-                  ? new Date(p.paidDate).toLocaleDateString()
-                  : new Date().getFullYear()}
+                  ? new Date(p.paidDate).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    })
+                  : "-"}
               </div>
             </div>
           </div>

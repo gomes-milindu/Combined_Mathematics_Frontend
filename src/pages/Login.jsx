@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 function Login(props) {
   const [usergetName, setuserName] = useState("");
   const [Password, setPassword] = useState("");
-  const [role, setRole] = useState("student");
+  const [role, setRole] = useState("admin");
 
   const navigate = useNavigate();
   async function login(e) {
@@ -55,9 +55,13 @@ function Login(props) {
             backgroundPosition: "center, center, center",
           }}
         />
-        <div className="w-[35px] h-[35px] rounded-2xl bg-white shadow-2xl absolute z-5 top-2 left-5 place-content-center place-items-center flex cursor-pointer" href="/" onClick={() => navigate(-1)}>
+        <Link
+          to="/"
+          className="w-[35px] h-[35px] rounded-2xl bg-white shadow-2xl absolute z-10 top-4 left-5 place-content-center place-items-center flex cursor-pointer hover:bg-gray-100 transition"
+          aria-label="Back to home"
+        >
           <ArrowLeft size={24} color="black" />
-        </div>
+        </Link>
         <div className="min-h-screen flex items-center justify-center px-6 py-12">
           <div className="w-full max-w-md rounded-2xl bg-white shadow-xl border border-purple-100 p-10 relative">
             <div className="text-center">
@@ -110,15 +114,14 @@ function Login(props) {
                   Role
                 </label>
                 <select
+                  value={role}
                   className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm focus:border-[#6D28D9] focus:ring-2 focus:ring-purple-200 outline-none transition"
                   onChange={(e) => {
                     setRole(e.target.value);
                   }}
                 >
-                  <option value="student" defaultValue>
-                    Student
-                  </option>
                   <option value="admin">Admin</option>
+                  <option value="student">Student</option>
                 </select>
               </div>
 

@@ -1,19 +1,82 @@
 import api from "../../config/axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Users, CreditCard, TrendingUp, Building2, Calendar } from "lucide-react";
 
 export function Dashboard() {
   const [countStudent, setCountStudent] = useState();
+  const [pricingList, setPricingList] = useState([]);
 
   useEffect(() => {
-    api.get("/dashboard/").then((res) => {
-      setCountStudent(res.data);
-    });
+    api
+      .get("/dashboard/")
+      .then((res) => {
+        setCountStudent(res.data);
+      })
+      .catch((err) => console.error("Failed to load dashboard data:", err));
+
+    api
+      .get("/pricing/")
+      .then((res) => {
+        const data = res.data?.pricing || res.data || [];
+        setPricingList(Array.isArray(data) ? data : []);
+      })
+      .catch((err) => console.error("Failed to load pricing plans:", err));
   }, []);
 
-  const performanceList =
+  const rawPerformance =
     countStudent?.institutePerformance || countStudent?.activeCounts || [];
   const currentMonth = countStudent?.currentMonth || "Current Month";
+
+  const performanceList = useMemo(() => {
+    if (!pricingList || pricingList.length === 0) return rawPerformance;
+
+    const activeInstituteNames = new Set(
+      pricingList.map((p) => p.institute).filter(Boolean)
+    );
+
+    const processed = pricingList.map((plan) => {
+      const instName = plan.institute;
+      const batchName = plan.batch;
+
+      // Match items with exact institute & batch OR orphaned institute entries for the same batch
+      const matches = rawPerformance.filter((item) => {
+        if (item.batch !== batchName) return false;
+        return (
+          item.institute === instName ||
+          !activeInstituteNames.has(item.institute)
+        );
+      });
+
+      const totalStudents = matches.reduce(
+        (sum, item) => sum + (Number(item.totalStudents) || 0),
+        0
+      );
+      const revenue = matches.reduce(
+        (sum, item) =>
+          sum + (Number(item.revenue ?? item.totalAmount) || 0),
+        0
+      );
+
+      return {
+        institute: instName,
+        batch: batchName,
+        totalStudents,
+        revenue,
+      };
+    });
+
+    const coveredKeys = new Set(
+      processed.map((p) => `${p.institute}_${p.batch}`)
+    );
+    rawPerformance.forEach((item) => {
+      const key = `${item.institute}_${item.batch}`;
+      if (activeInstituteNames.has(item.institute) && !coveredKeys.has(key)) {
+        processed.push(item);
+      }
+    });
+
+    return processed;
+  }, [pricingList, rawPerformance]);
 
   // Reusable Stat Card Component
   const StatCard = ({ title, value, icon: Icon, colorClass, bgClass }) => (

@@ -97,9 +97,13 @@ export default function PricingManagement() {
     setSubmitting(true);
     try {
       if (editingId) {
+        const existingRecord = pricingList.find(
+          (item) => item._id === editingId
+        );
         // Update existing pricing record
         const response = await api.put("/pricing/update", {
           id: editingId,
+          oldInstitute: existingRecord?.institute || "",
           ...payload,
         });
         toast.success(response.data?.message || "Pricing updated successfully");
