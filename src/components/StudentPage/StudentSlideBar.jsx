@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
-  BookOpen,
+  PlayCircle,
   CreditCard,
   CalendarCheck,
   MessageSquare,
@@ -24,11 +24,10 @@ export default function StudentSlideBar({ onClose }) {
 
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 px-3 py-3 rounded-xl font-medium transition-all duration-200 group/link relative
-     ${
-       isActive
-         ? "bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 shadow-sm"
-         : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-purple-600 dark:hover:text-purple-300"
-     }`;
+     ${isActive
+      ? "bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 shadow-sm"
+      : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-purple-600 dark:hover:text-purple-300"
+    }`;
 
   const handleLogout = () => {
     if (onClose) onClose();
@@ -75,15 +74,15 @@ export default function StudentSlideBar({ onClose }) {
           </span>
         </NavLink>
 
-        <NavLink to="/student/courses" className={linkClass} onClick={onClose}>
+        <NavLink to="/student/lms" className={linkClass} onClick={onClose}>
           <div className="min-w-[20px] flex justify-center">
-            <BookOpen className="w-5 h-5" />
+            <PlayCircle className="w-5 h-5" />
           </div>
           <span className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap delay-75">
-            My Courses
+            My Classes
           </span>
         </NavLink>
-        
+
         <NavLink to="/student/payments" className={linkClass} onClick={onClose}>
           <div className="min-w-[20px] flex justify-center">
             <CreditCard className="w-5 h-5" />
