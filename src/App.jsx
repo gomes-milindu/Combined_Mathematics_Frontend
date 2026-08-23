@@ -13,6 +13,8 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import ProtectedRoute from "../src/components/ProtectedRoute";
 import Student from "./pages/Student";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 -toast;
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
           <Route path="/about/*" element={<About />} />
           <Route path="/contact/*" element={<Contact />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
       </BrowserRouter>
     </>

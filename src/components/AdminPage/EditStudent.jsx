@@ -9,7 +9,6 @@ import {
   Lock,
   Building2,
   Calendar,
-  Layers,
   Hash,
   Save,
   X,
@@ -28,20 +27,35 @@ export default function EditStudent() {
     email: "",
     phone: "",
     password: "",
-    institute: "",
-    batch: "",
     dateOfBirth: "",
     isActive: false,
+    paymentType: "Full Payment",
   });
 
+  // Multi-enrollment state: each row has { institute, batch, batches[] }
+  const [enrollments, setEnrollments] = useState([
+    { institute: "", batch: "", batches: [] },
+  ]);
+
+  // Dynamic institute list from pricing API
+  const [institutes, setInstitutes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Load institutes from pricing API
+  useEffect(() => {
+    api
+      .get("/pricing/institutes")
+      .then((res) => setInstitutes(res.data.institutes || []))
+      .catch(() => toast.error("Failed to load institutes"));
+  }, []);
+
+  // Load student data
   useEffect(() => {
     if (!id) return;
 
     api
       .get(`/student/getOne/${id}`)
-      .then((res) => {
+      .then(async (res) => {
         const s = res.data;
 
         setForm({
@@ -51,11 +65,47 @@ export default function EditStudent() {
           email: s.email || "",
           phone: s.phone || "",
           password: "",
-          institute: s.institute || "",
-          batch: s.batch || "",
           dateOfBirth: s.dateOfBirth ? s.dateOfBirth.substring(0, 10) : "",
           isActive: !!s.isActive,
+          paymentType: s.paymentType || "Full Payment",
         });
+
+        // Build enrollments: prefer new format, fall back to legacy
+        let studentEnrollments = [];
+        if (Array.isArray(s.enrollments) && s.enrollments.length > 0) {
+          studentEnrollments = s.enrollments.map((e) => ({
+            institute: e.institute || "",
+            batch: e.batch || "",
+          }));
+        } else {
+          // Legacy fallback: institute[0] + batch
+          const legacyInst = Array.isArray(s.institute)
+            ? s.institute[0] || ""
+            : s.institute || "";
+          const legacyBatch = s.batch || "";
+          if (legacyInst || legacyBatch) {
+            studentEnrollments = [{ institute: legacyInst, batch: legacyBatch }];
+          } else {
+            studentEnrollments = [{ institute: "", batch: "" }];
+          }
+        }
+
+        // For each enrollment, fetch its available batches
+        const withBatches = await Promise.all(
+          studentEnrollments.map(async (enr) => {
+            if (!enr.institute) return { ...enr, batches: [] };
+            try {
+              const bRes = await api.get(
+                `/pricing/institutes/${encodeURIComponent(enr.institute)}/batches`
+              );
+              return { ...enr, batches: bRes.data.batches || [] };
+            } catch {
+              return { ...enr, batches: [] };
+            }
+          })
+        );
+
+        setEnrollments(withBatches);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -73,9 +123,83 @@ export default function EditStudent() {
     }));
   }
 
-  async function handleEdit() {
+  // Handle institute change for a specific enrollment row
+  const handleEnrollmentInstituteChange = async (index, value) => {
+    const updated = [...enrollments];
+    updated[index] = { institute: value, batch: "", batches: [] };
+    setEnrollments(updated);
+
+    if (!value) return;
     try {
-      await api.put(`/student/${id}`, form);
+      const res = await api.get(
+        `/pricing/institutes/${encodeURIComponent(value)}/batches`
+      );
+      const newEnrollments = [...enrollments];
+      newEnrollments[index] = {
+        institute: value,
+        batch: "",
+        batches: res.data.batches || [],
+      };
+      setEnrollments(newEnrollments);
+    } catch (err) {
+      console.error("Failed to load batches:", err);
+    }
+  };
+
+  // Handle batch change for a specific enrollment row
+  const handleEnrollmentBatchChange = (index, value) => {
+    const updated = [...enrollments];
+    updated[index] = { ...updated[index], batch: value };
+    setEnrollments(updated);
+  };
+
+  // Add a new empty enrollment row
+  const addEnrollment = () => {
+    setEnrollments([...enrollments, { institute: "", batch: "", batches: [] }]);
+  };
+
+  // Remove an enrollment row (minimum 1)
+  const removeEnrollment = (index) => {
+    if (enrollments.length <= 1) {
+      toast.error("At least one enrollment is required");
+      return;
+    }
+    setEnrollments(enrollments.filter((_, i) => i !== index));
+  };
+
+  async function handleEdit() {
+    // Validate enrollments
+    for (let i = 0; i < enrollments.length; i++) {
+      if (!enrollments[i].institute || !enrollments[i].batch) {
+        toast.error(
+          `Enrollment ${i + 1}: Both institute and batch are required`
+        );
+        return;
+      }
+    }
+
+    // Check for duplicate enrollment pairs
+    const seen = new Set();
+    for (const enr of enrollments) {
+      const key = `${enr.institute}|||${enr.batch}`;
+      if (seen.has(key)) {
+        toast.error(`Duplicate enrollment: ${enr.institute} + ${enr.batch}`);
+        return;
+      }
+      seen.add(key);
+    }
+
+    try {
+      await api.put(`/student/${id}`, {
+        ...form,
+        enrollments: enrollments.map((e) => ({
+          institute: e.institute,
+          batch: e.batch,
+        })),
+        // Legacy fields for backward compatibility
+        institute: enrollments.map((e) => e.institute),
+        batch: enrollments[0].batch,
+      });
 
       toast.success("Student updated successfully");
       navigate("/admin/students");
@@ -114,54 +238,8 @@ export default function EditStudent() {
     </div>
   );
 
-  // Reusable Select Component
-  const SelectField = ({
-    label,
-    name,
-    value,
-    onChange,
-    icon: Icon,
-    options,
-  }) => (
-    <div className="space-y-2">
-      <label className="text-sm font-semibold text-slate-600 dark:text-slate-300">
-        {label}
-      </label>
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <Icon className="h-5 w-5 text-slate-400" />
-        </div>
-        <select
-          name={name}
-          value={value}
-          onChange={onChange}
-          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all text-slate-700 dark:text-slate-200 appearance-none"
-        >
-          <option value="">Select {label}</option>
-          {options.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-            </option>
-          ))}
-        </select>
-        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-          <svg
-            className="w-4 h-4 text-slate-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 9l-7 7-7-7"
-            ></path>
-          </svg>
-        </div>
-      </div>
-    </div>
-  );
+  const selectClass =
+    "w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all text-slate-700 dark:text-slate-200";
 
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8 font-sans">
@@ -201,8 +279,7 @@ export default function EditStudent() {
                 onChange={updateField}
                 icon={Hash}
               />
-              <div className="hidden md:block"></div>{" "}
-              {/* Spacer for alignment if needed, or remove to flow naturally */}
+              <div className="hidden md:block"></div>
               <InputField
                 label="First Name"
                 name="firstName"
@@ -239,29 +316,119 @@ export default function EditStudent() {
                 onChange={updateField}
                 icon={Calendar}
               />
-              {/* Academic Details Section */}
+
+              {/* Payment Type */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-600 dark:text-slate-300">
+                  Payment Type
+                </label>
+                <select
+                  name="paymentType"
+                  value={form.paymentType}
+                  onChange={updateField}
+                  className={selectClass}
+                >
+                  <option value="Full Payment">Full Payment</option>
+                  <option value="Half Payment">Half Payment</option>
+                </select>
+              </div>
+
+              {/* Enrollments Section */}
               <div className="col-span-1 md:col-span-2 pt-4 pb-2 border-b border-slate-100 dark:border-slate-800 mt-2">
                 <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
                   <Building2 className="w-5 h-5 text-purple-600" />
-                  Academic & Security
+                  Institute & Batch Enrollments
                 </h2>
               </div>
-              <SelectField
-                label="Institute"
-                name="institute"
-                value={form.institute}
-                onChange={updateField}
-                icon={Building2}
-                options={["Samathwee", "Sisulka"]}
-              />
-              <SelectField
-                label="Batch"
-                name="batch"
-                value={form.batch}
-                onChange={updateField}
-                icon={Layers}
-                options={["2027 Theory"]}
-              />
+
+              <div className="col-span-1 md:col-span-2 space-y-4">
+                {enrollments.map((enr, index) => (
+                  <div
+                    key={index}
+                    className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                        Enrollment {index + 1}
+                      </span>
+                      {enrollments.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeEnrollment(index)}
+                          className="text-xs text-red-500 hover:text-red-700 font-medium transition-colors"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Institute */}
+                      <div className="space-y-2">
+                        <label className="text-sm font-semibold text-slate-600 dark:text-slate-300">
+                          Institute
+                        </label>
+                        <select
+                          className={selectClass}
+                          value={enr.institute}
+                          onChange={(e) =>
+                            handleEnrollmentInstituteChange(
+                              index,
+                              e.target.value
+                            )
+                          }
+                        >
+                          <option value="">Select Institute</option>
+                          {institutes.map((inst) => (
+                            <option key={inst} value={inst}>
+                              {inst}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Batch */}
+                      <div className="space-y-2">
+                        <label className="text-sm font-semibold text-slate-600 dark:text-slate-300">
+                          Batch
+                        </label>
+                        <select
+                          className={selectClass}
+                          value={enr.batch}
+                          onChange={(e) =>
+                            handleEnrollmentBatchChange(index, e.target.value)
+                          }
+                          disabled={!enr.institute}
+                        >
+                          <option value="">Select Batch</option>
+                          {enr.batches.map((b) => (
+                            <option key={b} value={b}>
+                              {b}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <button
+                  type="button"
+                  onClick={addEnrollment}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-purple-600 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg transition-colors"
+                >
+                  <span className="text-lg leading-none">+</span>
+                  Add Another Institute / Batch
+                </button>
+              </div>
+
+              {/* Security Section */}
+              <div className="col-span-1 md:col-span-2 pt-4 pb-2 border-b border-slate-100 dark:border-slate-800 mt-2">
+                <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                  <Lock className="w-5 h-5 text-purple-600" />
+                  Security
+                </h2>
+              </div>
+
               <InputField
                 label="New Password"
                 name="password"
@@ -271,11 +438,15 @@ export default function EditStudent() {
                 icon={Lock}
                 fullWidth={true}
               />
+
               {/* Active Status Toggle */}
               <div className="col-span-1 md:col-span-2 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div
-                    className={`p-2 rounded-full ${form.isActive ? "bg-emerald-100 text-emerald-600" : "bg-slate-200 text-slate-500"}`}
+                    className={`p-2 rounded-full ${form.isActive
+                        ? "bg-emerald-100 text-emerald-600"
+                        : "bg-slate-200 text-slate-500"
+                      }`}
                   >
                     <CheckCircle2 className="w-5 h-5" />
                   </div>
@@ -299,6 +470,7 @@ export default function EditStudent() {
                   <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-purple-600"></div>
                 </label>
               </div>
+
               {/* Action Buttons */}
               <div className="col-span-1 md:col-span-2 flex items-center gap-4 pt-6 mt-2">
                 <button
