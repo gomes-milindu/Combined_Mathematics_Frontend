@@ -12,12 +12,17 @@ export default function StudentRegister() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [institute, setInstitute] = useState("");
-  const [batch, setBatch] = useState("");
   const [dateOfBirth, setBirthday] = useState("");
   const [isActive, setIsActive] = useState("");
+  const [paymentType, setPaymentType] = useState("Full Payment");
+
+  // Dynamic institute list from pricing API
   const [institutes, setInstitutes] = useState([]);
-  const [batches, setBatches] = useState([]);
+
+  // Multi-enrollment state: each row has { institute, batch, batches[] }
+  const [enrollments, setEnrollments] = useState([
+    { institute: "", batch: "", batches: [] },
+  ]);
 
   useEffect(() => {
     api.get("/pricing/institutes")
@@ -25,21 +30,64 @@ export default function StudentRegister() {
       .catch(() => toast.error("Failed to load institutes"));
   }, []);
 
-  const handleInstituteChange = async (value) => {
-    setInstitute(value);
-    setBatch("");
-    setBatches([]);
+  // Handle institute change for a specific enrollment row
+  const handleEnrollmentInstituteChange = async (index, value) => {
+    const updated = [...enrollments];
+    updated[index] = { institute: value, batch: "", batches: [] };
+    setEnrollments(updated);
+
     if (!value) return;
     try {
       const res = await api.get(`/pricing/institutes/${encodeURIComponent(value)}/batches`);
-      setBatches(res.data.batches || []);
+      const newEnrollments = [...enrollments];
+      newEnrollments[index] = { institute: value, batch: "", batches: res.data.batches || [] };
+      setEnrollments(newEnrollments);
     } catch (err) {
       console.error("Failed to load batches:", err);
-      setBatches([]);
     }
   };
 
+  // Handle batch change for a specific enrollment row
+  const handleEnrollmentBatchChange = (index, value) => {
+    const updated = [...enrollments];
+    updated[index] = { ...updated[index], batch: value };
+    setEnrollments(updated);
+  };
+
+  // Add a new empty enrollment row
+  const addEnrollment = () => {
+    setEnrollments([...enrollments, { institute: "", batch: "", batches: [] }]);
+  };
+
+  // Remove an enrollment row (minimum 1)
+  const removeEnrollment = (index) => {
+    if (enrollments.length <= 1) {
+      toast.error("At least one enrollment is required");
+      return;
+    }
+    setEnrollments(enrollments.filter((_, i) => i !== index));
+  };
+
   async function Create() {
+    // Validate enrollments
+    for (let i = 0; i < enrollments.length; i++) {
+      if (!enrollments[i].institute || !enrollments[i].batch) {
+        toast.error(`Enrollment ${i + 1}: Both institute and batch are required`);
+        return;
+      }
+    }
+
+    // Check for duplicate enrollment pairs
+    const seen = new Set();
+    for (const enr of enrollments) {
+      const key = `${enr.institute}|||${enr.batch}`;
+      if (seen.has(key)) {
+        toast.error(`Duplicate enrollment: ${enr.institute} + ${enr.batch}`);
+        return;
+      }
+      seen.add(key);
+    }
+
     try {
       await api.post("/student/", {
         studentId,
@@ -48,9 +96,12 @@ export default function StudentRegister() {
         email,
         phone,
         password,
-        institute,
-        batch,
+        enrollments: enrollments.map((e) => ({
+          institute: e.institute,
+          batch: e.batch,
+        })),
         dateOfBirth,
+        paymentType,
         isActive: isActive === "true",
         role: "admin",
       });
@@ -58,9 +109,14 @@ export default function StudentRegister() {
       toast.success("Student Created Successfully");
       navigate("/admin/students");
     } catch (e) {
-      toast.error("Student Not Created");
+      const msg = e.response?.data?.message || "Student Not Created";
+      toast.error(msg);
     }
   }
+
+  const inputClass =
+    "w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all";
+  const selectClass = `${inputClass} bg-white`;
 
   return (
     <main className="w-full min-h-screen bg-gray-50 p-4 md:p-8 flex justify-center">
@@ -82,7 +138,7 @@ export default function StudentRegister() {
 
         {/* Form Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-10">
-          {/* Form Grid */}
+          {/* Personal Info Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
             {/* Student ID */}
             <div>
@@ -91,7 +147,7 @@ export default function StudentRegister() {
               </label>
               <input
                 type="text"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
+                className={inputClass}
                 placeholder="ST-001"
                 onChange={(e) => setStudentID(e.target.value)}
               />
@@ -104,7 +160,7 @@ export default function StudentRegister() {
               </label>
               <input
                 type="text"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
+                className={inputClass}
                 placeholder="First name"
                 onChange={(e) => setFirstName(e.target.value)}
               />
@@ -117,7 +173,7 @@ export default function StudentRegister() {
               </label>
               <input
                 type="text"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
+                className={inputClass}
                 placeholder="Last name"
                 onChange={(e) => setLastName(e.target.value)}
               />
@@ -130,7 +186,7 @@ export default function StudentRegister() {
               </label>
               <input
                 type="email"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
+                className={inputClass}
                 placeholder="student@email.com"
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -143,7 +199,7 @@ export default function StudentRegister() {
               </label>
               <input
                 type="text"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
+                className={inputClass}
                 placeholder="07X XXX XXXX"
                 onChange={(e) => setPhone(e.target.value)}
               />
@@ -156,45 +212,10 @@ export default function StudentRegister() {
               </label>
               <input
                 type="password"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
+                className={inputClass}
                 placeholder="••••••••"
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </div>
-
-            {/* Institute */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Institute
-              </label>
-              <select
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
-                value={institute}
-                onChange={(e) => handleInstituteChange(e.target.value)}
-              >
-                <option value="">Select Institute</option>
-                {institutes.map((inst) => (
-                  <option key={inst} value={inst}>{inst}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Batch */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Batch
-              </label>
-              <select
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
-                value={batch}
-                onChange={(e) => setBatch(e.target.value)}
-                disabled={!institute}
-              >
-                <option value="">Select batch</option>
-                {batches.map((b) => (
-                  <option key={b} value={b}>{b}</option>
-                ))}
-              </select>
             </div>
 
             {/* Birthday */}
@@ -204,7 +225,7 @@ export default function StudentRegister() {
               </label>
               <input
                 type="date"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all"
+                className={inputClass}
                 onChange={(e) => setBirthday(e.target.value)}
               />
             </div>
@@ -215,7 +236,7 @@ export default function StudentRegister() {
                 Active Status
               </label>
               <select
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
+                className={selectClass}
                 onChange={(e) => setIsActive(e.target.value)}
               >
                 <option value="">Select status</option>
@@ -223,6 +244,106 @@ export default function StudentRegister() {
                 <option value="false">Inactive</option>
               </select>
             </div>
+
+            {/* Payment Type */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Payment Type *
+              </label>
+              <select
+                className={selectClass}
+                value={paymentType}
+                onChange={(e) => setPaymentType(e.target.value)}
+                required
+              >
+                <option value="Full Payment">Full Payment</option>
+                <option value="Half Payment">Half Payment</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Enrollments Section */}
+          <div className="mt-10 pt-6 border-t border-gray-100">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              Institute & Batch Enrollments
+            </h2>
+
+            <div className="space-y-4">
+              {enrollments.map((enr, index) => (
+                <div
+                  key={index}
+                  className="p-4 bg-gray-50 rounded-xl border border-gray-200"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm font-medium text-gray-600">
+                      Enrollment {index + 1}
+                    </span>
+                    {enrollments.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeEnrollment(index)}
+                        className="text-xs text-red-500 hover:text-red-700 font-medium transition-colors"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Institute */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        Institute
+                      </label>
+                      <select
+                        className={selectClass}
+                        value={enr.institute}
+                        onChange={(e) =>
+                          handleEnrollmentInstituteChange(index, e.target.value)
+                        }
+                      >
+                        <option value="">Select Institute</option>
+                        {institutes.map((inst) => (
+                          <option key={inst} value={inst}>
+                            {inst}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Batch */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        Batch
+                      </label>
+                      <select
+                        className={selectClass}
+                        value={enr.batch}
+                        onChange={(e) =>
+                          handleEnrollmentBatchChange(index, e.target.value)
+                        }
+                        disabled={!enr.institute}
+                      >
+                        <option value="">Select Batch</option>
+                        {enr.batches.map((b) => (
+                          <option key={b} value={b}>
+                            {b}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={addEnrollment}
+              className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-purple-600 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg transition-colors"
+            >
+              <span className="text-lg leading-none">+</span>
+              Add Another Institute / Batch
+            </button>
           </div>
 
           {/* Buttons */}
