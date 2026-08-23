@@ -119,12 +119,12 @@ return (
               Submit
             </button>
 
-            <button
-              type="button"
-              className="w-full rounded-xl border border-[#6D28D9] py-3 text-sm font-medium text-[#6D28D9] hover:bg-purple-50 transition"
+            <Link
+              to="/forgot-password"
+              className="w-full rounded-xl border border-[#6D28D9] py-3 text-sm font-medium text-[#6D28D9] hover:bg-purple-50 transition block text-center"
             >
               Forgot Password
-            </button>
+            </Link>
           </form>
         </div>
       </div>

@@ -14,6 +14,9 @@ import PreviousAddedCourse from "../components/AdminPage/PreviousAddedCourse";
 import UnderDevelopment from "../components/AdminPage/UnderDevelopment";
 import PricingManagement from "../components/AdminPage/PricingManagement";
 import AttendanceHistory from "../components/AdminPage/AttendanceHistory";
+import AdminChangePassword from "../components/AdminPage/AdminChangePassword";
+import VideoManagement from "../components/AdminPage/VideoManagement";
+import UnpaidStudentList from "../components/AdminPage/UnpaidStudentList";
 
 function Admin() {
   return (
@@ -39,8 +42,11 @@ function Admin() {
             <Route path="/scan/*" element={<QrScanner />} />
 
             <Route path="/attendance" element={<AttendanceHistory />} />
+            <Route path="/videos" element={<VideoManagement />} />
+            <Route path="/unpaid-students" element={<UnpaidStudentList />} />
 
             <Route path="/createAdmin" element={<AdminCreateAdmin />} />
+            <Route path="/change-password" element={<AdminChangePassword />} />
 
             <Route
               path="/students/studentView/:id"
