@@ -1,6 +1,6 @@
 import api from "../../config/axios";
 import { useState, useEffect } from "react";
-import { CreditCard, Banknote, Calendar, CheckCircle2 } from "lucide-react";
+import { CreditCard, Banknote, Calendar, CheckCircle2, Building2 } from "lucide-react";
 
 export default function AllPayments({ studentId }) {
   const [payment, setPayment] = useState([]);
@@ -20,37 +20,54 @@ export default function AllPayments({ studentId }) {
 
   if (!payment.length) return null;
 
-  // Dynamically group payments by their actual batch values
-  const batchGroups = {};
+  // Group payments by institute + batch (not just batch)
+  const groups = {};
   payment.forEach((p) => {
-    const batchKey = p.batch || "Unknown";
-    if (!batchGroups[batchKey]) {
-      batchGroups[batchKey] = [];
+    const institute = p.institute || "Unknown Institute";
+    const batch = p.batch || "Unknown";
+    const groupKey = `${institute}|||${batch}`;
+    if (!groups[groupKey]) {
+      groups[groupKey] = {
+        institute,
+        batch,
+        payments: [],
+      };
     }
-    batchGroups[batchKey].push(p);
+    groups[groupKey].payments.push(p);
   });
 
   return (
     <div className="space-y-8 mt-8">
-      {Object.entries(batchGroups).map(([batchName, data]) => (
+      {Object.values(groups).map((group) => (
         <PaymentTable
-          key={batchName}
-          title={`${batchName} Payments`}
-          data={data}
+          key={`${group.institute}-${group.batch}`}
+          institute={group.institute}
+          batch={group.batch}
+          data={group.payments}
         />
       ))}
     </div>
   );
 }
 
-function PaymentTable({ title, data }) {
+function PaymentTable({ institute, batch, data }) {
   return (
     <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
-      <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">
-        <CreditCard className="w-5 h-5 text-purple-600" />
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-          {title}
-        </h2>
+      <div className="p-6 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex items-center gap-3">
+          <CreditCard className="w-5 h-5 text-purple-600" />
+          <div>
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+              {batch} Payments
+            </h2>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <Building2 className="w-3.5 h-3.5 text-slate-400" />
+              <span className="text-sm text-slate-500 dark:text-slate-400">
+                {institute}
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="overflow-x-auto">
@@ -94,8 +111,8 @@ function PaymentTable({ title, data }) {
                 <td className="p-4">
                   <span
                     className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium border ${p.cardType === "Card"
-                        ? "bg-purple-50 border-purple-100 text-purple-700 dark:bg-purple-900/20 dark:border-purple-800 dark:text-purple-300"
-                        : "bg-blue-50 border-blue-100 text-blue-700 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-300"
+                      ? "bg-purple-50 border-purple-100 text-purple-700 dark:bg-purple-900/20 dark:border-purple-800 dark:text-purple-300"
+                      : "bg-blue-50 border-blue-100 text-blue-700 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-300"
                       }`}
                   >
                     {p.cardType === "Card" ? (

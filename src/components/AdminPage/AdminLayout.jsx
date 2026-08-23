@@ -17,6 +17,7 @@ export default function AdminLayout() {
     else if (path.includes("/admin/scan")) setPageTitle("QR Scanner");
     else if (path.includes("/admin/attendance")) setPageTitle("Attendance");
     else if (path.includes("/admin/register")) setPageTitle("Registration");
+    else if (path.includes("/admin/change-password")) setPageTitle("Change Password");
     else if (path.includes("/admin/createAdmin"))
       setPageTitle("Admin Management");
     else setPageTitle("Dashboard");

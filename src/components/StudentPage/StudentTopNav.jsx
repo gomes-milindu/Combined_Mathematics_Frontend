@@ -1,4 +1,5 @@
-import { Settings, Bell, Menu } from "lucide-react";
+import { Settings, Bell, Menu, KeyRound } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const StudentTopNav = ({ pageTitle, onMenuClick }) => {
   return (
@@ -24,10 +25,10 @@ const StudentTopNav = ({ pageTitle, onMenuClick }) => {
             1
           </span>
         </button>
-        {/* Settings */}
-        <button className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-accent-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
-          <Settings className="h-5 w-5" />
-        </button>
+        {/* Change Password */}
+        <Link to="/student/change-password" className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-accent-foreground hover:bg-primary hover:text-primary-foreground transition-colors" title="Change Password">
+          <KeyRound className="h-5 w-5" />
+        </Link>
 
         <div className="w-[200px] flex items-center justify-around border-l border-border">
           <div className="text-right flex flex-col">

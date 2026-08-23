@@ -1,9 +1,12 @@
 import api from "../../config/axios";
 import { useEffect, useState } from "react";
-import { Users, CreditCard, TrendingUp, Building2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Users, CreditCard, TrendingUp, Building2, AlertCircle } from "lucide-react";
 
 export function Dashboard() {
+  const navigate = useNavigate();
   const [countStudent, setCountStudent] = useState();
+  const [unpaidCount, setUnpaidCount] = useState(0);
 
   useEffect(() => {
     api.get("/dashboard/").then((res) => {
@@ -11,9 +14,23 @@ export function Dashboard() {
     });
   }, []);
 
+  // Fetch unpaid count for current YYYY-MM month
+  useEffect(() => {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, "0");
+    api
+      .get(`/student/unpaid`, { params: { month: `${y}-${m}` } })
+      .then((res) => setUnpaidCount(res.data.count || 0))
+      .catch(() => setUnpaidCount(0));
+  }, []);
+
   // Reusable Stat Card Component
-  const StatCard = ({ title, value, icon: Icon, colorClass, bgClass }) => (
-    <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center gap-5 transition-transform hover:scale-[1.02] duration-300">
+  const StatCard = ({ title, value, icon: Icon, colorClass, bgClass, onClick }) => (
+    <div
+      onClick={onClick}
+      className={`bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center gap-5 transition-transform hover:scale-[1.02] duration-300 ${onClick ? "cursor-pointer" : ""}`}
+    >
       <div
         className={`p-4 rounded-xl ${bgClass} flex items-center justify-center shadow-sm`}
       >
@@ -33,7 +50,7 @@ export function Dashboard() {
   return (
     <div className="p-8 space-y-8 bg-slate-50 dark:bg-slate-950 min-h-screen">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Students"
           value={countStudent?.totalStudents || 0}
@@ -54,6 +71,14 @@ export function Dashboard() {
           icon={TrendingUp}
           colorClass="text-emerald-600"
           bgClass="bg-emerald-50 dark:bg-emerald-900/20"
+        />
+        <StatCard
+          title="Unpaid Students"
+          value={unpaidCount}
+          icon={AlertCircle}
+          colorClass="text-rose-600"
+          bgClass="bg-rose-50 dark:bg-rose-900/20"
+          onClick={() => navigate("/admin/unpaid-students")}
         />
       </div>
 
@@ -102,10 +127,10 @@ export function Dashboard() {
 
           {(!countStudent?.activeCounts ||
             countStudent.activeCounts.length === 0) && (
-            <div className="p-8 text-center text-slate-500 dark:text-slate-400 italic bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
-              No institute data available
-            </div>
-          )}
+              <div className="p-8 text-center text-slate-500 dark:text-slate-400 italic bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
+                No institute data available
+              </div>
+            )}
         </div>
 
         {/* Desktop Table View */}
@@ -156,15 +181,15 @@ export function Dashboard() {
               ))}
               {(!countStudent?.activeCounts ||
                 countStudent.activeCounts.length === 0) && (
-                <tr>
-                  <td
-                    colSpan="4"
-                    className="p-8 text-center text-slate-500 dark:text-slate-400 italic"
-                  >
-                    No institute data available
-                  </td>
-                </tr>
-              )}
+                  <tr>
+                    <td
+                      colSpan="4"
+                      className="p-8 text-center text-slate-500 dark:text-slate-400 italic"
+                    >
+                      No institute data available
+                    </td>
+                  </tr>
+                )}
             </tbody>
           </table>
         </div>
@@ -172,3 +197,4 @@ export function Dashboard() {
     </div>
   );
 }
+

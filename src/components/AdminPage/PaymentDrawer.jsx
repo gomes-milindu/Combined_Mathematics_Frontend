@@ -33,35 +33,77 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
     cardType: "Full Payment",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pricing, setPricing] = useState(null);
 
-  // Populate form from the student's actual registration data
+  // Build enrollment list from student data (new format or legacy fallback)
+  const enrollments = student
+    ? Array.isArray(student.enrollments) && student.enrollments.length > 0
+      ? student.enrollments
+      : (() => {
+        const insts = Array.isArray(student.institute)
+          ? student.institute
+          : student.institute
+            ? [student.institute]
+            : [];
+        const b = student.batch || "";
+        if (insts.length === 0 && !b) return [];
+        if (insts.length === 0) return [{ institute: "", batch: b }];
+        return insts.map((inst) => ({ institute: inst, batch: b }));
+      })()
+    : [];
+
+  // Set default form values when student changes
   useEffect(() => {
-    if (student) {
-      const institutes = Array.isArray(student.institute)
-        ? student.institute
-        : student.institute
-          ? [student.institute]
-          : [];
-
+    if (student && enrollments.length > 0) {
       setFormData((prev) => ({
         ...prev,
         studentId: student.studentId || "",
-        institute: institutes[0] || "",
-        batch: student.batch || "",
+        institute: enrollments[0].institute || "",
+        batch: enrollments[0].batch || "",
         month: prev.month || getCurrentYYYYMM(),
+        amount: "",
       }));
     }
   }, [student]);
+
+  // Fetch pricing when enrollment selection changes
+  useEffect(() => {
+    if (!formData.institute || !formData.batch) {
+      setPricing(null);
+      return;
+    }
+    api
+      .get("/pricing/all")
+      .then((res) => {
+        const all = res.data.pricing || [];
+        const match = all.find(
+          (p) =>
+            p.institute === formData.institute && p.batch === formData.batch
+        );
+        setPricing(match || null);
+      })
+      .catch(() => setPricing(null));
+  }, [formData.institute, formData.batch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleEnrollmentChange = (e) => {
+    const idx = parseInt(e.target.value, 10);
+    if (isNaN(idx) || !enrollments[idx]) return;
+    const enr = enrollments[idx];
+    setFormData((prev) => ({
+      ...prev,
+      institute: enr.institute,
+      batch: enr.batch,
+      amount: "",
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Prevent duplicate submissions
     if (isSubmitting) return;
 
     const payload = {
@@ -92,11 +134,10 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
       await api.post("/payment/create", payload);
       toast.success("Payment Success");
 
-      // Reset form (keep student data + defaults)
       setFormData({
         studentId: student?.studentId || "",
-        institute: formData.institute,
-        batch: student?.batch || "",
+        institute: enrollments[0]?.institute || "",
+        batch: enrollments[0]?.batch || "",
         month: "",
         amount: "",
         cardType: "Full Payment",
@@ -114,13 +155,26 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
   // Derive data BEFORE the early return so hooks always run in the same order
   const monthOptions = buildMonthOptions();
 
-  const institutes = student
-    ? Array.isArray(student.institute)
-      ? student.institute
-      : student.institute
-        ? [student.institute]
-        : []
-    : [];
+  // Find current enrollment index for the select
+  const currentEnrollmentIndex = enrollments.findIndex(
+    (e) => e.institute === formData.institute && e.batch === formData.batch
+  );
+
+  // Build amount options from pricing
+  const amountOptions = [];
+  if (pricing) {
+    if (pricing.fullPayment) amountOptions.push({ value: pricing.fullPayment, label: `Rs. ${pricing.fullPayment} (Full)` });
+    if (pricing.halfPayment) amountOptions.push({ value: pricing.halfPayment, label: `Rs. ${pricing.halfPayment} (Half)` });
+    if (pricing.freePayment !== undefined && pricing.freePayment !== null) amountOptions.push({ value: pricing.freePayment, label: `Rs. ${pricing.freePayment} (Free Card)` });
+  }
+  // Always have fallback manual options
+  if (amountOptions.length === 0) {
+    amountOptions.push(
+      { value: "0", label: "0" },
+      { value: "1900", label: "1900" },
+      { value: "3800", label: "3800" }
+    );
+  }
 
   if (!isOpen) return null;
 
@@ -157,47 +211,57 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
             />
           </div>
 
-          {/* Institute — from student's actual registration */}
+          {/* Enrollment Selection */}
           <div>
-            <label className="block text-sm mb-1">Institute</label>
-            {institutes.length > 1 ? (
+            <label className="block text-sm font-medium mb-1">
+              Select Enrollment
+            </label>
+            {enrollments.length > 1 ? (
               <select
-                name="institute"
-                value={formData.institute || ""}
-                onChange={handleChange}
-                required
+                value={currentEnrollmentIndex >= 0 ? currentEnrollmentIndex : 0}
+                onChange={handleEnrollmentChange}
                 className="w-full px-3 py-2 border rounded"
               >
-                {institutes.map((inst) => (
-                  <option key={inst} value={inst}>
-                    {inst}
+                {enrollments.map((enr, idx) => (
+                  <option key={idx} value={idx}>
+                    {enr.institute} — {enr.batch}
                   </option>
                 ))}
               </select>
+            ) : enrollments.length === 1 ? (
+              <div className="w-full px-3 py-2 border rounded bg-gray-50 text-sm text-gray-700">
+                {enrollments[0].institute} — {enrollments[0].batch}
+              </div>
             ) : (
-              <input
-                type="text"
-                name="institute"
-                value={formData.institute || ""}
-                readOnly
-                className="w-full px-3 py-2 border rounded bg-gray-100"
-              />
+              <div className="w-full px-3 py-2 border rounded bg-red-50 text-sm text-red-600">
+                No enrollments found
+              </div>
             )}
           </div>
 
-          {/* Batch — from student's actual registration (read-only) */}
+          {/* Institute (read-only, derived from enrollment selection) */}
+          <div>
+            <label className="block text-sm mb-1">Institute</label>
+            <input
+              type="text"
+              value={formData.institute || ""}
+              readOnly
+              className="w-full px-3 py-2 border rounded bg-gray-100"
+            />
+          </div>
+
+          {/* Batch (read-only, derived from enrollment selection) */}
           <div>
             <label className="block text-sm mb-1">Batch</label>
             <input
               type="text"
-              name="batch"
               value={formData.batch || ""}
               readOnly
               className="w-full px-3 py-2 border rounded bg-gray-100"
             />
           </div>
 
-          {/* Month — YYYY-MM format for LMS compatibility */}
+          {/* Month */}
           <div>
             <label className="block text-sm mb-1">Month</label>
             <select
@@ -226,9 +290,11 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
               className="w-full px-3 py-2 border rounded"
             >
               <option value="">Select Amount</option>
-              <option value="0">0</option>
-              <option value="1900">1900</option>
-              <option value="3800">3800</option>
+              {amountOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
             </select>
           </div>
 

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://localhost:8080";
@@ -17,13 +18,31 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Track whether we've already shown a session expired toast + redirect
+let isRedirecting = false;
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const status = error.response?.status;
+
+    if (status === 401 && !isRedirecting) {
+      isRedirecting = true;
       localStorage.removeItem("token");
-      window.location.href = "/login";
+      toast.error("Session expired. Please log in again.", { id: "session-expired" });
+      setTimeout(() => {
+        isRedirecting = false;
+        window.location.href = "/login";
+      }, 1000);
     }
+
+    if (status === 403) {
+      toast.error(
+        error.response?.data?.message || "Access denied. You don't have permission.",
+        { id: "forbidden" }
+      );
+    }
+
     return Promise.reject(error);
   }
 );
