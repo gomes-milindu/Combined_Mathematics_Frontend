@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   BadgeDollarSign,
   ClipboardCheck,
+  KeyRound,
 } from "lucide-react";
 
 export default function Slidebar({ onClose }) {
@@ -29,11 +30,10 @@ export default function Slidebar({ onClose }) {
 
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 px-3 py-3 rounded-xl font-medium transition-all duration-200 group/link relative
-     ${
-       isActive
-         ? "bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 shadow-sm"
-         : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-purple-600 dark:hover:text-purple-300"
-     }`;
+     ${isActive
+      ? "bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 shadow-sm"
+      : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-purple-600 dark:hover:text-purple-300"
+    }`;
 
   const handleLogout = () => {
     setShowSettingsMenu(false);
@@ -141,17 +141,25 @@ export default function Slidebar({ onClose }) {
             Pricing Setup
           </span>
         </NavLink>
+
+        <NavLink to="/admin/videos" className={linkClass} onClick={onClose}>
+          <div className="min-w-[20px] flex justify-center">
+            <Video className="w-5 h-5" />
+          </div>
+          <span className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap delay-75">
+            Video Management
+          </span>
+        </NavLink>
       </div>
 
       {/* Bottom Settings */}
       <div className="p-3 relative shrink-0">
         <button
           onClick={() => setShowSettingsMenu(!showSettingsMenu)}
-          className={`w-full flex items-center gap-3 p-2 rounded-xl font-medium transition-all duration-200 border overflow-hidden ${
-            showSettingsMenu
+          className={`w-full flex items-center gap-3 p-2 rounded-xl font-medium transition-all duration-200 border overflow-hidden ${showSettingsMenu
               ? "bg-purple-50 border-purple-200 text-purple-700 dark:bg-slate-800 dark:border-slate-700 dark:text-white"
               : "bg-white border-slate-200 text-slate-600 hover:border-purple-200 hover:text-purple-600 dark:bg-slate-950 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-900"
-          }`}
+            }`}
         >
           <div className="flex items-center gap-3 shrink-0 justify-center w-full lg:group-hover:w-auto">
             <div
@@ -179,6 +187,16 @@ export default function Slidebar({ onClose }) {
             >
               <ShieldCheck className="w-4 h-4 text-slate-400" />
               <span className="font-medium">Create Admins</span>
+            </NavLink>
+
+            {/* Change Password */}
+            <NavLink
+              to="/admin/change-password"
+              onClick={() => { setShowSettingsMenu(false); if (onClose) onClose(); }}
+              className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-b border-slate-100 dark:border-slate-800"
+            >
+              <KeyRound className="w-4 h-4 text-slate-400" />
+              <span className="font-medium">Change Password</span>
             </NavLink>
 
             {/* Mode Toggle */}
