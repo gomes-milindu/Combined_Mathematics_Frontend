@@ -198,7 +198,7 @@ export default function ViewStudent() {
         <PaymentDrawer
           isOpen={isPaymentDrawerOpen}
           onClose={() => setIsPaymentDrawerOpen(false)}
-          studentId={student.studentId}
+          student={student}
         />
 
         {/* Auto-Open Recent Payments Drawer (Mobile/Tablet) */}

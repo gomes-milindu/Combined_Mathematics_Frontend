@@ -20,24 +20,25 @@ export default function AllPayments({ studentId }) {
 
   if (!payment.length) return null;
 
-  const hasTheory = payment.some((p) => p.batch === "2027 Theory");
-  const hasPaper = payment.some((p) => p.batch === "2027 Paper");
+  // Dynamically group payments by their actual batch values
+  const batchGroups = {};
+  payment.forEach((p) => {
+    const batchKey = p.batch || "Unknown";
+    if (!batchGroups[batchKey]) {
+      batchGroups[batchKey] = [];
+    }
+    batchGroups[batchKey].push(p);
+  });
 
   return (
     <div className="space-y-8 mt-8">
-      {hasTheory && (
+      {Object.entries(batchGroups).map(([batchName, data]) => (
         <PaymentTable
-          title="2027 Theory Payments"
-          data={payment.filter((p) => p.batch === "2027 Theory")}
+          key={batchName}
+          title={`${batchName} Payments`}
+          data={data}
         />
-      )}
-
-      {hasPaper && (
-        <PaymentTable
-          title="2027 Paper Class Payments"
-          data={payment.filter((p) => p.batch === "2027 Paper")}
-        />
-      )}
+      ))}
     </div>
   );
 }
@@ -81,7 +82,7 @@ function PaymentTable({ title, data }) {
                     <span className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-500">
                       {p.month}
                     </span>
-                    <span>Month {p.month}</span>
+                    <span>{p.month}</span>
                   </div>
                 </td>
                 <td className="p-4">
@@ -92,11 +93,10 @@ function PaymentTable({ title, data }) {
                 </td>
                 <td className="p-4">
                   <span
-                    className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-                      p.cardType === "Card"
+                    className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium border ${p.cardType === "Card"
                         ? "bg-purple-50 border-purple-100 text-purple-700 dark:bg-purple-900/20 dark:border-purple-800 dark:text-purple-300"
                         : "bg-blue-50 border-blue-100 text-blue-700 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-300"
-                    }`}
+                      }`}
                   >
                     {p.cardType === "Card" ? (
                       <CreditCard size={12} />
