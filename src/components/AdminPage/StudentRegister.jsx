@@ -14,14 +14,13 @@ export default function StudentRegister() {
   const [password, setPassword] = useState("");
   const [dateOfBirth, setBirthday] = useState("");
   const [isActive, setIsActive] = useState("");
-  const [paymentType, setPaymentType] = useState("Full Payment");
 
   // Dynamic institute list from pricing API
   const [institutes, setInstitutes] = useState([]);
 
   // Multi-enrollment state: each row has { institute, batch, batches[] }
   const [enrollments, setEnrollments] = useState([
-    { institute: "", batch: "", batches: [] },
+    { institute: "", batch: "", batches: [], paymentType: "Full Payment" },
   ]);
 
   useEffect(() => {
@@ -33,14 +32,14 @@ export default function StudentRegister() {
   // Handle institute change for a specific enrollment row
   const handleEnrollmentInstituteChange = async (index, value) => {
     const updated = [...enrollments];
-    updated[index] = { institute: value, batch: "", batches: [] };
+    updated[index] = { institute: value, batch: "", batches: [], paymentType: updated[index].paymentType || "Full Payment" };
     setEnrollments(updated);
 
     if (!value) return;
     try {
       const res = await api.get(`/pricing/institutes/${encodeURIComponent(value)}/batches`);
       const newEnrollments = [...enrollments];
-      newEnrollments[index] = { institute: value, batch: "", batches: res.data.batches || [] };
+      newEnrollments[index] = { institute: value, batch: "", batches: res.data.batches || [], paymentType: enrollments[index].paymentType || "Full Payment" };
       setEnrollments(newEnrollments);
     } catch (err) {
       console.error("Failed to load batches:", err);
@@ -56,7 +55,7 @@ export default function StudentRegister() {
 
   // Add a new empty enrollment row
   const addEnrollment = () => {
-    setEnrollments([...enrollments, { institute: "", batch: "", batches: [] }]);
+    setEnrollments([...enrollments, { institute: "", batch: "", batches: [], paymentType: "Full Payment" }]);
   };
 
   // Remove an enrollment row (minimum 1)
@@ -99,9 +98,9 @@ export default function StudentRegister() {
         enrollments: enrollments.map((e) => ({
           institute: e.institute,
           batch: e.batch,
+          paymentType: e.paymentType || "Full Payment",
         })),
         dateOfBirth,
-        paymentType,
         isActive: isActive === "true",
         role: "admin",
       });
@@ -244,22 +243,6 @@ export default function StudentRegister() {
                 <option value="false">Inactive</option>
               </select>
             </div>
-
-            {/* Payment Type */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Payment Type *
-              </label>
-              <select
-                className={selectClass}
-                value={paymentType}
-                onChange={(e) => setPaymentType(e.target.value)}
-                required
-              >
-                <option value="Full Payment">Full Payment</option>
-                <option value="Half Payment">Half Payment</option>
-              </select>
-            </div>
           </div>
 
           {/* Enrollments Section */}
@@ -288,7 +271,8 @@ export default function StudentRegister() {
                       </button>
                     )}
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {/* Institute */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -331,6 +315,25 @@ export default function StudentRegister() {
                         ))}
                       </select>
                     </div>
+
+                    {/* Payment Type per enrollment */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        Payment Type
+                      </label>
+                      <select
+                        className={selectClass}
+                        value={enr.paymentType || "Full Payment"}
+                        onChange={(e) => {
+                          const updated = [...enrollments];
+                          updated[index] = { ...updated[index], paymentType: e.target.value };
+                          setEnrollments(updated);
+                        }}
+                      >
+                        <option value="Full Payment">Full Payment</option>
+                        <option value="Half Payment">Half Payment</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -363,6 +366,6 @@ export default function StudentRegister() {
           </div>
         </div>
       </div>
-    </main>
+    </main >
   );
 }

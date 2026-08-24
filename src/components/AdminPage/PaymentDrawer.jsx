@@ -55,13 +55,17 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
   // Set default form values when student changes
   useEffect(() => {
     if (student && enrollments.length > 0) {
+      const enr = enrollments[0];
+      // Auto-select cardType based on enrollment paymentType
+      const autoCard = enr.paymentType === "Half Payment" ? "Half Card" : "Full Payment";
       setFormData((prev) => ({
         ...prev,
         studentId: student.studentId || "",
-        institute: enrollments[0].institute || "",
-        batch: enrollments[0].batch || "",
+        institute: enr.institute || "",
+        batch: enr.batch || "",
         month: prev.month || getCurrentYYYYMM(),
         amount: "",
+        cardType: autoCard,
       }));
     }
   }, [student]);
@@ -85,6 +89,22 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
       .catch(() => setPricing(null));
   }, [formData.institute, formData.batch]);
 
+  // Auto-select amount when pricing loads or cardType changes
+  useEffect(() => {
+    if (!pricing) return;
+    let autoAmount = "";
+    if (formData.cardType === "Full Payment" && pricing.fullPayment) {
+      autoAmount = String(pricing.fullPayment);
+    } else if (formData.cardType === "Half Card" && pricing.halfPayment) {
+      autoAmount = String(pricing.halfPayment);
+    } else if (formData.cardType === "Free Card" && pricing.freePayment !== undefined) {
+      autoAmount = String(pricing.freePayment);
+    }
+    if (autoAmount) {
+      setFormData((prev) => ({ ...prev, amount: autoAmount }));
+    }
+  }, [pricing, formData.cardType]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -99,6 +119,7 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
       institute: enr.institute,
       batch: enr.batch,
       amount: "",
+      cardType: enr.paymentType === "Half Payment" ? "Half Card" : "Full Payment",
     }));
   };
 

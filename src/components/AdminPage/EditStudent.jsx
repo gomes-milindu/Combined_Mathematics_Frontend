@@ -29,12 +29,11 @@ export default function EditStudent() {
     password: "",
     dateOfBirth: "",
     isActive: false,
-    paymentType: "Full Payment",
   });
 
   // Multi-enrollment state: each row has { institute, batch, batches[] }
   const [enrollments, setEnrollments] = useState([
-    { institute: "", batch: "", batches: [] },
+    { institute: "", batch: "", batches: [], paymentType: "Full Payment" },
   ]);
 
   // Dynamic institute list from pricing API
@@ -67,8 +66,10 @@ export default function EditStudent() {
           password: "",
           dateOfBirth: s.dateOfBirth ? s.dateOfBirth.substring(0, 10) : "",
           isActive: !!s.isActive,
-          paymentType: s.paymentType || "Full Payment",
         });
+
+        // Determine root-level fallback paymentType
+        const rootPT = s.paymentType || "Full Payment";
 
         // Build enrollments: prefer new format, fall back to legacy
         let studentEnrollments = [];
@@ -76,6 +77,7 @@ export default function EditStudent() {
           studentEnrollments = s.enrollments.map((e) => ({
             institute: e.institute || "",
             batch: e.batch || "",
+            paymentType: e.paymentType || rootPT,
           }));
         } else {
           // Legacy fallback: institute[0] + batch
@@ -84,9 +86,9 @@ export default function EditStudent() {
             : s.institute || "";
           const legacyBatch = s.batch || "";
           if (legacyInst || legacyBatch) {
-            studentEnrollments = [{ institute: legacyInst, batch: legacyBatch }];
+            studentEnrollments = [{ institute: legacyInst, batch: legacyBatch, paymentType: rootPT }];
           } else {
-            studentEnrollments = [{ institute: "", batch: "" }];
+            studentEnrollments = [{ institute: "", batch: "", paymentType: rootPT }];
           }
         }
 
@@ -139,6 +141,7 @@ export default function EditStudent() {
         institute: value,
         batch: "",
         batches: res.data.batches || [],
+        paymentType: enrollments[index].paymentType || "Full Payment",
       };
       setEnrollments(newEnrollments);
     } catch (err) {
@@ -155,7 +158,7 @@ export default function EditStudent() {
 
   // Add a new empty enrollment row
   const addEnrollment = () => {
-    setEnrollments([...enrollments, { institute: "", batch: "", batches: [] }]);
+    setEnrollments([...enrollments, { institute: "", batch: "", batches: [], paymentType: "Full Payment" }]);
   };
 
   // Remove an enrollment row (minimum 1)
@@ -195,10 +198,12 @@ export default function EditStudent() {
         enrollments: enrollments.map((e) => ({
           institute: e.institute,
           batch: e.batch,
+          paymentType: e.paymentType || "Full Payment",
         })),
         // Legacy fields for backward compatibility
         institute: enrollments.map((e) => e.institute),
         batch: enrollments[0].batch,
+        paymentType: enrollments[0].paymentType || "Full Payment",
       });
 
       toast.success("Student updated successfully");
@@ -317,22 +322,6 @@ export default function EditStudent() {
                 icon={Calendar}
               />
 
-              {/* Payment Type */}
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-600 dark:text-slate-300">
-                  Payment Type
-                </label>
-                <select
-                  name="paymentType"
-                  value={form.paymentType}
-                  onChange={updateField}
-                  className={selectClass}
-                >
-                  <option value="Full Payment">Full Payment</option>
-                  <option value="Half Payment">Half Payment</option>
-                </select>
-              </div>
-
               {/* Enrollments Section */}
               <div className="col-span-1 md:col-span-2 pt-4 pb-2 border-b border-slate-100 dark:border-slate-800 mt-2">
                 <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
@@ -361,7 +350,7 @@ export default function EditStudent() {
                         </button>
                       )}
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       {/* Institute */}
                       <div className="space-y-2">
                         <label className="text-sm font-semibold text-slate-600 dark:text-slate-300">
@@ -407,6 +396,25 @@ export default function EditStudent() {
                           ))}
                         </select>
                       </div>
+
+                      {/* Payment Type per enrollment */}
+                      <div className="space-y-2">
+                        <label className="text-sm font-semibold text-slate-600 dark:text-slate-300">
+                          Payment Type
+                        </label>
+                        <select
+                          className={selectClass}
+                          value={enr.paymentType || "Full Payment"}
+                          onChange={(e) => {
+                            const updated = [...enrollments];
+                            updated[index] = { ...updated[index], paymentType: e.target.value };
+                            setEnrollments(updated);
+                          }}
+                        >
+                          <option value="Full Payment">Full Payment</option>
+                          <option value="Half Payment">Half Payment</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -444,8 +452,8 @@ export default function EditStudent() {
                 <div className="flex items-center gap-3">
                   <div
                     className={`p-2 rounded-full ${form.isActive
-                        ? "bg-emerald-100 text-emerald-600"
-                        : "bg-slate-200 text-slate-500"
+                      ? "bg-emerald-100 text-emerald-600"
+                      : "bg-slate-200 text-slate-500"
                       }`}
                   >
                     <CheckCircle2 className="w-5 h-5" />
