@@ -97,15 +97,6 @@ export default function Slidebar({ onClose }) {
           </span>
         </NavLink>
 
-        {/* <NavLink to="/admin/course" className={linkClass} onClick={onClose}>
-          <div className="min-w-[20px] flex justify-center">
-            <Video className="w-5 h-5" />
-          </div>
-          <span className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap delay-75">
-            Course Details
-          </span>
-        </NavLink> */}
-
         <NavLink to="/admin/scan" className={linkClass} onClick={onClose}>
           <div className="min-w-[20px] flex justify-center">
             <ScanLine className="w-5 h-5" />
@@ -121,15 +112,6 @@ export default function Slidebar({ onClose }) {
           </div>
           <span className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap delay-75">
             Attendance
-          </span>
-        </NavLink>
-
-        <NavLink to="/admin/course" className={linkClass} onClick={onClose}>
-          <div className="min-w-[20px] flex justify-center">
-            <Video className="w-5 h-5" />
-          </div>
-          <span className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap delay-75">
-            Course Details
           </span>
         </NavLink>
 

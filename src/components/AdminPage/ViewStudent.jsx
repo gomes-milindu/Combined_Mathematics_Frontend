@@ -6,6 +6,7 @@ import PaymentStudent from "./PaymentStudent";
 import PaymentDrawer from "./PaymentDrawer";
 import RecentPaymentsDrawer from "./RecentPaymentsDrawer";
 import AllPayments from "./AllPayments";
+import PaymentHistoryGrid from "./PaymentHistoryGrid";
 import {
   Mail,
   Phone,
@@ -190,6 +191,7 @@ export default function ViewStudent() {
 
         {/* Payment Components */}
         <div className="space-y-6">
+          <PaymentHistoryGrid studentId={student.studentId} />
           <PaymentStudent studentId={student.studentId} />
           <AllPayments studentId={student.studentId} />
         </div>

@@ -181,7 +181,10 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
     (e) => e.institute === formData.institute && e.batch === formData.batch
   );
 
-  // Build amount options from pricing
+  // Determine if pricing-derived amount is available (read-only mode)
+  const hasPricingAmount = !!(pricing && formData.amount);
+
+  // Build amount options from pricing (used only as fallback when no pricing)
   const amountOptions = [];
   if (pricing) {
     if (pricing.fullPayment) amountOptions.push({ value: pricing.fullPayment, label: `Rs. ${pricing.fullPayment} (Full)` });
@@ -300,23 +303,32 @@ export default function PaymentDrawer({ isOpen, onClose, student }) {
             </select>
           </div>
 
-          {/* Amount */}
+          {/* Amount — read-only when pricing exists, fallback select otherwise */}
           <div>
             <label className="block text-sm mb-1">Amount</label>
-            <select
-              name="amount"
-              value={formData.amount || ""}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border rounded"
-            >
-              <option value="">Select Amount</option>
-              {amountOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
+            {hasPricingAmount ? (
+              <input
+                type="text"
+                value={formData.amount ? `Rs. ${formData.amount}` : ""}
+                readOnly
+                className="w-full px-3 py-2 border rounded bg-gray-100 font-medium"
+              />
+            ) : (
+              <select
+                name="amount"
+                value={formData.amount || ""}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 border rounded"
+              >
+                <option value="">Select Amount</option>
+                {amountOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
           {/* Card Type */}

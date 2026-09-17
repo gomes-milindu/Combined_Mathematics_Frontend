@@ -6,10 +6,15 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import Breadcrumb from "./BreadCrumb";
 import DeleteConfirmation from "./DeleteConfirmation";
+import PaginationPage from "./PaginationPage";
 
 export default function StudentDetails() {
   const [students, setStudents] = useState([]);
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalStudents, setTotalStudents] = useState(0);
+  const LIMIT = 10;
 
   // Delete Modal State
   const [deleteModal, setDeleteModal] = useState({
@@ -21,14 +26,21 @@ export default function StudentDetails() {
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
-    loadStudents();
-  }, []);
+    loadStudents(page);
+  }, [page]);
 
-  function loadStudents() {
-    api.get("/student/").then((res) => {
-      setStudents(res.data.students);
+  function loadStudents(p) {
+    api.get("/student/", { params: { page: p, limit: LIMIT } }).then((res) => {
+      setStudents(res.data.students || []);
+      setTotalPages(res.data.totalPages || 1);
+      setTotalStudents(res.data.total || 0);
     });
   }
+
+  const handlePageChange = (event, value) => {
+    setOpenMenuId(null);
+    setPage(value);
+  };
 
   const toggleMenu = (index, e) => {
     e.stopPropagation();
@@ -38,7 +50,7 @@ export default function StudentDetails() {
       const rect = e.currentTarget.getBoundingClientRect();
       setMenuPosition({
         top: rect.bottom + window.scrollY + 5,
-        left: rect.right + window.scrollX - 176, // Align right edge
+        left: rect.right + window.scrollX - 176,
       });
       setOpenMenuId(index);
     }
@@ -66,11 +78,9 @@ export default function StudentDetails() {
       await api.delete(
         `/student/${deleteModal.studentId}`,
       );
-      setStudents((prev) =>
-        prev.filter((s) => s._id !== deleteModal.studentId),
-      );
       toast.success("Student deleted successfully");
       closeDeleteModal();
+      loadStudents(page);
     } catch {
       toast.error("Failed to delete student");
     }
@@ -98,7 +108,9 @@ export default function StudentDetails() {
                 Student List
               </h2>
               <p className="text-sm text-slate-500">
-                Overview of registered students and their current status.
+                {totalStudents > 0
+                  ? `${totalStudents} registered student${totalStudents !== 1 ? "s" : ""}`
+                  : "Overview of registered students and their current status."}
               </p>
             </div>
             <Link
@@ -196,6 +208,13 @@ export default function StudentDetails() {
             ))}
           </div>
 
+          {/* Mobile Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center m-4 md:hidden">
+              <PaginationPage page={page} count={totalPages} onChange={handlePageChange} />
+            </div>
+          )}
+
           {/* Desktop Table View */}
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-sm min-w-[1000px] md:min-w-0 md:w-full lg:min-w-[1000px]">
@@ -285,6 +304,13 @@ export default function StudentDetails() {
                 ))}
               </tbody>
             </table>
+
+            {/* Desktop Pagination */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center m-4">
+                <PaginationPage page={page} count={totalPages} onChange={handlePageChange} />
+              </div>
+            )}
           </div>
         </div>
       </div>
