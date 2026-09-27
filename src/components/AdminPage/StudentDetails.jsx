@@ -11,6 +11,10 @@ import PaginationPage from "./PaginationPage";
 export default function StudentDetails() {
   const [students, setStudents] = useState([]);
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalStudents, setTotalStudents] = useState(0);
+  const LIMIT = 10;
 
   // Pagination state
   const [page, setPage] = useState(1);
@@ -54,6 +58,11 @@ export default function StudentDetails() {
       });
   }
 
+  const handlePageChange = (event, value) => {
+    setOpenMenuId(null);
+    setPage(value);
+  };
+
   const toggleMenu = (index, e) => {
     e.stopPropagation();
     if (openMenuId === index) {
@@ -62,7 +71,7 @@ export default function StudentDetails() {
       const rect = e.currentTarget.getBoundingClientRect();
       setMenuPosition({
         top: rect.bottom + window.scrollY + 5,
-        left: rect.right + window.scrollX - 176, // Align right edge
+        left: rect.right + window.scrollX - 176,
       });
       setOpenMenuId(index);
     }

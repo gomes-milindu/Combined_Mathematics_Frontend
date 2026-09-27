@@ -1,27 +1,53 @@
-// import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-// const ProtectedRoute = () => {
- 
-//   const isAuthenticated = localStorage.getItem("token");
+/**
+ * Decode JWT payload without a library (base64url decode).
+ * Returns null if token is invalid or expired.
+ */
+function decodeToken(token) {
+  try {
+    const payload = token.split(".")[1];
+    const decoded = JSON.parse(atob(payload.replace(/-/g, "+").replace(/_/g, "/")));
 
-//   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
-// };
+    // Check expiry
+    if (decoded.exp && decoded.exp * 1000 < Date.now()) {
+      return null; // expired
+    }
 
-// export default ProtectedRoute;
-
-
-import { Navigate, Outlet } from "react-router-dom";
+    return decoded;
+  } catch {
+    return null;
+  }
+}
 
 const ProtectedRoute = () => {
-  // Check if the token exists in localStorage
   const token = localStorage.getItem("token");
+  const location = useLocation();
 
-  // If there is no token, redirect to the login page
   if (!token) {
     return <Navigate to="/login" replace />;
   }
 
-  // If the token exists, render the child routes
+  const decoded = decodeToken(token);
+
+  if (!decoded) {
+    // Token expired or malformed — clear and redirect
+    localStorage.removeItem("token");
+    return <Navigate to="/login" replace />;
+  }
+
+  // Role-based frontend guard
+  const isAdminRoute = location.pathname.startsWith("/admin");
+  const isStudentRoute = location.pathname.startsWith("/student");
+
+  if (isAdminRoute && decoded.role !== "admin") {
+    return <Navigate to="/student" replace />;
+  }
+
+  if (isStudentRoute && decoded.role !== "student" && decoded.role !== "admin") {
+    return <Navigate to="/login" replace />;
+  }
+
   return <Outlet />;
 };
 

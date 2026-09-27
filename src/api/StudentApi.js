@@ -13,18 +13,22 @@ export const deleteStudent = (id) => {
   return api.delete(`student/${id}`);
 }
 
-export const  createStudent = (studentData) => {
+export const createStudent = (studentData) => {
   return api.post('/student', studentData);
 }
 
-export const editStudent = (id)=>{
+export const editStudent = (id) => {
   return api.get(`student/${id}`);
 }
 
-export const viewStudent = (id)=>{
+export const viewStudent = (id) => {
   return api.get(`student/${id}`);
 }
 
-export const updateEdit =(id, form)=>{
+export const updateEdit = (id, form) => {
   return api.put(`student/${id}`, form);
+}
+
+export const getUnpaidStudents = (params = {}) => {
+  return api.get('/student/unpaid', { params });
 }
