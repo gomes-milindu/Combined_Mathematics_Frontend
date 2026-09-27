@@ -10,43 +10,6 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
     amount: "",
     cardType: "Full Payment",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [pricing, setPricing] = useState(null);
-
-  // Build enrollment list from student data (new format or legacy fallback)
-  const enrollments = student
-    ? Array.isArray(student.enrollments) && student.enrollments.length > 0
-      ? student.enrollments
-      : (() => {
-        const insts = Array.isArray(student.institute)
-          ? student.institute
-          : student.institute
-            ? [student.institute]
-            : [];
-        const b = student.batch || "";
-        if (insts.length === 0 && !b) return [];
-        if (insts.length === 0) return [{ institute: "", batch: b }];
-        return insts.map((inst) => ({ institute: inst, batch: b }));
-      })()
-    : [];
-
-  // Set default form values when student changes
-  useEffect(() => {
-    if (student && enrollments.length > 0) {
-      const enr = enrollments[0];
-      // Auto-select cardType based on enrollment paymentType
-      const autoCard = enr.paymentType === "Half Payment" ? "Half Card" : "Full Payment";
-      setFormData((prev) => ({
-        ...prev,
-        studentId: student.studentId || "",
-        institute: enr.institute || "",
-        batch: enr.batch || "",
-        month: prev.month || getCurrentYYYYMM(),
-        amount: "",
-        cardType: autoCard,
-      }));
-    }
-  }, [student]);
 
   const [batchesList, setBatchesList] = useState([]);
   const [pricingList, setPricingList] = useState([]);
@@ -190,11 +153,9 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isSubmitting) return;
 
     const payload = {
       studentId: formData.studentId,
-      institute: formData.institute,
       batch: formData.batch,
       month: formData.month,
       amount: Number(formData.amount),
@@ -204,7 +165,6 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
 
     if (
       !payload.studentId ||
-      !payload.institute ||
       !payload.batch ||
       !payload.month ||
       payload.amount === undefined ||
@@ -231,37 +191,8 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
     } catch (err) {
       console.error("Payment error:", err);
       toast.error(err.response?.data?.message || "Payment failed");
-    } finally {
-      setIsSubmitting(false);
     }
   };
-
-  // Derive data BEFORE the early return so hooks always run in the same order
-  const monthOptions = buildMonthOptions();
-
-  // Find current enrollment index for the select
-  const currentEnrollmentIndex = enrollments.findIndex(
-    (e) => e.institute === formData.institute && e.batch === formData.batch
-  );
-
-  // Determine if pricing-derived amount is available (read-only mode)
-  const hasPricingAmount = !!(pricing && formData.amount);
-
-  // Build amount options from pricing (used only as fallback when no pricing)
-  const amountOptions = [];
-  if (pricing) {
-    if (pricing.fullPayment) amountOptions.push({ value: pricing.fullPayment, label: `Rs. ${pricing.fullPayment} (Full)` });
-    if (pricing.halfPayment) amountOptions.push({ value: pricing.halfPayment, label: `Rs. ${pricing.halfPayment} (Half)` });
-    if (pricing.freePayment !== undefined && pricing.freePayment !== null) amountOptions.push({ value: pricing.freePayment, label: `Rs. ${pricing.freePayment} (Free Card)` });
-  }
-  // Always have fallback manual options
-  if (amountOptions.length === 0) {
-    amountOptions.push(
-      { value: "0", label: "0" },
-      { value: "1900", label: "1900" },
-      { value: "3800", label: "3800" }
-    );
-  }
 
   if (!isOpen) return null;
 
