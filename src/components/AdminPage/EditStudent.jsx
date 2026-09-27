@@ -14,7 +14,7 @@ import {
   X,
   CheckCircle2,
 } from "lucide-react";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 
 export default function EditStudent() {
   const { id } = useParams();
@@ -39,6 +39,55 @@ export default function EditStudent() {
   // Dynamic institute list from pricing API
   const [institutes, setInstitutes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [institutes, setInstitutes] = useState([]);
+  const [batches, setBatches] = useState([]);
+
+  // Fetch unique institutes from pricing on component mount
+  useEffect(() => {
+    api
+      .get("/pricing/institutes")
+      .then((res) => {
+        setInstitutes(res.data?.institutes || []);
+      })
+      .catch(() => {
+        api
+          .get("/pricing/")
+          .then((res) => {
+            const pricingData = res.data?.pricing || res.data || [];
+            const unique = [
+              ...new Set(pricingData.map((p) => p.institute).filter(Boolean)),
+            ];
+            setInstitutes(unique);
+          })
+          .catch(() => {});
+      });
+  }, []);
+
+  // Fetch batches whenever form.institute changes
+  useEffect(() => {
+    if (!form.institute) {
+      setBatches([]);
+      return;
+    }
+    api
+      .get(`/pricing/institutes/${encodeURIComponent(form.institute)}/batches`)
+      .then((res) => {
+        setBatches(res.data?.batches || []);
+      })
+      .catch(() => {
+        api
+          .get("/pricing/")
+          .then((res) => {
+            const pricingData = res.data?.pricing || res.data || [];
+            const filtered = pricingData
+              .filter((p) => p.institute === form.institute)
+              .map((p) => p.batch)
+              .filter(Boolean);
+            setBatches([...new Set(filtered)]);
+          })
+          .catch(() => {});
+      });
+  }, [form.institute]);
 
   // Load institutes from pricing API
   useEffect(() => {
@@ -122,6 +171,7 @@ export default function EditStudent() {
     setForm((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
+      ...(name === "institute" ? { batch: "" } : {}),
     }));
   }
 
@@ -329,114 +379,22 @@ export default function EditStudent() {
                   Institute & Batch Enrollments
                 </h2>
               </div>
-
-              <div className="col-span-1 md:col-span-2 space-y-4">
-                {enrollments.map((enr, index) => (
-                  <div
-                    key={index}
-                    className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700"
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                        Enrollment {index + 1}
-                      </span>
-                      {enrollments.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => removeEnrollment(index)}
-                          className="text-xs text-red-500 hover:text-red-700 font-medium transition-colors"
-                        >
-                          Remove
-                        </button>
-                      )}
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {/* Institute */}
-                      <div className="space-y-2">
-                        <label className="text-sm font-semibold text-slate-600 dark:text-slate-300">
-                          Institute
-                        </label>
-                        <select
-                          className={selectClass}
-                          value={enr.institute}
-                          onChange={(e) =>
-                            handleEnrollmentInstituteChange(
-                              index,
-                              e.target.value
-                            )
-                          }
-                        >
-                          <option value="">Select Institute</option>
-                          {institutes.map((inst) => (
-                            <option key={inst} value={inst}>
-                              {inst}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      {/* Batch */}
-                      <div className="space-y-2">
-                        <label className="text-sm font-semibold text-slate-600 dark:text-slate-300">
-                          Batch
-                        </label>
-                        <select
-                          className={selectClass}
-                          value={enr.batch}
-                          onChange={(e) =>
-                            handleEnrollmentBatchChange(index, e.target.value)
-                          }
-                          disabled={!enr.institute}
-                        >
-                          <option value="">Select Batch</option>
-                          {enr.batches.map((b) => (
-                            <option key={b} value={b}>
-                              {b}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      {/* Payment Type per enrollment */}
-                      <div className="space-y-2">
-                        <label className="text-sm font-semibold text-slate-600 dark:text-slate-300">
-                          Payment Type
-                        </label>
-                        <select
-                          className={selectClass}
-                          value={enr.paymentType || "Full Payment"}
-                          onChange={(e) => {
-                            const updated = [...enrollments];
-                            updated[index] = { ...updated[index], paymentType: e.target.value };
-                            setEnrollments(updated);
-                          }}
-                        >
-                          <option value="Full Payment">Full Payment</option>
-                          <option value="Half Payment">Half Payment</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-
-                <button
-                  type="button"
-                  onClick={addEnrollment}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-purple-600 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg transition-colors"
-                >
-                  <span className="text-lg leading-none">+</span>
-                  Add Another Institute / Batch
-                </button>
-              </div>
-
-              {/* Security Section */}
-              <div className="col-span-1 md:col-span-2 pt-4 pb-2 border-b border-slate-100 dark:border-slate-800 mt-2">
-                <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                  <Lock className="w-5 h-5 text-purple-600" />
-                  Security
-                </h2>
-              </div>
-
+              <SelectField
+                label="Institute"
+                name="institute"
+                value={form.institute}
+                onChange={updateField}
+                icon={Building2}
+                options={institutes}
+              />
+              <SelectField
+                label="Batch"
+                name="batch"
+                value={form.batch}
+                onChange={updateField}
+                icon={Layers}
+                options={batches}
+              />
               <InputField
                 label="New Password"
                 name="password"

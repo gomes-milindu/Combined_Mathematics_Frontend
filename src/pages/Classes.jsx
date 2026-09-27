@@ -4,6 +4,8 @@ import Header from "../components/Header"
 import NavBar from "../components/NavBar"
 import Assets from "../data/AssetLinks"
 import ClassCardSection from "../sections/ClassPage/ClassCardSection"
+import MobileSubHeader from "../components/MobileSubHeader"
+
 
 function Classes() {
     return (
@@ -13,9 +15,10 @@ function Classes() {
                 heroTitle="Join Our Classes &"
                 heroSubtitle="Start Learning Today"
             />
+            <MobileSubHeader headerTitle="Join Our Classes &" headerSubtitle="Start Learning Today" />
             <NavBar />
 
-            <div className="w-full flex justify-center items-center -mt-8 md:mt-20">
+            <div className="w-full flex justify-center items-center mt-8 md:mt-20">
                 <ClassCardSection />
             </div>
             <Footer />

@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import { ChevronDown } from "lucide-react";
 import Assets from "../data/AssetLinks";
+import MobileSubHeader from "../components/MobileSubHeader";
 
 function Contact() {
   return (
@@ -14,6 +15,7 @@ function Contact() {
       />
       <NavBar />
 
+      <MobileSubHeader headerTitle="Join Our Classes &" headerSubtitle="Start Learning Today" />
       {/* Contact Section */}
       <section className="relative w-full bg-white py-10 md:py-20 px-4 md:px-6">
         <div className="max-w-5xl mx-auto">

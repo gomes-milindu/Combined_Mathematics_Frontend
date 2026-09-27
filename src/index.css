@@ -276,6 +276,31 @@
   color: #a5b4fc !important;
 }
 
+/* Visible horizontal scrollbars for tables & scrollable grids */
+.overflow-x-auto {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(147, 51, 234, 0.4) transparent;
+}
+
+.overflow-x-auto::-webkit-scrollbar {
+  height: 8px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: rgba(147, 51, 234, 0.4);
+  border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: rgba(147, 51, 234, 0.7);
+}
+
 
 
 

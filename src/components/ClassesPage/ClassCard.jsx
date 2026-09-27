@@ -41,11 +41,11 @@ function ClassCard({ title, description, time, category }) {
 
         {/* ACTIONS - always in a row */}
         <div className="flex flex-row items-center gap-4 mt-2">
-          <button className="bg-purple-600 text-white px-6 py-2.5 rounded-lg text-sm flex-1">
+          <button className="bg-[#7f56d9] text-white px-6 py-2.5 rounded-lg text-sm flex-1">
             Enroll Now
           </button>
 
-          <button className="text-purple-600 text-sm font-medium whitespace-nowrap">
+          <button className="text-[#7f56d9] text-sm font-medium whitespace-nowrap">
             View Details
           </button>
         </div>

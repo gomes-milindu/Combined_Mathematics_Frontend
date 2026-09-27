@@ -1,14 +1,10 @@
 import { useState, useRef, useEffect } from "react"
 import CourseCard from "../../components/HomePage/CourseCard"
 import Topic from "../../components/HomePage/Topic"
-
+import {courses} from "../../data/Data"
 function PopularCourses() {
 
-    const courses = [
-        ["Center of Gravity", "Applied Mathematics", "2000"],
-        ["Limits", "Pure Mathematics", "2500"],
-        ["Vectors", "Pure Mathematics", "2200"]
-    ]
+    
 
     const [current, setCurrent] = useState(0);
     const touchStartX = useRef(0);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../../config/axios";
 import toast from "react-hot-toast";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 import { useNavigate } from "react-router-dom";
 
 export default function StudentRegister() {
@@ -15,56 +15,78 @@ export default function StudentRegister() {
   const [dateOfBirth, setBirthday] = useState("");
   const [isActive, setIsActive] = useState("");
 
-  // Dynamic institute list from pricing API
+  // Dynamic Institutes and Batches from pricing details
   const [institutes, setInstitutes] = useState([]);
+  const [batches, setBatches] = useState([]);
+  const [loadingInstitutes, setLoadingInstitutes] = useState(false);
+  const [loadingBatches, setLoadingBatches] = useState(false);
 
-  // Multi-enrollment state: each row has { institute, batch, batches[] }
-  const [enrollments, setEnrollments] = useState([
-    { institute: "", batch: "", batches: [], paymentType: "Full Payment" },
-  ]);
-
+  // Fetch unique institutes from pricing on component mount
   useEffect(() => {
-    api.get("/pricing/institutes")
-      .then((res) => setInstitutes(res.data.institutes || []))
-      .catch(() => toast.error("Failed to load institutes"));
+    const fetchInstitutes = async () => {
+      try {
+        setLoadingInstitutes(true);
+        const res = await api.get("/pricing/institutes");
+        const list = res.data?.institutes || [];
+        setInstitutes(list);
+      } catch (err) {
+        console.error("Failed to load institutes:", err);
+        // Fallback: fetch /pricing/ if /pricing/institutes fails or returns empty
+        try {
+          const fallbackRes = await api.get("/pricing/");
+          const pricingData = fallbackRes.data?.pricing || fallbackRes.data || [];
+          const uniqueInstitutes = [
+            ...new Set(pricingData.map((item) => item.institute).filter(Boolean)),
+          ];
+          setInstitutes(uniqueInstitutes);
+        } catch (fallbackErr) {
+          console.error("Fallback institute fetch failed:", fallbackErr);
+        }
+      } finally {
+        setLoadingInstitutes(false);
+      }
+    };
+
+    fetchInstitutes();
   }, []);
 
-  // Handle institute change for a specific enrollment row
-  const handleEnrollmentInstituteChange = async (index, value) => {
-    const updated = [...enrollments];
-    updated[index] = { institute: value, batch: "", batches: [], paymentType: updated[index].paymentType || "Full Payment" };
-    setEnrollments(updated);
+  // Fetch batches when institute selection changes
+  const handleInstituteChange = async (e) => {
+    const selectedInstitute = e.target.value;
+    setInstitute(selectedInstitute);
+    setBatch(""); // Reset selected batch
+    setBatches([]);
 
-    if (!value) return;
+    if (!selectedInstitute) return;
+
     try {
-      const res = await api.get(`/pricing/institutes/${encodeURIComponent(value)}/batches`);
-      const newEnrollments = [...enrollments];
-      newEnrollments[index] = { institute: value, batch: "", batches: res.data.batches || [], paymentType: enrollments[index].paymentType || "Full Payment" };
-      setEnrollments(newEnrollments);
+      setLoadingBatches(true);
+      const res = await api.get(
+        `/pricing/institutes/${encodeURIComponent(selectedInstitute)}/batches`
+      );
+      const list = res.data?.batches || [];
+      setBatches(list);
     } catch (err) {
       console.error("Failed to load batches:", err);
+      // Fallback: fetch /pricing/ and filter by institute
+      try {
+        const fallbackRes = await api.get("/pricing/");
+        const pricingData = fallbackRes.data?.pricing || fallbackRes.data || [];
+        const filteredBatches = [
+          ...new Set(
+            pricingData
+              .filter((item) => item.institute === selectedInstitute)
+              .map((item) => item.batch)
+              .filter(Boolean)
+          ),
+        ];
+        setBatches(filteredBatches);
+      } catch (fallbackErr) {
+        console.error("Fallback batch fetch failed:", fallbackErr);
+      }
+    } finally {
+      setLoadingBatches(false);
     }
-  };
-
-  // Handle batch change for a specific enrollment row
-  const handleEnrollmentBatchChange = (index, value) => {
-    const updated = [...enrollments];
-    updated[index] = { ...updated[index], batch: value };
-    setEnrollments(updated);
-  };
-
-  // Add a new empty enrollment row
-  const addEnrollment = () => {
-    setEnrollments([...enrollments, { institute: "", batch: "", batches: [], paymentType: "Full Payment" }]);
-  };
-
-  // Remove an enrollment row (minimum 1)
-  const removeEnrollment = (index) => {
-    if (enrollments.length <= 1) {
-      toast.error("At least one enrollment is required");
-      return;
-    }
-    setEnrollments(enrollments.filter((_, i) => i !== index));
   };
 
   async function Create() {
@@ -217,6 +239,55 @@ export default function StudentRegister() {
               />
             </div>
 
+            {/* Institute */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Institute
+              </label>
+              <select
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
+                value={institute}
+                onChange={handleInstituteChange}
+              >
+                <option value="">
+                  {loadingInstitutes ? "Loading institutes..." : "Select Institute"}
+                </option>
+                {institutes.map((inst) => (
+                  <option key={inst} value={inst}>
+                    {inst}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Batch */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Batch
+              </label>
+              <select
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
+                value={batch}
+                onChange={(e) => setBatch(e.target.value)}
+                disabled={!institute || loadingBatches}
+              >
+                <option value="">
+                  {!institute
+                    ? "Select Institute first"
+                    : loadingBatches
+                    ? "Loading batches..."
+                    : batches.length === 0
+                    ? "No batches found"
+                    : "Select batch"}
+                </option>
+                {batches.map((b) => (
+                  <option key={b} value={b}>
+                    {b}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Birthday */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -353,13 +424,13 @@ export default function StudentRegister() {
           <div className="flex flex-col-reverse md:flex-row justify-end gap-3 mt-10 pt-6 border-t border-gray-100">
             <button
               onClick={() => navigate("/admin/students")}
-              className="w-full md:w-auto px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition text-sm font-medium focus:ring-2 focus:ring-purple-100"
+              className="w-full md:w-auto px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition text-sm font-medium focus:ring-2 focus:ring-purple-100 cursor-pointer"
             >
               Cancel
             </button>
             <button
               onClick={Create}
-              className="w-full md:w-auto px-6 py-2.5 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition text-sm font-medium shadow-sm hover:shadow focus:ring-2 focus:ring-purple-400 focus:ring-offset-1"
+              className="w-full md:w-auto px-6 py-2.5 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition text-sm font-medium shadow-sm hover:shadow focus:ring-2 focus:ring-purple-400 focus:ring-offset-1 cursor-pointer"
             >
               Create Student
             </button>
@@ -369,3 +440,4 @@ export default function StudentRegister() {
     </main >
   );
 }
+
