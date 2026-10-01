@@ -1,7 +1,7 @@
 import api from "../../config/axios";
 import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import { Plus, Trash2, Video, ExternalLink, X, ChevronDown, ChevronRight } from "lucide-react";
+import { Plus, Trash2, Video, ExternalLink, X, ChevronDown, ChevronRight, Calendar } from "lucide-react";
 
 export default function VideoManagement() {
     const [videos, setVideos] = useState([]);
@@ -10,10 +10,17 @@ export default function VideoManagement() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [pricingOptions, setPricingOptions] = useState([]);
 
+    // Default billing month to current YYYY-MM
+    const getCurrentMonth = () => {
+        const now = new Date();
+        return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+    };
+
     const [form, setForm] = useState({
         title: "",
         videoUrl: "",
         description: "",
+        month: getCurrentMonth(),
     });
 
     // Selected targets: { "Apex": ["2027 A/L theory", "2028 A/L theory"], "Sisulka": [] }
@@ -126,6 +133,10 @@ export default function VideoManagement() {
             toast.error("Select at least one institute + batch target");
             return;
         }
+        if (!form.month || !/^\d{4}-(0[1-9]|1[0-2])$/.test(form.month)) {
+            toast.error("Please select a valid billing month");
+            return;
+        }
 
         setIsSubmitting(true);
         try {
@@ -133,10 +144,11 @@ export default function VideoManagement() {
                 title: form.title,
                 videoUrl: form.videoUrl,
                 description: form.description,
+                month: form.month,
                 targets,
             });
             toast.success("Video added successfully");
-            setForm({ title: "", videoUrl: "", description: "" });
+            setForm({ title: "", videoUrl: "", description: "", month: getCurrentMonth() });
             setSelectedTargets({});
             setShowForm(false);
             fetchVideos();
@@ -236,6 +248,27 @@ export default function VideoManagement() {
                                         className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
                                     />
                                 </div>
+                            </div>
+
+                            {/* Billing Month */}
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                                    <span className="flex items-center gap-1.5">
+                                        <Calendar className="w-3.5 h-3.5" />
+                                        Billing Month *
+                                    </span>
+                                </label>
+                                <input
+                                    type="month"
+                                    name="month"
+                                    value={form.month}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                                />
+                                <p className="text-xs text-slate-400 mt-1">
+                                    Students need a paid payment for this month to access the video
+                                </p>
                             </div>
 
                             {/* Description */}
@@ -411,14 +444,22 @@ export default function VideoManagement() {
                                                 ))}
                                             </div>
 
-                                            <span
-                                                className={`inline-flex items-center mt-2 px-2.5 py-0.5 rounded-full text-xs font-medium border ${video.isActive
-                                                        ? "bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-300 dark:border-emerald-800"
-                                                        : "bg-red-50 text-red-700 border-red-100 dark:bg-red-900/20 dark:text-red-300 dark:border-red-800"
-                                                    }`}
-                                            >
-                                                {video.isActive ? "Active" : "Inactive"}
-                                            </span>
+                                            <div className="flex flex-wrap items-center gap-2 mt-2">
+                                                <span
+                                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${video.isActive
+                                                            ? "bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-300 dark:border-emerald-800"
+                                                            : "bg-red-50 text-red-700 border-red-100 dark:bg-red-900/20 dark:text-red-300 dark:border-red-800"
+                                                        }`}
+                                                >
+                                                    {video.isActive ? "Active" : "Inactive"}
+                                                </span>
+                                                {video.month && (
+                                                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-100 dark:bg-amber-900/20 dark:text-amber-300 dark:border-amber-800">
+                                                        <Calendar className="w-3 h-3" />
+                                                        {video.month}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
 
                                         <div className="flex items-center gap-2 shrink-0">

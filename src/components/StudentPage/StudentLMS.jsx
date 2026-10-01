@@ -9,6 +9,7 @@ import {
     Loader2,
     VideoOff,
     CreditCard,
+    Calendar,
 } from "lucide-react";
 
 export default function StudentLMS() {
@@ -48,13 +49,9 @@ export default function StudentLMS() {
 
         setActiveVideoUrl(null);
 
-        if (!reg.isPaid) {
-            setVideos([]);
-            setAccessDenied(true);
-            setLoadingVideos(false);
-            return;
-        }
-
+        // Always attempt to fetch videos from the backend.
+        // The backend handles historical month-based authorization
+        // and will return 403 if the student has no paid months at all.
         setAccessDenied(false);
         setLoadingVideos(true);
 
@@ -311,6 +308,12 @@ export default function StudentLMS() {
                                             day: "numeric",
                                         })}
                                     </p>
+                                    {video.month && (
+                                        <span className="inline-flex items-center gap-1 mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-300">
+                                            <Calendar className="w-2.5 h-2.5" />
+                                            {video.month}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         );

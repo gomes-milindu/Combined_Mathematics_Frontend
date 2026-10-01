@@ -11,10 +11,6 @@ import PaginationPage from "./PaginationPage";
 export default function StudentDetails() {
   const [students, setStudents] = useState([]);
   const [openMenuId, setOpenMenuId] = useState(null);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalStudents, setTotalStudents] = useState(0);
-  const LIMIT = 10;
 
   // Pagination state
   const [page, setPage] = useState(1);

@@ -1,6 +1,7 @@
 import api from "../../config/axios";
 import { useEffect, useState, useMemo } from "react";
-import { Users, CreditCard, TrendingUp, Building2, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Users, CreditCard, TrendingUp, Building2, Calendar, AlertCircle, BarChart3 } from "lucide-react";
 
 export function Dashboard() {
   const navigate = useNavigate();
@@ -79,6 +80,22 @@ export function Dashboard() {
     return processed;
   }, [pricingList, rawPerformance]);
 
+  // -- 6-Month data from backend --
+  const sixMonth = countStudent?.sixMonthSummary || [];
+  const maxGross = Math.max(
+    ...sixMonth.map((m) => Number(m.grossProfit) || 0),
+    1 // prevent division by zero
+  );
+
+  // -- Formatters used by the 6-Month chart --
+  const fmtLKR = (num) => `LKR ${(Number(num) || 0).toLocaleString()}`;
+  const fmtMonth = (monthStr) => {
+    if (!monthStr) return "";
+    const [y, m] = monthStr.split("-");
+    const d = new Date(Number(y), Number(m) - 1);
+    return d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+  };
+
   // Reusable Stat Card Component
   const StatCard = ({ title, value, icon: Icon, colorClass, bgClass, onClick }) => (
     <div
@@ -128,7 +145,7 @@ export function Dashboard() {
         />
         <StatCard
           title="Unpaid Students"
-          value={unpaidCount}
+          value={countStudent?.unpaidCount || 0}
           icon={AlertCircle}
           colorClass="text-rose-600"
           bgClass="bg-rose-50 dark:bg-rose-900/20"

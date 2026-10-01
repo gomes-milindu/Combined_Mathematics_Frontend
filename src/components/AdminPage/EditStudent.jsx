@@ -39,7 +39,6 @@ export default function EditStudent() {
   // Dynamic institute list from pricing API
   const [institutes, setInstitutes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [institutes, setInstitutes] = useState([]);
   const [batches, setBatches] = useState([]);
 
   // Fetch unique institutes from pricing on component mount
