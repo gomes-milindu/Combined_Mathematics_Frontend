@@ -223,11 +223,7 @@ export default function ViewStudent() {
         </div>
 
         {/* Payment Drawer */}
-        <PaymentDrawer
-          isOpen={isPaymentDrawerOpen}
-          onClose={() => setIsPaymentDrawerOpen(false)}
-          student={student}
-        />
+        <PaymentDrawer isOpen={isPaymentDrawerOpen} onClose={() => setIsPaymentDrawerOpen(false)} student={student} studentId={student?._id || student?.studentId} />
 
         {/* Auto-Open Recent Payments Drawer (Mobile/Tablet) */}
         <RecentPaymentsDrawer
@@ -257,3 +253,4 @@ function InfoItem({ icon: Icon, label, value }) {
     </div>
   );
 }
+

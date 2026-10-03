@@ -1,8 +1,30 @@
-import api from "../../config/axios";
+﻿import api from "../../config/axios";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
-export default function PaymentDrawer({ isOpen, onClose, studentId }) {
+// Helper: get current month as YYYY-MM
+const getCurrentYYYYMM = () => {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  return `${y}-${m}`;
+};
+
+// Helper: build month options for the last 12 months in YYYY-MM format
+const buildMonthOptions = () => {
+  const options = [];
+  const now = new Date();
+  for (let i = 0; i < 12; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const label = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    options.push({ value: `${y}-${m}`, label });
+  }
+  return options;
+};
+
+export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
   const [formData, setFormData] = useState({
     studentId: "",
     batch: "",
@@ -295,7 +317,7 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
             onClick={onClose}
             className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition text-lg font-bold p-1 cursor-pointer"
           >
-            ✕
+            âœ•
           </button>
         </div>
 
@@ -425,4 +447,6 @@ export default function PaymentDrawer({ isOpen, onClose, studentId }) {
     </div>
   );
 }
+
+
 
