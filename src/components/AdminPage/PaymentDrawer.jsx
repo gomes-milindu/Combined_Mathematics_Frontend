@@ -1,12 +1,12 @@
-﻿import api from "../../config/axios";
-import { useState, useEffect } from "react";
+import api from "../../config/axios";
+import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 
 // Helper: get current month as YYYY-MM
 const getCurrentYYYYMM = () => {
   const now = new Date();
   const y = now.getFullYear();
-  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const m = String(now.getMonth() + 1).padStart(2, "0");
   return `${y}-${m}`;
 };
 
@@ -17,39 +17,47 @@ const buildMonthOptions = () => {
   for (let i = 0; i < 12; i++) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const label = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const label = d.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    });
     options.push({ value: `${y}-${m}`, label });
   }
   return options;
 };
 
-export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
+export default function PaymentDrawer({ isOpen, onClose, student }) {
   const [formData, setFormData] = useState({
     studentId: "",
+    institute: "",
     batch: "",
     month: "",
     amount: "",
     cardType: "Full Payment",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [pricing, setPricing] = useState(null);
+
+  const [batchesList, setBatchesList] = useState([]);
+  const [pricingList, setPricingList] = useState([]);
+  const [studentInfo, setStudentInfo] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Build enrollment list from student data (new format or legacy fallback)
   const enrollments = student
     ? Array.isArray(student.enrollments) && student.enrollments.length > 0
       ? student.enrollments
       : (() => {
-        const insts = Array.isArray(student.institute)
-          ? student.institute
-          : student.institute
+          const insts = Array.isArray(student.institute)
+            ? student.institute
+            : student.institute
             ? [student.institute]
             : [];
-        const b = student.batch || "";
-        if (insts.length === 0 && !b) return [];
-        if (insts.length === 0) return [{ institute: "", batch: b }];
-        return insts.map((inst) => ({ institute: inst, batch: b }));
-      })()
+          const b = student.batch || "";
+          if (insts.length === 0 && !b) return [];
+          if (insts.length === 0) return [{ institute: "", batch: b }];
+          return insts.map((inst) => ({ institute: inst, batch: b }));
+        })()
     : [];
 
   // Set default form values when student changes
@@ -57,7 +65,8 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
     if (student && enrollments.length > 0) {
       const enr = enrollments[0];
       // Auto-select cardType based on enrollment paymentType
-      const autoCard = enr.paymentType === "Half Payment" ? "Half Card" : "Full Payment";
+      const autoCard =
+        enr.paymentType === "Half Payment" ? "Half Card" : "Full Payment";
       setFormData((prev) => ({
         ...prev,
         studentId: student.studentId || "",
@@ -68,33 +77,17 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
         cardType: autoCard,
       }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [student]);
 
-  const [batchesList, setBatchesList] = useState([]);
-  const [pricingList, setPricingList] = useState([]);
-  const [studentInfo, setStudentInfo] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  // Fetch student info & pricing records when drawer opens or studentId changes
+  // Fetch pricing records when drawer opens or student changes
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen || !student) return;
 
     const fetchData = async () => {
       setLoading(true);
-      let sInfo = null;
+      setStudentInfo(student);
 
-      // 1. Fetch Student Details if studentId is provided
-      if (studentId) {
-        try {
-          const sRes = await api.get(`/student/getOne/${studentId}`);
-          sInfo = sRes.data;
-          setStudentInfo(sInfo);
-        } catch (err) {
-          console.error("Failed to load student details:", err);
-        }
-      }
-
-      // 2. Fetch Pricing records
       try {
         const pRes = await api.get("/pricing/");
         const pData = pRes.data?.pricing || pRes.data || [];
@@ -102,9 +95,9 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
 
         // Filter batches for student's institute if available
         let availableBatches = [];
-        const studentInstitute = Array.isArray(sInfo?.institute)
-          ? sInfo.institute[0]
-          : sInfo?.institute;
+        const studentInstitute = Array.isArray(student?.institute)
+          ? student.institute[0]
+          : student?.institute;
 
         if (studentInstitute) {
           availableBatches = [
@@ -117,7 +110,7 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
           ];
         }
 
-        // If no institute specific batches, get all inserted batches from pricing
+        // If no institute specific batches, get all batches from pricing
         if (availableBatches.length === 0) {
           availableBatches = [
             ...new Set(pData.map((item) => item.batch).filter(Boolean)),
@@ -125,14 +118,14 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
         }
 
         // Fallback to student's own batch if present
-        if (sInfo?.batch && !availableBatches.includes(sInfo.batch)) {
-          availableBatches.push(sInfo.batch);
+        if (student?.batch && !availableBatches.includes(student.batch)) {
+          availableBatches.push(student.batch);
         }
 
         setBatchesList(availableBatches);
 
         // Pre-select batch
-        const initialBatch = sInfo?.batch || availableBatches[0] || "";
+        const initialBatch = student?.batch || availableBatches[0] || "";
 
         // Find pricing record for initialBatch
         const matchPricing =
@@ -148,7 +141,8 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
 
         setFormData((prev) => ({
           ...prev,
-          studentId: studentId || prev.studentId || "",
+          studentId: student?.studentId || prev.studentId || "",
+          institute: studentInstitute || prev.institute || "",
           batch: initialBatch,
           amount: String(initialAmount),
         }));
@@ -160,35 +154,38 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
     };
 
     fetchData();
-  }, [isOpen, studentId]);
+  }, [isOpen, student]);
 
   // Update amount automatically when batch or cardType changes
-  const updateAmountForSelection = (batchName, cardTypeVal) => {
-    const studentInstitute = Array.isArray(studentInfo?.institute)
-      ? studentInfo.institute[0]
-      : studentInfo?.institute;
+  const updateAmountForSelection = useCallback(
+    (batchName, cardTypeVal) => {
+      const studentInstitute = Array.isArray(studentInfo?.institute)
+        ? studentInfo.institute[0]
+        : studentInfo?.institute;
 
-    const matchPricing =
-      pricingList.find(
-        (p) =>
-          (!studentInstitute || p.institute === studentInstitute) &&
-          p.batch === batchName
-      ) || pricingList.find((p) => p.batch === batchName);
+      const matchPricing =
+        pricingList.find(
+          (p) =>
+            (!studentInstitute || p.institute === studentInstitute) &&
+            p.batch === batchName
+        ) || pricingList.find((p) => p.batch === batchName);
 
-    if (matchPricing) {
-      if (cardTypeVal === "Free Card" || cardTypeVal === "Free Payment") {
-        return String(matchPricing.freePayment ?? 0);
-      } else if (
-        cardTypeVal === "Half Card" ||
-        cardTypeVal === "Half Payment"
-      ) {
-        return String(matchPricing.halfPayment ?? 1900);
-      } else {
-        return String(matchPricing.fullPayment ?? 3800);
+      if (matchPricing) {
+        if (cardTypeVal === "Free Card" || cardTypeVal === "Free Payment") {
+          return String(matchPricing.freePayment ?? 0);
+        } else if (
+          cardTypeVal === "Half Card" ||
+          cardTypeVal === "Half Payment"
+        ) {
+          return String(matchPricing.halfPayment ?? 1900);
+        } else {
+          return String(matchPricing.fullPayment ?? 3800);
+        }
       }
-    }
-    return null;
-  };
+      return null;
+    },
+    [pricingList, studentInfo]
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -203,6 +200,14 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
         );
         if (newAmount !== null) {
           updated.amount = newAmount;
+        }
+      }
+
+      // When batch changes, update institute from enrollments
+      if (name === "batch") {
+        const matchEnr = enrollments.find((e) => e.batch === value);
+        if (matchEnr) {
+          updated.institute = matchEnr.institute || prev.institute;
         }
       }
 
@@ -236,12 +241,14 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
       return;
     }
 
+    setIsSubmitting(true);
     try {
       await api.post("/payment/create", payload);
       toast.success("Payment processed successfully");
 
       setFormData({
-        studentId,
+        studentId: student?.studentId || "",
+        institute: formData.institute,
         batch: batchesList[0] || "",
         month: "",
         amount: "",
@@ -252,38 +259,25 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
       window.location.reload();
     } catch (err) {
       console.error("Payment error:", err);
-      toast.error(err.response?.data?.message || "Payment failed");
+      const status = err.response?.status;
+      const message = err.response?.data?.message || "Payment failed";
+
+      if (status === 409) {
+        toast.error("Duplicate: " + message);
+      } else if (status === 404) {
+        toast.error("Student not found: " + message);
+      } else if (status === 400) {
+        toast.error("Validation error: " + message);
+      } else {
+        toast.error(message);
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Derive data BEFORE the early return so hooks always run in the same order
+  // Build month options for the dropdown
   const monthOptions = buildMonthOptions();
-
-  // Find current enrollment index for the select
-  const currentEnrollmentIndex = enrollments.findIndex(
-    (e) => e.institute === formData.institute && e.batch === formData.batch
-  );
-
-  // Determine if pricing-derived amount is available (read-only mode)
-  const hasPricingAmount = !!(pricing && formData.amount);
-
-  // Build amount options from pricing (used only as fallback when no pricing)
-  const amountOptions = [];
-  if (pricing) {
-    if (pricing.fullPayment) amountOptions.push({ value: pricing.fullPayment, label: `Rs. ${pricing.fullPayment} (Full)` });
-    if (pricing.halfPayment) amountOptions.push({ value: pricing.halfPayment, label: `Rs. ${pricing.halfPayment} (Half)` });
-    if (pricing.freePayment !== undefined && pricing.freePayment !== null) amountOptions.push({ value: pricing.freePayment, label: `Rs. ${pricing.freePayment} (Free Card)` });
-  }
-  // Always have fallback manual options
-  if (amountOptions.length === 0) {
-    amountOptions.push(
-      { value: "0", label: "0" },
-      { value: "1900", label: "1900" },
-      { value: "3800", label: "3800" }
-    );
-  }
 
   if (!isOpen) return null;
 
@@ -317,7 +311,7 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
             onClick={onClose}
             className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition text-lg font-bold p-1 cursor-pointer"
           >
-            âœ•
+            ✕
           </button>
         </div>
 
@@ -362,7 +356,7 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
               </select>
             </div>
 
-            {/* Month Dropdown */}
+            {/* Month Dropdown — uses YYYY-MM format to match database */}
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                 Month
@@ -375,18 +369,11 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
                 className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition"
               >
                 <option value="">Select Month</option>
-                <option value="January">1 - January</option>
-                <option value="February">2 - February</option>
-                <option value="March">3 - March</option>
-                <option value="April">4 - April</option>
-                <option value="May">5 - May</option>
-                <option value="June">6 - June</option>
-                <option value="July">7 - July</option>
-                <option value="August">8 - August</option>
-                <option value="September">9 - September</option>
-                <option value="October">10 - October</option>
-                <option value="November">11 - November</option>
-                <option value="December">12 - December</option>
+                {monthOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -436,9 +423,10 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
 
               <button
                 type="submit"
-                className="flex-1 bg-purple-600 text-white py-2.5 rounded-xl font-semibold hover:bg-purple-700 transition shadow-sm cursor-pointer"
+                disabled={isSubmitting}
+                className="flex-1 bg-purple-600 text-white py-2.5 rounded-xl font-semibold hover:bg-purple-700 transition shadow-sm cursor-pointer disabled:opacity-50"
               >
-                Confirm Payment
+                {isSubmitting ? "Processing..." : "Confirm Payment"}
               </button>
             </div>
           </form>
@@ -447,6 +435,3 @@ export default function PaymentDrawer({ isOpen, onClose, studentId, student }) {
     </div>
   );
 }
-
-
-
