@@ -21,7 +21,6 @@ export default function StudentLMS() {
     const [loadingVideos, setLoadingVideos] = useState(false);
     const [error, setError] = useState("");
     const [accessDenied, setAccessDenied] = useState(false);
-    const [activeVideoUrl, setActiveVideoUrl] = useState(null);
 
     // Fetch student registrations on mount
     useEffect(() => {
@@ -47,7 +46,6 @@ export default function StudentLMS() {
         const reg = registrations[selectedIndex];
         if (!reg) return;
 
-        setActiveVideoUrl(null);
 
         // Always attempt to fetch videos from the backend.
         // The backend handles historical month-based authorization
@@ -72,22 +70,6 @@ export default function StudentLMS() {
             });
     }, [selectedIndex, registrations]);
 
-    /**
-     * Extract YouTube embed URL from various YouTube URL formats
-     */
-    function getYouTubeEmbedUrl(url) {
-        if (!url) return null;
-        // Handle youtube.com/watch?v=ID
-        const watchMatch = url.match(
-            /(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/
-        );
-        if (watchMatch) {
-            return `https://www.youtube.com/embed/${watchMatch[1]}`;
-        }
-        // Already an embed URL
-        if (url.includes("youtube.com/embed/")) return url;
-        return url;
-    }
 
     const currentReg = registrations[selectedIndex];
 
@@ -222,20 +204,7 @@ export default function StudentLMS() {
             )}
 
             {/* ── Video player ── */}
-            {activeVideoUrl && !accessDenied && (
-                <div className="bg-black rounded-2xl overflow-hidden shadow-2xl">
-                    <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
-                        <iframe
-                            className="absolute inset-0 w-full h-full"
-                            src={getYouTubeEmbedUrl(activeVideoUrl)}
-                            title="Video Player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                        />
-                    </div>
-                </div>
-            )}
+
 
             {/* ── Video loading ── */}
             {loadingVideos && !accessDenied && (
@@ -262,33 +231,21 @@ export default function StudentLMS() {
             {!loadingVideos && !accessDenied && videos.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {videos.map((video) => {
-                        const isPlaying = activeVideoUrl === video.videoUrl;
                         return (
                             <div
                                 key={video._id}
                                 onClick={() =>
-                                    setActiveVideoUrl(isPlaying ? null : video.videoUrl)
+                                    window.open(video.videoUrl, "_blank", "noopener,noreferrer")
                                 }
-                                className={`group cursor-pointer bg-white dark:bg-slate-900 rounded-2xl border overflow-hidden shadow-sm transition-all duration-200 hover:shadow-lg hover:scale-[1.02] ${isPlaying
-                                        ? "border-purple-500 ring-2 ring-purple-200 dark:ring-purple-800"
-                                        : "border-slate-200 dark:border-slate-800"
-                                    }`}
+                                className={"group cursor-pointer bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"}
                             >
                                 {/* Thumbnail area */}
                                 <div className="relative bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 h-40 flex items-center justify-center">
                                     <div
-                                        className={`p-4 rounded-full transition-all duration-200 ${isPlaying
-                                                ? "bg-purple-600 text-white scale-110"
-                                                : "bg-white/80 dark:bg-slate-800/80 text-purple-600 group-hover:bg-purple-600 group-hover:text-white group-hover:scale-110"
-                                            }`}
+                                        className={"p-4 rounded-full transition-all duration-200 bg-white/80 dark:bg-slate-800/80 text-purple-600 group-hover:bg-purple-600 group-hover:text-white group-hover:scale-110"}
                                     >
                                         <PlayCircle className="w-8 h-8" />
                                     </div>
-                                    {isPlaying && (
-                                        <span className="absolute top-3 right-3 px-2 py-1 rounded-lg bg-purple-600 text-white text-[10px] font-bold uppercase tracking-wider">
-                                            Now Playing
-                                        </span>
-                                    )}
                                 </div>
 
                                 {/* Info */}
