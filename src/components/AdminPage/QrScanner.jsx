@@ -5,6 +5,18 @@ import { useNavigate } from "react-router-dom";
 import api from "../../config/axios";
 import toast from "react-hot-toast";
 
+const formatMonth = (monthStr) => {
+  if (!monthStr || monthStr === "No payment record" || monthStr === "N/A") {
+    return monthStr || "No payment record";
+  }
+  if (/^\d{4}-\d{2}$/.test(monthStr)) {
+    const [year, month] = monthStr.split("-");
+    const date = new Date(parseInt(year, 10), parseInt(month, 10) - 1, 1);
+    return `${date.toLocaleDateString("en-US", { month: "long", year: "numeric" })} (${monthStr})`;
+  }
+  return monthStr;
+};
+
 export default function QrScanner() {
   const [result, setResult] = useState("");
   const [status, setStatus] = useState("setup"); // setup → scanning → success → duplicate → error
@@ -82,14 +94,16 @@ export default function QrScanner() {
           setAttendanceResult({
             studentName: res.data.studentName,
             scanTime: new Date().toLocaleTimeString(),
+            lastPaidMonth: res.data.lastPaidMonth,
           });
           setStatus("success");
           toast.success("Attendance recorded!");
         } catch (err) {
           if (err.response?.status === 409) {
             setAttendanceResult({
-              studentName: err.response?.data?.message || "Already recorded",
+              studentName: err.response?.data?.studentName || "Already recorded",
               scanTime: new Date().toLocaleTimeString(),
+              lastPaidMonth: err.response?.data?.lastPaidMonth,
             });
             setStatus("duplicate");
             toast("Attendance already recorded.", { icon: "⚠️" });
@@ -304,16 +318,28 @@ export default function QrScanner() {
                   </p>
 
                   {attendanceResult && (
-                    <div className="mt-6 bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-2">
-                      {attendanceResult.studentName && status === "success" && (
+                    <div className="mt-6 bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
+                      {attendanceResult.studentName && (
                         <div>
                           <p className="text-xs uppercase tracking-wider text-slate-400 font-semibold">Student</p>
                           <p className="text-lg font-semibold text-purple-600">{attendanceResult.studentName}</p>
                         </div>
                       )}
-                      <div>
-                        <p className="text-xs uppercase tracking-wider text-slate-400 font-semibold">Time</p>
-                        <p className="text-sm font-medium text-slate-700">{attendanceResult.scanTime}</p>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <p className="text-xs uppercase tracking-wider text-slate-400 font-semibold">Time</p>
+                          <p className="text-sm font-medium text-slate-700">{attendanceResult.scanTime}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs uppercase tracking-wider text-slate-400 font-semibold">Last Paid Month</p>
+                          <span className={`inline-block mt-1 px-2.5 py-1 text-xs font-bold rounded-md ${
+                            attendanceResult.lastPaidMonth && attendanceResult.lastPaidMonth !== "No payment record"
+                              ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+                              : "bg-amber-100 text-amber-700 border border-amber-200"
+                          }`}>
+                            {formatMonth(attendanceResult.lastPaidMonth)}
+                          </span>
+                        </div>
                       </div>
                       <div>
                         <p className="text-xs uppercase tracking-wider text-slate-400 font-semibold">Class</p>
