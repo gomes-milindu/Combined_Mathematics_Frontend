@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../config/axios";
 import toast from "react-hot-toast";
@@ -13,6 +13,7 @@ import {
   Save,
   X,
   CheckCircle2,
+  Layers,
 } from "lucide-react";
 import Breadcrumb from "./Breadcrumb";
 
@@ -39,7 +40,6 @@ export default function EditStudent() {
   // Dynamic institute list from pricing API
   const [institutes, setInstitutes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [institutes, setInstitutes] = useState([]);
   const [batches, setBatches] = useState([]);
 
   // Fetch unique institutes from pricing on component mount
@@ -264,6 +264,40 @@ export default function EditStudent() {
   }
 
   // Reusable Input Component
+  const SelectField = ({
+    label,
+    name,
+    value,
+    onChange,
+    icon: Icon,
+    options = [],
+    fullWidth = false,
+  }) => (
+    <div className={`space-y-2 ${fullWidth ? "col-span-1 md:col-span-2" : ""}`}>
+      <label className="text-sm font-semibold text-slate-600 dark:text-slate-300">
+        {label}
+      </label>
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <Icon className="h-5 w-5 text-slate-400" />
+        </div>
+        <select
+          name={name}
+          value={value}
+          onChange={onChange}
+          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all text-slate-700 dark:text-slate-200 appearance-none"
+        >
+          <option value="">Select {label}</option>
+          {options.map((opt) => (
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+  );
+
   const InputField = ({
     label,
     name,
@@ -461,3 +495,5 @@ export default function EditStudent() {
     </main>
   );
 }
+
+

@@ -1,4 +1,4 @@
-import "./index.css";
+﻿import "./index.css";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -15,7 +15,6 @@ import ProtectedRoute from "../src/components/ProtectedRoute";
 import Student from "./pages/Student";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
--toast;
 
 function App() {
   return (

@@ -83,32 +83,32 @@ export default function StudentSlideBar({ onClose }) {
           </span>
         </NavLink>
 
-        <NavLink to="/student/payments" className={linkClass} onClick={onClose}>
+        {/* <NavLink to="/student/payments" className={linkClass} onClick={onClose}>
           <div className="min-w-[20px] flex justify-center">
             <CreditCard className="w-5 h-5" />
           </div>
           <span className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap delay-75">
             My Payments
           </span>
-        </NavLink>
+        </NavLink> */}
 
-        <NavLink to="/student/attendance" className={linkClass} onClick={onClose}>
+        {/* <NavLink to="/student/attendance" className={linkClass} onClick={onClose}>
           <div className="min-w-[20px] flex justify-center">
             <CalendarCheck className="w-5 h-5" />
           </div>
           <span className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap delay-75">
             Attendance
           </span>
-        </NavLink>
+        </NavLink> */}
 
-        <NavLink to="/student/messages" className={linkClass} onClick={onClose}>
+        {/* <NavLink to="/student/messages" className={linkClass} onClick={onClose}>
           <div className="min-w-[20px] flex justify-center">
             <MessageSquare className="w-5 h-5" />
           </div>
           <span className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap delay-75">
             Messages
           </span>
-        </NavLink>
+        </NavLink> */}
       </div>
 
       {/* Footer */}

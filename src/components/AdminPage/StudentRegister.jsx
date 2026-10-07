@@ -21,6 +21,56 @@ export default function StudentRegister() {
   const [loadingInstitutes, setLoadingInstitutes] = useState(false);
   const [loadingBatches, setLoadingBatches] = useState(false);
 
+  const [enrollments, setEnrollments] = useState([{ institute: "", batch: "", batches: [], paymentType: "Full Payment" }]);
+
+  const addEnrollment = () => {
+    setEnrollments([...enrollments, { institute: "", batch: "", batches: [], paymentType: "Full Payment" }]);
+  };
+
+  const removeEnrollment = (index) => {
+    const updated = [...enrollments];
+    updated.splice(index, 1);
+    setEnrollments(updated);
+  };
+
+  const handleEnrollmentInstituteChange = async (index, selectedInstitute) => {
+    const updated = [...enrollments];
+    updated[index].institute = selectedInstitute;
+    updated[index].batch = "";
+    updated[index].batches = [];
+    setEnrollments(updated);
+
+    if (!selectedInstitute) return;
+
+    try {
+      const res = await api.get(`/pricing/institutes/${encodeURIComponent(selectedInstitute)}/batches`);
+      const list = res.data?.batches || [];
+      setEnrollments((prev) => {
+        const newPrev = [...prev];
+        if (newPrev[index]) newPrev[index].batches = list;
+        return newPrev;
+      });
+    } catch (err) {
+      console.error("Failed to load batches:", err);
+      try {
+        const fallbackRes = await api.get("/pricing/");
+        const pricingData = fallbackRes.data?.pricing || fallbackRes.data || [];
+        const filteredBatches = [...new Set(pricingData.filter((item) => item.institute === selectedInstitute).map((item) => item.batch).filter(Boolean))];
+        setEnrollments((prev) => {
+          const newPrev = [...prev];
+          if (newPrev[index]) newPrev[index].batches = filteredBatches;
+          return newPrev;
+        });
+      } catch (fallbackErr) {}
+    }
+  };
+
+  const handleEnrollmentBatchChange = (index, selectedBatch) => {
+    const updated = [...enrollments];
+    updated[index].batch = selectedBatch;
+    setEnrollments(updated);
+  };
+
   // Fetch unique institutes from pricing on component mount
   useEffect(() => {
     const fetchInstitutes = async () => {
@@ -237,55 +287,6 @@ export default function StudentRegister() {
                 placeholder="••••••••"
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </div>
-
-            {/* Institute */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Institute
-              </label>
-              <select
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
-                value={institute}
-                onChange={handleInstituteChange}
-              >
-                <option value="">
-                  {loadingInstitutes ? "Loading institutes..." : "Select Institute"}
-                </option>
-                {institutes.map((inst) => (
-                  <option key={inst} value={inst}>
-                    {inst}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Batch */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Batch
-              </label>
-              <select
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-400 transition-all bg-white"
-                value={batch}
-                onChange={(e) => setBatch(e.target.value)}
-                disabled={!institute || loadingBatches}
-              >
-                <option value="">
-                  {!institute
-                    ? "Select Institute first"
-                    : loadingBatches
-                    ? "Loading batches..."
-                    : batches.length === 0
-                    ? "No batches found"
-                    : "Select batch"}
-                </option>
-                {batches.map((b) => (
-                  <option key={b} value={b}>
-                    {b}
-                  </option>
-                ))}
-              </select>
             </div>
 
             {/* Birthday */}

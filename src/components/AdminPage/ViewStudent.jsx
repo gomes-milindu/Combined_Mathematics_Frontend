@@ -223,12 +223,11 @@ export default function ViewStudent() {
         </div>
 
         {/* Payment Drawer */}
-        <PaymentDrawer
-          isOpen={isPaymentDrawerOpen}
-          onClose={() => setIsPaymentDrawerOpen(false)}
-          student={student}
-        />
-
+          <PaymentDrawer
+            isOpen={isPaymentDrawerOpen}
+            onClose={() => setIsPaymentDrawerOpen(false)}
+            student={student}
+          />
         {/* Auto-Open Recent Payments Drawer (Mobile/Tablet) */}
         <RecentPaymentsDrawer
           isOpen={isRecentPaymentsDrawerOpen}
@@ -240,6 +239,7 @@ export default function ViewStudent() {
   );
 }
 
+// eslint-disable-next-line no-unused-vars
 function InfoItem({ icon: Icon, label, value }) {
   return (
     <div className="flex items-start gap-4 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
@@ -257,3 +257,4 @@ function InfoItem({ icon: Icon, label, value }) {
     </div>
   );
 }
+
