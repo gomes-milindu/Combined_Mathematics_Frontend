@@ -37,7 +37,7 @@ function PopularCourses() {
     return (
         <section className="w-full h-auto py-10 md:py-12 lg:py-16 flex flex-col justify-center items-center gap-8 md:gap-12 lg:gap-16">
             <div className="flex justify-center items-center flex-col">
-                <Topic topic="Our Popular Courses" subtopic="Discover the most loved courses by our students." />
+                <Topic topic="wmf.a miq.sh mdvï" subtopic="Discover the most loved courses by our students." />
             </div>
 
             {/* Desktop/Tablet: side by side */}
