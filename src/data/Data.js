@@ -1,24 +1,24 @@
-import { Laptop, Users } from "lucide-react";
+import { Laptop, LocateIcon, Users } from "lucide-react";
 
 // Home Page Join Our Classes
 export const classes = [
   {
-    icon: Laptop,
-    title: "Online Class",
-    schedule: "Monday 8pm - 10pm",
-    location: "Via Zoom",
+    icon: Users,
+    title: "Theory Classes",
+    schedule: "2028 - 2029 A/L",
+    location: "Samathwee - Panadura",
   },
   {
     icon: Users,
-    title: "XYZ - Nugegoda",
-    schedule: "Monday 8pm - 10pm",
-    location: "Via Zoom",
+    title: "Revision Classes",
+    schedule: "2026 A/L Revision",
+    location: "Samathwee - Panadura",
   },
   {
     icon: Users,
-    title: "XYZ - Nugegoda",
-    schedule: "Monday 8pm - 10pm",
-    location: "Via Zoom",
+    title: "Paper Discussion Classes",
+    schedule: "2026 - 2027 A/L Discussion",
+    location: "Samathwee - Panadura",
   },
 ];
 
