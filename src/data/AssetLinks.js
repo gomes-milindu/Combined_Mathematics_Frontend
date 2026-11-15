@@ -13,7 +13,7 @@ const JoinClassSection = "https://i.ibb.co/TqwPPHsX/hee.webp";
 const cardIcon = "";
 
 const teacherPhoto = "https://i.ibb.co/VYRzMkSL/sir.webp";
-const Mobile_Teacher_Photo = "https://i.ibb.co/fz3hknsC/Sir-Mobile.webp";
+const Mobile_Teacher_Photo = "https://i.ibb.co/gZRPPw7V/Sir-Mobile-Picsart-Ai-Image-Enhancer.png";
 const missionImage = "";
 const visionImage = "";
 const studentPhoto = "https://i.ibb.co/PvzTP2L9/Student.webp";

@@ -57,7 +57,7 @@ function Footer() {
                 <div className="flex flex-col gap-2 text-[11px]">
                   <div className="flex items-center gap-2">
                     <Mail size={14} color="#FFFFFF" strokeWidth={1.8} />
-                    <span>gayangammanawidana@gmail.com</span>
+                    <span>gayangammanawidan</span>
                   </div>
 
                   <div className="flex items-center gap-2">
