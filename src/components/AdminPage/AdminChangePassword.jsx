@@ -1,5 +1,5 @@
 import ChangePassword from "../ChangePassword";
-import Breadcrumb from "./BreadCrumb";
+import Breadcrumb from "./Breadcrumb";
 
 export default function AdminChangePassword() {
   return (
