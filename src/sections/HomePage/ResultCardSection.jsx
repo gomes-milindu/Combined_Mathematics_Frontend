@@ -40,7 +40,7 @@ function ResultCardSection() {
 
     return (
         <section className='w-full h-auto py-10 md:py-12 lg:py-16 flex flex-col justify-center items-center gap-8 md:gap-10'>
-            <Topic topic="Our Best Results" subtopic="Where hard work meet success" />
+            <Topic topic="Èjhsfka by,u m%;sM, iuÕska" subtopic="Where hard work meet success" />
 
             {/* Desktop/Tablet: side by side */}
             <div className="hidden md:flex w-10/12 flex-row gap-8">
