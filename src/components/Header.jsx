@@ -32,7 +32,7 @@ function Header({
           <div
             className="absolute inset-0 w-full h-full bg-cover bg-center z-20"
             style={{
-              clipPath: "polygon(0 0, 100% 0, 100% 93%, 0 73%)",
+              clipPath: "polygon(0 0, 100% 0, 100% 93%, 0 71%)",
               backgroundImage: `url(${backgroundImage})`,
             }}
           >

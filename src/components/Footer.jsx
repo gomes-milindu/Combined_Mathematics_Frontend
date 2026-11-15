@@ -11,9 +11,9 @@ import {
 import { quickLinks } from "../data/Data";
 function Footer() {
   const socials = [
-    { icon: Facebook, href: "#" },
+    { icon: Facebook, href: "https://www.facebook.com/share/1CPGkMAt2A/" },
     { icon: Instagram, href: "#" },
-    { icon: Youtube, href: "#" },
+    { icon: Youtube, href: "https://youtube.com/@gayangammanavidhana?si=3C-Xz5VdS1b2uV09" },
     { icon: Twitter, href: "#" },
   ];
   return (
@@ -41,10 +41,8 @@ function Footer() {
                 style={{ backgroundImage: `url(${Assets.Footer_Name})` }}
               ></div>
 
-              <div className="text-white text-[12px] font-light text-center mt-2 px-4 leading-5">
-                At Tuition Master, we make learning simple, fun, and effective.
-                Our goal is to help every student understand better, perform
-                higher, and reach their full potential.
+              <div className="text-white text-[18px] text-center mt-2 px-4 leading-5 sinhala-text">
+                    m%dfhda.sl ukig .uH l, fkdyelalla fkdue;s
               </div>
             </div>
 
@@ -59,17 +57,17 @@ function Footer() {
                 <div className="flex flex-col gap-2 text-[11px]">
                   <div className="flex items-center gap-2">
                     <Mail size={14} color="#FFFFFF" strokeWidth={1.8} />
-                    <span>info@mathteacher.com</span>
+                    <span>gayangammanawidana@gmail.com</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <Phone size={14} color="#FFFFFF" strokeWidth={1.8} />
-                    <span>+94 78 778 78 456</span>
+                    <span>+94 71 820 69 76</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <MapPin size={14} color="#FFFFFF" strokeWidth={1.8} />
-                    <span>MathsKing, Colombo 12</span>
+                    <span>Panadura,Kaluthara</span>
                   </div>
                 </div>
 
