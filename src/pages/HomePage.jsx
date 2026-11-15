@@ -16,7 +16,7 @@ function HomePage() {
         backgroundImage={Assets.Hero_Home}
         showHomeHero={true}
         heroTitle="Join Our Classes &"
-        heroSubtitle="Online | Panadura | Kalutara"
+        heroSubtitle="Panadura | Kaluthara | Online"
       />
       
       <HeroText /> 

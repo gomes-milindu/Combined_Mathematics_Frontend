@@ -12,8 +12,8 @@ const AboutTeacher = () => {
   return (
     <section className="w-full h-auto py-10 md:py-12 lg:py-16 flex justify-center items-center">
       <div className="w-11/12 md:w-10/12 max-w-[1208px] flex flex-col justify-center items-center gap-6 md:gap-8">
-        <div className="text-[24px] md:text-[30px] lg:text-[36px] font-semibold text-center text-[#7F56D9]">
-          About The Teacher
+        <div className="text-[24px] md:text-[30px] lg:text-[36px]  text-center text-[#7F56D9] derena-text tracking-wide">
+          .=rejrhd .ek ì|la
         </div>
 
         {/* Mobile & Tablet: Stacked layout (image centered, text below) */}

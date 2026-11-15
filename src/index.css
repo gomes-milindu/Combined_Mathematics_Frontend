@@ -301,9 +301,35 @@
   background: rgba(147, 51, 234, 0.7);
 }
 
+@font-face {
+  font-family: 'TharuDigitalNidahasa';
+  src: url('/fonts/tharu_digital_nidahasa.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
+@font-face {
+  font-family: 'Sansala';
+  src: url('/fonts/tharu_digital_sansala.ttf') format('truetype');
+}
 
+@font-face {
+  font-family: 'Derena';
+  src: url('/fonts/4u-derana.ttf') format('truetype');
+}
 
+.sinhala-text {
+  font-family: 'TharuDigitalNidahasa', sans-serif !important;
+}
+
+.sansala-text {
+  font-family: 'Sansala', sans-serif;
+}
+
+.derena-text {
+  font-family: 'Derena', sans-serif;
+}
 
 
 
