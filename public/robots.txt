@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /student/
+Disallow: /reset-password/
+Disallow: /forgot-password
+
+Sitemap: https://www.gayancombindmaths.com/sitemap.xml
